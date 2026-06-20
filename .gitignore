@@ -1,0 +1,11 @@
+# PHP / DB
+config.php
+db.php
+*.env
+.env*
+database.sql
+migrate.sql
+
+# OS
+.DS_Store
+Thumbs.db
