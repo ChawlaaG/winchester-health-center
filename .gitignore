@@ -9,3 +9,7 @@ migrate.sql
 # OS
 .DS_Store
 Thumbs.db
+
+# Media Recordings
+*.mp4
+*.webp

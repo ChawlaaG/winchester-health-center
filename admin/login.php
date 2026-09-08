@@ -7,7 +7,7 @@ require_once '../db.php';
 
 // Redirect if already logged in
 if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true) {
-    header('Location: index.php');
+    header('Location: ./');
     exit;
 }
 
@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $_SESSION['admin_username'] = $user['username'];
                     
                     // Redirect to dashboard
-                    header('Location: index.php');
+                    header('Location: ./');
                     exit;
                 } else {
                     $error = 'Invalid username or password.';
@@ -57,11 +57,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Lora:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
   <style>
     :root {
-      --navy:    #002647;
-      --navy-dk: #001830;
-      --navy-lt: #003869;
-      --amber:   #b78e3a;
-      --amber-lt:#cca34f;
+      --navy:    #0a2f52;
+      --navy-dk: #061f38;
+      --navy-lt: #14456f;
+      --amber:   #c9922f;
+      --amber-lt:#dba646;
       --white:   #ffffff;
       --text:    #0a1c2a;
       --grey:    #5e6e7d;

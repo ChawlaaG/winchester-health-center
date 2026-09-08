@@ -9,33 +9,33 @@
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Lora:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
 <style>
 /* ══════════════════════════════════════
-   LOGO COLOURS (Updated to match logo.png):
-   Navy Blue  #002647
-   Forest Green #004c3a
+   LOGO COLOURS (Updated to match new logo.png):
+   Navy Blue  #0a2f52
+   Teal       #0c6b6f
    Sky Blue   #1f7cb8 (Harmonized with navy)
-   Amber/Gold #b78e3a
+   Amber/Gold #c9922f (accent — kept for CTA contrast, not in logo)
    ══════════════════════════════════════ */
 :root {
-  --navy:    #002647;
-  --navy-dk: #001830;
-  --navy-lt: #003869;
-  --green:   #004c3a;
-  --green-lt:#036951;
-  --green-pale:#e0f0ec;
+  --navy:    #0a2f52;
+  --navy-dk: #061f38;
+  --navy-lt: #14456f;
+  --green:   #0c6b6f;
+  --green-lt:#158f94;
+  --green-pale:#e2f2f1;
   --sky:     #1f7cb8;
   --sky-lt:  #4b9cd3;
   --sky-pale:#e6f2fa;
-  --amber:   #b78e3a;
-  --amber-lt:#cca34f;
-  --amber-pale:#f7f2e6;
+  --amber:   #c9922f;
+  --amber-lt:#dba646;
+  --amber-pale:#f8f0e0;
   --white:   #ffffff;
   --off:     #f4f7fa;
   --grey-1:  #eef2f6;
   --grey-3:  #c5d0db;
   --grey-5:  #5e6e7d;
   --text:    #0a1c2a;
-  --shadow:  0 4px 24px rgba(0,38,71,0.1);
-  --shadow-lg: 0 12px 48px rgba(0,38,71,0.15);
+  --shadow:  0 4px 24px rgba(10,47,82,0.1);
+  --shadow-lg: 0 12px 48px rgba(10,47,82,0.15);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
@@ -53,10 +53,9 @@ button{font-family:'Nunito',sans-serif}
 .topbar a:hover{color:var(--amber-lt)}
 .topbar-left,.topbar-right{display:flex;gap:1.5rem;align-items:center;flex-wrap:wrap}
 .topbar-divider{width:1px;height:16px;background:rgba(255,255,255,.2)}
-.topbar-nhs{background:var(--sky);color:white;padding:.25rem .75rem;border-radius:4px;font-weight:800;font-size:.85rem;letter-spacing:.04em}
 
 /* ══ NAV ══ */
-nav{background:var(--white);position:sticky;top:0;z-index:1000;box-shadow:0 3px 20px rgba(27,58,107,.1);transition:box-shadow .3s}
+nav{background:var(--white);position:sticky;top:0;z-index:1000;box-shadow:0 3px 20px rgba(10,47,82,.1);transition:box-shadow .3s}
 .nav-inner{max-width:1280px;margin:auto;padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:80px}
 .logo{display:flex;align-items:center;gap:.75rem;text-decoration:none}
 .logo img{height:64px;width:auto;object-fit:contain}
@@ -67,7 +66,7 @@ nav{background:var(--white);position:sticky;top:0;z-index:1000;box-shadow:0 3px 
 .btn-wa{padding:.6rem 1.2rem;background:#25d366;color:white;border:none;border-radius:50px;font-size:.95rem;font-weight:800;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:.4rem;transition:all .2s;white-space:nowrap}
 .btn-wa:hover{background:#1ebe5a;transform:translateY(-1px);box-shadow:0 4px 14px rgba(37,211,102,.4)}
 .btn-book{padding:.65rem 1.35rem;background:var(--amber);color:white;border:none;border-radius:50px;font-size:.95rem;font-weight:800;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:.4rem;transition:all .2s;white-space:nowrap}
-.btn-book:hover{background:var(--amber-lt);transform:translateY(-1px);box-shadow:0 4px 14px rgba(232,130,12,.4)}
+.btn-book:hover{background:var(--amber-lt);transform:translateY(-1px);box-shadow:0 4px 14px rgba(201,146,47,.4)}
 .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;background:none;border:none}
 .hamburger span{display:block;width:26px;height:3px;background:var(--navy);border-radius:3px}
 .mobile-menu{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:white;z-index:2000;flex-direction:column;padding:2rem;overflow-y:auto}
@@ -77,10 +76,10 @@ nav{background:var(--white);position:sticky;top:0;z-index:1000;box-shadow:0 3px 
 .mobile-ctas{display:flex;flex-direction:column;gap:1rem;margin-top:2rem}
 
 /* ══ HERO ══ */
-.hero{background:linear-gradient(150deg, rgba(0, 24, 48, 0.9) 0%, rgba(0, 38, 71, 0.85) 45%, rgba(26, 74, 122, 0.8) 100%), url('assets/hero_bg.png') no-repeat center center;background-size:cover;position:relative;overflow:hidden;padding:5rem 0 3rem}
+.hero{background:linear-gradient(150deg, rgba(6, 31, 56, 0.9) 0%, rgba(10, 47, 82, 0.85) 45%, rgba(20, 69, 111, 0.8) 100%), url('assets/hero_bg.png') no-repeat center center;background-size:cover;position:relative;overflow:hidden;padding:5rem 0 3rem}
 .hero-wave{position:absolute;bottom:0;left:0;right:0}
 .hero-orb1{position:absolute;width:500px;height:500px;background:radial-gradient(circle,rgba(58,159,212,.2) 0%,transparent 70%);right:-100px;top:-100px;border-radius:50%}
-.hero-orb2{position:absolute;width:350px;height:350px;background:radial-gradient(circle,rgba(232,130,12,.15) 0%,transparent 70%);left:0;bottom:-50px;border-radius:50%}
+.hero-orb2{position:absolute;width:350px;height:350px;background:radial-gradient(circle,rgba(201,146,47,.15) 0%,transparent 70%);left:0;bottom:-50px;border-radius:50%}
 .hero-inner{max-width:1280px;margin:auto;padding:0 2rem;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;position:relative;z-index:1}
 .hero-left{}
 .hero-badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(58,159,212,.2);border:2px solid rgba(58,159,212,.4);color:#7dd3f7;padding:.45rem 1rem;border-radius:50px;font-size:.9rem;font-weight:800;margin-bottom:1.5rem;letter-spacing:.04em}
@@ -114,7 +113,7 @@ nav{background:var(--white);position:sticky;top:0;z-index:1000;box-shadow:0 3px 
 .form-sel option{background:var(--navy-dk);color:white}
 .form-row2{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
 .btn-submit-hero{background:linear-gradient(135deg,var(--amber),var(--amber-lt));color:white;border:none;border-radius:12px;padding:1rem;font-size:1.05rem;font-weight:800;cursor:pointer;width:100%;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:.5rem;font-family:'Nunito',sans-serif}
-.btn-submit-hero:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(232,130,12,.45)}
+.btn-submit-hero:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(201,146,47,.45)}
 .book-note{font-size:.75rem;color:rgba(255,255,255,.3);text-align:center;margin-top:.6rem;font-weight:600}
 
 /* ══ TRUST BADGES ══ */
@@ -168,7 +167,6 @@ nav{background:var(--white);position:sticky;top:0;z-index:1000;box-shadow:0 3px 
 .svc-card-body{padding:1.5rem}
 .svc-tag{display:inline-block;font-size:.72rem;font-weight:800;padding:.2rem .65rem;border-radius:4px;margin-bottom:.65rem;text-transform:uppercase;letter-spacing:.04em}
 .svc-tag-priv{background:var(--amber-pale);color:var(--amber)}
-.svc-tag-nhs{background:#e8f0fb;color:#005eb8}
 .svc-tag-free{background:var(--green-pale);color:var(--green)}
 .svc-card-title{font-size:1.25rem;font-weight:800;color:var(--navy);margin-bottom:.5rem;line-height:1.2}
 .svc-card-desc{font-size:.92rem;color:var(--grey-5);line-height:1.6;font-weight:600}
@@ -195,7 +193,7 @@ nav{background:var(--white);position:sticky;top:0;z-index:1000;box-shadow:0 3px 
 .why-stat-num{font-family:'Lora',serif;font-size:2.25rem;color:var(--amber-lt);font-weight:600;line-height:1}
 .why-stat-text h4{color:white;font-size:1rem;font-weight:800;margin-bottom:.15rem}
 .why-stat-text p{color:rgba(255,255,255,.5);font-size:.85rem;font-weight:600}
-.gphc-strip{display:flex;align-items:center;gap:1rem;background:rgba(232,130,12,.12);border:2px solid rgba(232,130,12,.3);border-radius:12px;padding:1rem 1.5rem;margin-top:2rem}
+.gphc-strip{display:flex;align-items:center;gap:1rem;background:rgba(201,146,47,.12);border:2px solid rgba(201,146,47,.3);border-radius:12px;padding:1rem 1.5rem;margin-top:2rem}
 .gphc-strip-icon{width:48px;height:48px;background:var(--amber);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0}
 .gphc-strip-text p:first-child{font-size:.72rem;color:rgba(255,255,255,.5);font-weight:700;letter-spacing:.07em;text-transform:uppercase}
 .gphc-strip-text p:last-child{font-size:.95rem;color:white;font-weight:800}
@@ -238,13 +236,13 @@ nav{background:var(--white);position:sticky;top:0;z-index:1000;box-shadow:0 3px 
 .bform-inp:focus,.bform-sel:focus,.bform-ta:focus{border-color:var(--sky);background:white}
 .bform-ta{resize:vertical;min-height:90px}
 .bform-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
-.gdpr-box{background:var(--sky-pale);border:2px solid rgba(58,159,212,.25);border-radius:10px;padding:.85rem 1rem;font-size:.85rem;color:var(--navy);line-height:1.6;font-weight:600}
+.privacy-box{background:var(--sky-pale);border:2px solid rgba(58,159,212,.25);border-radius:10px;padding:.85rem 1rem;font-size:.85rem;color:var(--navy);line-height:1.6;font-weight:600}
 .consent-row{display:flex;gap:.65rem;align-items:flex-start}
 .consent-row input[type="checkbox"]{margin-top:3px;accent-color:var(--sky);flex-shrink:0;width:18px;height:18px}
 .consent-row label{font-size:.88rem;color:var(--grey-5);line-height:1.5;font-weight:600}
 .consent-row a{color:var(--sky)}
 .btn-bsubmit{background:linear-gradient(135deg,var(--navy),var(--navy-lt));color:white;border:none;border-radius:12px;padding:1.1rem;font-size:1.1rem;font-weight:800;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:.5rem;font-family:'Nunito',sans-serif}
-.btn-bsubmit:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(27,58,107,.4)}
+.btn-bsubmit:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(10,47,82,.4)}
 .booking-right{display:flex;flex-direction:column;gap:1.5rem}
 .contact-card{background:white;border-radius:20px;padding:1.75rem;box-shadow:var(--shadow);border-left:5px solid var(--sky)}
 .contact-card h4{font-size:1.2rem;color:var(--navy);margin-bottom:1.25rem;font-weight:800}
@@ -277,7 +275,7 @@ nav{background:var(--white);position:sticky;top:0;z-index:1000;box-shadow:0 3px 
 .testi-platform{position:absolute;top:1.25rem;right:1.25rem;font-size:.72rem;color:var(--grey-5);background:var(--off);border:2px solid var(--grey-1);padding:.2rem .5rem;border-radius:5px;font-weight:700}
 
 /* ══ COMPLIANCE VISUAL STRIP ══ */
-.compliance-section{background:var(--amber-pale);padding:3.5rem 0;border-top:4px solid rgba(232,130,12,.2)}
+.compliance-section{background:var(--amber-pale);padding:3.5rem 0;border-top:4px solid rgba(201,146,47,.2)}
 .compliance-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;margin-top:2rem}
 .comp-card{text-align:center}
 .comp-icon{width:70px;height:70px;background:white;border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;box-shadow:var(--shadow);font-size:2rem}
@@ -322,7 +320,7 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
 .btn-cr{background:var(--grey-1);color:var(--grey-5);border:none;border-radius:8px;padding:.6rem 1.1rem;font-family:'Nunito',sans-serif;font-size:.9rem;font-weight:700;cursor:pointer;flex:1}
 
 /* ══ CHATBOT ══ */
-.chat-fab{position:fixed;bottom:2rem;right:2rem;z-index:4000;width:64px;height:64px;background:linear-gradient(135deg,var(--navy),var(--navy-lt));border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 28px rgba(27,58,107,.45);transition:all .3s}
+.chat-fab{position:fixed;bottom:2rem;right:2rem;z-index:4000;width:64px;height:64px;background:linear-gradient(135deg,var(--navy),var(--navy-lt));border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 28px rgba(10,47,82,.45);transition:all .3s}
 .chat-fab:hover{transform:scale(1.1)}
 .chat-fab svg{width:28px;height:28px;stroke:white}
 .chat-fab .fab-close{display:none}
@@ -330,7 +328,7 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
 .chat-fab.open .fab-close{display:block}
 .chat-badge{position:absolute;top:-4px;right:-4px;width:22px;height:22px;background:var(--amber);border-radius:50%;border:3px solid white;font-size:.68rem;color:white;font-weight:800;display:flex;align-items:center;justify-content:center;animation:badgePulse 2s infinite}
 @keyframes badgePulse{0%,100%{transform:scale(1)}50%{transform:scale(1.18)}}
-.chat-win{position:fixed;bottom:7rem;right:2rem;z-index:3999;width:390px;max-width:calc(100vw - 2rem);height:560px;max-height:calc(100vh - 9rem);background:white;border-radius:22px;box-shadow:0 20px 80px rgba(27,58,107,.22);display:flex;flex-direction:column;overflow:hidden;transform:scale(.85) translateY(20px);transform-origin:bottom right;opacity:0;pointer-events:none;transition:all .3s cubic-bezier(.34,1.56,.64,1)}
+.chat-win{position:fixed;bottom:7rem;right:2rem;z-index:3999;width:390px;max-width:calc(100vw - 2rem);height:560px;max-height:calc(100vh - 9rem);background:white;border-radius:22px;box-shadow:0 20px 80px rgba(10,47,82,.22);display:flex;flex-direction:column;overflow:hidden;transform:scale(.85) translateY(20px);transform-origin:bottom right;opacity:0;pointer-events:none;transition:all .3s cubic-bezier(.34,1.56,.64,1)}
 .chat-win.open{transform:scale(1) translateY(0);opacity:1;pointer-events:all}
 .chat-head{background:linear-gradient(135deg,var(--navy-dk),var(--navy));padding:1.15rem 1.25rem;display:flex;align-items:center;gap:.85rem;flex-shrink:0}
 .chat-av{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--sky),var(--sky-lt));display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;position:relative}
@@ -431,12 +429,11 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
     <div class="topbar-left">
       <a href="tel:+441962854725">📞 01962 854 725</a>
       <div class="topbar-divider"></div>
-      <a href="mailto:info@winchesterhealthcentre.co.uk">✉ info@winchesterhealthcentre.co.uk</a>
+      <a href="mailto:info@winchestertravelcentre.co.uk">✉ info@winchestertravelcentre.co.uk</a>
     </div>
     <div class="topbar-right">
-      <span>Mon–Fri 9am–6pm · Sat 9am–1pm</span>
+      <span>Mon–Fri 9am–5pm · Sat 9am–3pm</span>
       <div class="topbar-divider"></div>
-      <span class="topbar-nhs">NHS</span>
       <a href="#">GPhC Registered</a>
       <div class="topbar-divider"></div>
       <a href="#">🚚 Free Delivery</a>
@@ -509,11 +506,11 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
         <p>We'll confirm your slot within 2 hours.</p>
         <div class="book-form">
           <div><label class="form-lbl">Service Needed</label>
-            <select id="quick_service" class="form-sel">
+            <select id="quick_service" class="form-sel" onchange="toggleQuickTravelQuestions()">
               <option>Select a service…</option>
               <option>✈️ Travel Vaccinations</option>
               <option>🔬 Diagnostic Blood Test</option>
-              <option>👂 Ear Wax Removal</option>
+              <option disabled>👂 Ear Wax Removal — Coming Soon</option>
               <option>⚖️ Weight Management</option>
               <option>💊 Pharmacy First</option>
               <option>🚫 Emergency Contraception</option>
@@ -525,10 +522,20 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
             <div><label class="form-lbl">Your Name</label><input type="text" id="quick_name" class="form-inp" placeholder="Jane Smith"></div>
             <div><label class="form-lbl">Phone Number</label><input type="tel" id="quick_phone" class="form-inp" placeholder="07700 000000"></div>
           </div>
+          <div><label class="form-lbl">Email Address</label><input type="email" id="quick_email" class="form-inp" placeholder="jane@example.com"></div>
+          <div id="quick_travel_questions" style="display:none;background:rgba(255,255,255,.07);border:2px solid rgba(255,255,255,.18);border-radius:10px;padding:.85rem 1rem;margin-bottom:.75rem">
+            <p style="font-size:.85rem;font-weight:800;color:white;margin-bottom:.6rem">✈️ A few quick travel questions</p>
+            <label class="form-lbl">Where are you traveling to?</label><input type="text" id="quick_travel_destination" class="form-inp" placeholder="e.g. Kenya, Thailand">
+            <div class="form-row2">
+              <div><label class="form-lbl">How many people?</label><input type="number" min="1" id="quick_travel_people" class="form-inp" placeholder="e.g. 2"></div>
+              <div><label class="form-lbl">How long is the trip?</label><input type="text" id="quick_travel_duration" class="form-inp" placeholder="e.g. 2 weeks"></div>
+            </div>
+          </div>
           <div><label class="form-lbl">Best Date for You</label><input type="date" id="quick_date" class="form-inp"></div>
+          <div><label class="form-lbl">Anything we should know?</label><textarea id="quick_notes" class="form-inp" style="resize:vertical;min-height:80px" placeholder="e.g. which countries you're visiting, any allergies, current medications…"></textarea></div>
           <button class="btn-submit-hero" id="btn_quick_submit" onclick="submitQuickBooking()">📅 Request My Appointment <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" width="18" height="18"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
         </div>
-        <p class="book-note">🔒 Your details are safe with us. UK GDPR compliant.</p>
+        <p class="book-note">🔒 Your details are safe and confidential with us.</p>
       </div>
     </div>
   </div>
@@ -538,8 +545,8 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
 <div class="trust-bar">
   <div class="trust-bar-inner">
     <div class="trust-item"><div class="trust-icon">🏅</div> GPhC Registered Pharmacy</div>
-    <div class="trust-item"><div class="trust-icon">🏥</div> NHS Contracted</div>
-    <div class="trust-item"><div class="trust-icon">🔒</div> UK GDPR Compliant</div>
+    <div class="trust-item"><div class="trust-icon">🩺</div> Private Health Consultations</div>
+    <div class="trust-item"><div class="trust-icon">🔒</div> 100% Confidential Care</div>
     <div class="trust-item"><div class="trust-icon">🚚</div> Free Home Delivery</div>
     <div class="trust-item"><div class="trust-icon">⭐</div> 4.9/5 Google Rating</div>
     <div class="trust-item"><div class="trust-icon">✈️</div> Certified Travel Clinic</div>
@@ -563,7 +570,7 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
       <a href="#booking" class="svc-card reveal" style="transition-delay:.05s" onclick="event.preventDefault();document.querySelector('#booking').scrollIntoView({behavior:'smooth'})">
         <div class="svc-card-visual svc-v-travel"><img src="assets/travel_vaccinations.png" alt="Travel Clinic & Vaccinations" loading="lazy"></div>
         <div class="svc-card-body">
-          <span class="svc-tag svc-tag-priv">Private &amp; NHS</span>
+          <span class="svc-tag svc-tag-priv">Private Clinic</span>
           <div class="svc-card-title">Travel Clinic &amp; Vaccinations</div>
           <div class="svc-card-desc">Heading abroad? We'll make sure you're protected. Yellow fever, typhoid, hepatitis, malaria tablets and more — tailored to your destination.</div>
           <span class="svc-card-cta">Book Travel Clinic <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
@@ -583,29 +590,28 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
       <a href="#booking" class="svc-card reveal" style="transition-delay:.15s" onclick="event.preventDefault();document.querySelector('#booking').scrollIntoView({behavior:'smooth'})">
         <div class="svc-card-visual svc-v-pharma"><img src="assets/pharmacy_first.png" alt="Pharmacy First" loading="lazy"></div>
         <div class="svc-card-body">
-          <span class="svc-tag svc-tag-nhs">Free NHS Service</span>
+          <span class="svc-tag svc-tag-priv">Walk-in Assessment</span>
           <div class="svc-card-title">Pharmacy First</div>
-          <div class="svc-card-desc">See our pharmacist for 7 common conditions — sore throat, earache, UTI, sinusitis and more. <strong>No GP appointment needed.</strong> FREE on the NHS.</div>
+          <div class="svc-card-desc">See our pharmacist for 7 common conditions — sore throat, earache, UTI, sinusitis and more. <strong>No GP appointment needed.</strong> Fast clinical assessment &amp; treatment.</div>
           <span class="svc-card-cta">Walk In or Book <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
         </div>
       </a>
 
-      <a href="#booking" class="svc-card reveal" style="transition-delay:.05s" onclick="event.preventDefault();document.querySelector('#booking').scrollIntoView({behavior:'smooth'})">
+      <div class="svc-card reveal" style="transition-delay:.05s;cursor:default">
         <div class="svc-card-visual svc-v-ear"><img src="assets/ear_wax_removal.png" alt="Ear Wax Removal" loading="lazy"></div>
         <div class="svc-card-body">
-          <span class="svc-tag svc-tag-priv">Private</span>
+          <span class="svc-tag" style="background:var(--grey-1);color:var(--grey-5)">Coming Soon</span>
           <div class="svc-card-title">Ear Wax Removal</div>
-          <div class="svc-card-desc">Can't hear as well as you used to? Blocked ears? Our trained staff safely remove ear wax quickly and painlessly. Same-day available.</div>
-          <span class="svc-card-cta">Book Now <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+          <div class="svc-card-desc">Can't hear as well as you used to? Blocked ears? Our trained staff safely remove ear wax quickly and painlessly. This service is launching soon — check back shortly!</div>
         </div>
-      </a>
+      </div>
 
       <a href="#booking" class="svc-card reveal" style="transition-delay:.1s" onclick="event.preventDefault();document.querySelector('#booking').scrollIntoView({behavior:'smooth'})">
         <div class="svc-card-visual svc-v-weight"><img src="assets/weight_management.png" alt="Weight Management" loading="lazy"></div>
         <div class="svc-card-body">
-          <span class="svc-tag svc-tag-priv">Private &amp; NHS</span>
+          <span class="svc-tag svc-tag-priv">Private Consultation</span>
           <div class="svc-card-title">Weight Management</div>
-          <div class="svc-card-desc">Friendly advice, BMI checks, NHS referrals and access to weight management medications where appropriate. Caring and non-judgemental.</div>
+          <div class="svc-card-desc">Friendly advice, BMI checks, tailored health plans and access to weight management medications where appropriate. Caring and non-judgemental.</div>
           <span class="svc-card-cta">Learn More <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
         </div>
       </a>
@@ -613,9 +619,9 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
       <a href="#booking" class="svc-card reveal" style="transition-delay:.15s" onclick="event.preventDefault();document.querySelector('#booking').scrollIntoView({behavior:'smooth'})">
         <div class="svc-card-visual svc-v-smoke"><img src="assets/quit_smoking.png" alt="Quit Smoking" loading="lazy"></div>
         <div class="svc-card-body">
-          <span class="svc-tag svc-tag-nhs">Free NHS Service</span>
+          <span class="svc-tag svc-tag-priv">Dedicated Support</span>
           <div class="svc-card-title">Quit Smoking — Smokefree Hampshire</div>
-          <div class="svc-card-desc">We can help you quit smoking with expert support and nicotine replacement. FREE for eligible NHS patients. You can do it — we'll help you!</div>
+          <div class="svc-card-desc">We can help you quit smoking with expert support, regular consultations and nicotine replacement options. You can do it — we'll help you!</div>
           <span class="svc-card-cta">Get Support <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
         </div>
       </a>
@@ -623,7 +629,7 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
       <a href="#booking" class="svc-card reveal" style="transition-delay:.05s" onclick="event.preventDefault();document.querySelector('#booking').scrollIntoView({behavior:'smooth'})">
         <div class="svc-card-visual svc-v-discharge"><img src="assets/discharge_medicine.png" alt="Discharge Medicine Service" loading="lazy"></div>
         <div class="svc-card-body">
-          <span class="svc-tag svc-tag-nhs">NHS Service</span>
+          <span class="svc-tag svc-tag-priv">Clinical Follow-up</span>
           <div class="svc-card-title">Discharge Medicine Service</div>
           <div class="svc-card-desc">Just come home from hospital? We'll make sure your new medicines are ready quickly and explain everything clearly and simply.</div>
           <span class="svc-card-cta">Learn More <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
@@ -645,7 +651,7 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
         <div class="svc-card-body">
           <span class="svc-tag svc-tag-free">Completely Free</span>
           <div class="svc-card-title">Free Home Delivery</div>
-          <div class="svc-card-desc">Can't come to us? We'll come to you! Free delivery of your NHS and private prescriptions straight to your front door. Sign up today!</div>
+          <div class="svc-card-desc">Can't come to us? We'll come to you! Free delivery of your prescriptions straight to your front door. Sign up today!</div>
           <span class="svc-card-cta">Sign Up Free <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
         </div>
       </a>
@@ -739,9 +745,9 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
           <p>Message us any time on WhatsApp — our team replies quickly and kindly.</p>
         </div>
         <div class="why-card">
-          <span class="why-emoji">🏥</span>
-          <h4>NHS &amp; Private</h4>
-          <p>We offer both NHS and private services so you get the right care, quickly.</p>
+          <span class="why-emoji">🩺</span>
+          <h4>Clinical Consultations</h4>
+          <p>We offer comprehensive clinical services so you get the right care quickly, without long waits.</p>
         </div>
         <div class="why-card">
           <span class="why-emoji">❤️</span>
@@ -771,8 +777,8 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
       <div class="proc-card proc-card-2 reveal" style="transition-delay:.2s">
         <div style="height: 180px; margin: -2rem -2rem 1.5rem -2rem; border-bottom: 3px solid var(--green); background-image: url('https://images.pexels.com/photos/40568/medical-appointment-doctor-healthcare-40568.jpeg?auto=compress&cs=tinysrgb&w=600'); background-size: cover; background-position: center; border-radius: 17px 17px 0 0;"></div>
         <div class="proc-num">2</div>
-        <div class="proc-title">Order via NHS App or GP</div>
-        <div class="proc-desc">Nominate us as your pharmacy on the NHS App or ask your GP to send prescriptions directly to us. Then just pick up — or we deliver free!</div>
+        <div class="proc-title">Order via Your GP or Online</div>
+        <div class="proc-desc">Nominate Winchester Health Centre with your GP or surgery to send prescriptions directly to us. Then just pick up — or we deliver free!</div>
       </div>
       <div class="proc-card proc-card-3 reveal" style="transition-delay:.3s">
         <div style="height: 180px; margin: -2rem -2rem 1.5rem -2rem; border-bottom: 3px solid var(--amber); background-image: url('https://images.pexels.com/photos/4391470/pexels-photo-4391470.jpeg?auto=compress&cs=tinysrgb&w=600'); background-size: cover; background-position: center; border-radius: 17px 17px 0 0;"></div>
@@ -843,11 +849,11 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
           <div><label class="bform-lbl">Date of Birth *</label><input type="date" id="book_dob" class="bform-inp" required></div>
           <div>
             <label class="bform-lbl">Service Required *</label>
-            <select id="book_service" class="bform-sel" required>
+            <select id="book_service" class="bform-sel" required onchange="toggleTravelQuestions()">
               <option value="">Choose a service…</option>
               <option>✈️ Travel Clinic &amp; Vaccinations</option>
               <option>🔬 Diagnostic Tests (Blood, Cholesterol etc.)</option>
-              <option>👂 Ear Wax Removal</option>
+              <option disabled>👂 Ear Wax Removal — Coming Soon</option>
               <option>⚖️ Weight Management</option>
               <option>💊 Pharmacy First Consultation</option>
               <option>🚫 Emergency / Oral Contraception</option>
@@ -859,9 +865,17 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
               <option>❓ Other — I'll explain below</option>
             </select>
           </div>
+          <div id="travel_questions" style="display:none;background:var(--sky-pale);border:2px solid rgba(58,159,212,.25);border-radius:12px;padding:1rem">
+            <p style="font-size:.9rem;font-weight:800;color:var(--navy);margin-bottom:.75rem">✈️ A few quick travel questions</p>
+            <div><label class="bform-lbl">Where are you traveling to? *</label><input type="text" id="travel_destination" class="bform-inp" placeholder="e.g. Kenya, Thailand"></div>
+            <div class="bform-row" style="margin-top:1rem">
+              <div><label class="bform-lbl">How many people? *</label><input type="number" min="1" id="travel_people" class="bform-inp" placeholder="e.g. 2"></div>
+              <div><label class="bform-lbl">How long is the trip? *</label><input type="text" id="travel_duration" class="bform-inp" placeholder="e.g. 2 weeks"></div>
+            </div>
+          </div>
           <div><label class="bform-lbl">Preferred Date &amp; Time</label><input type="datetime-local" id="book_preferred_date" class="bform-inp"></div>
           <div><label class="bform-lbl">Anything we should know?</label><textarea id="book_notes" class="bform-ta" placeholder="e.g. which countries you're visiting, any allergies, current medications…"></textarea></div>
-          <div class="gdpr-box">🔒 <strong>Your Privacy Matters.</strong> We are UK GDPR compliant and ICO registered. Your personal and health information is stored securely and never shared with third parties without your permission, except where needed for your direct care.</div>
+          <div class="privacy-box">🔒 <strong>Your Privacy Matters.</strong> We are ICO registered and adhere to strict patient confidentiality standards. Your personal and health information is stored securely and never shared with third parties without your permission, except where needed for your direct care.</div>
           <div class="consent-row"><input type="checkbox" id="consent1" required><label for="consent1">I agree to Winchester Health Centre using my information to process my booking and provide care. I've read the <a href="#">Privacy Policy</a>. *</label></div>
           <div class="consent-row"><input type="checkbox" id="consent2"><label for="consent2">I'd like to receive helpful health reminders and updates by email. (Optional — cancel any time.)</label></div>
           <button class="btn-bsubmit" id="btn_book_submit" type="button" onclick="submitDetailedBooking()">✅ Submit My Request <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" width="20" height="20"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
@@ -881,7 +895,7 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
           </div>
           <div class="contact-item">
             <div class="c-icon c-icon-sky">✉️</div>
-            <div class="c-text"><p>Email</p><p>info@winchesterhealthcentre.co.uk</p></div>
+            <div class="c-text"><p>Email</p><p>info@winchestertravelcentre.co.uk</p></div>
           </div>
           <div class="contact-item">
             <div class="c-icon c-icon-amber">📍</div>
@@ -889,7 +903,7 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
           </div>
           <div class="contact-item">
             <div class="c-icon c-icon-sky">🕐</div>
-            <div class="c-text"><p>Opening Hours</p><p>Mon–Fri: 9:00am – 6:00pm<br>Saturday: 9:00am – 1:00pm<br>Sunday: Closed</p></div>
+            <div class="c-text"><p>Opening Hours</p><p>Mon–Fri: 9:00am – 5:00pm<br>Saturday: 9:00am – 3:00pm<br>Sunday: Closed</p></div>
           </div>
           <div class="map-box" onclick="window.open('https://maps.google.com','_blank')">
             <span>🗺️</span>
@@ -967,18 +981,18 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
       </div>
       <div class="comp-card reveal" style="transition-delay:.15s">
         <div class="comp-icon">🔒</div>
-        <h4>UK GDPR Compliant</h4>
-        <p>We are ICO registered and handle all your personal health data securely and in full compliance with UK data protection law.</p>
+        <h4>Data Protection &amp; Privacy</h4>
+        <p>We are ICO registered and handle all your personal health data securely and in full confidentiality.</p>
       </div>
       <div class="comp-card reveal" style="transition-delay:.2s">
-        <div class="comp-icon">🏥</div>
-        <h4>NHS Contracted</h4>
-        <p>We hold an NHS Pharmacy contract to provide essential and advanced pharmaceutical services to our community.</p>
+        <div class="comp-icon">🩺</div>
+        <h4>Clinical Excellence</h4>
+        <p>Our qualified pharmacists provide comprehensive consultations, screenings and tailored healthcare services to our community.</p>
       </div>
       <div class="comp-card reveal" style="transition-delay:.25s">
         <div class="comp-icon">📋</div>
-        <h4>Complaints Procedure</h4>
-        <p>We follow the NHS England Complaints Framework. Every patient has the right to raise concerns and receive a fair response.</p>
+        <h4>Patient Care Standards</h4>
+        <p>We follow professional healthcare standards and a clear patient feedback procedure. Every patient receives attentive, dedicated care.</p>
       </div>
     </div>
   </div>
@@ -1002,7 +1016,7 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
         <ul>
           <li><a href="#">✈️ Travel Clinic</a></li>
           <li><a href="#">🔬 Diagnostic Tests</a></li>
-          <li><a href="#">👂 Ear Wax Removal</a></li>
+          <li><a href="#">👂 Ear Wax Removal (Coming Soon)</a></li>
           <li><a href="#">⚖️ Weight Management</a></li>
           <li><a href="#">💊 Pharmacy First</a></li>
           <li><a href="#">🚭 Quit Smoking</a></li>
@@ -1013,9 +1027,9 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
         <h5>Information</h5>
         <ul>
           <li><a href="#">Book a Service</a></li>
-          <li><a href="#">NHS Prescriptions</a></li>
+          <li><a href="#">Prescription Dispensing</a></li>
           <li><a href="#">Home Delivery</a></li>
-          <li><a href="#">NHS Services</a></li>
+          <li><a href="#">Clinical Services</a></li>
           <li><a href="#">About Us</a></li>
           <li><a href="#">Our Team</a></li>
         </ul>
@@ -1025,13 +1039,13 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
         <ul>
           <li><a href="tel:+441962854725">📞 01962 854 725</a></li>
           <li><a href="https://wa.me/441962854725">💬 WhatsApp Us</a></li>
-          <li><a href="mailto:info@winchesterhealthcentre.co.uk">✉️ Email Us</a></li>
-          <li style="color:rgba(255,255,255,.4);font-size:.9rem;padding-top:.35rem;font-weight:600">Mon–Fri: 9am–6pm<br>Sat: 9am–1pm · Sun: Closed</li>
+          <li><a href="mailto:info@winchestertravelcentre.co.uk">✉️ Email Us</a></li>
+          <li style="color:rgba(255,255,255,.4);font-size:.9rem;padding-top:.35rem;font-weight:600">Mon–Fri: 9am–5pm<br>Sat: 9am–3pm · Sun: Closed</li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
-      <p>© 2025 Winchester Health Centre. GPhC Registration No: XXXXXXX. ICO Registration: ZAXXXXXX. NHS Contractor No: XXXXXXX.</p>
+      <p>© 2025 Winchester Health Centre. GPhC Registration No: XXXXXXX. ICO Registration: ZAXXXXXX.</p>
       <div class="footer-legal">
         <a href="#">Privacy Policy</a>
         <a href="#">Cookie Policy</a>
@@ -1048,7 +1062,7 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
   <div class="modal">
     <div class="modal-ico">✅</div>
     <h3>Booking Received!</h3>
-    <p>Thank you! Our friendly team will call or text you within 2 hours during opening hours (Mon–Fri 9am–6pm, Sat 9am–1pm) to confirm your booking.</p>
+    <p>Thank you! Our friendly team will call or text you within 2 hours during opening hours (Mon–Fri 9am–5pm, Sat 9am–3pm) to confirm your booking.</p>
     <p style="font-size:.9rem;color:var(--grey-3);font-weight:600">Prefer to speak to someone right now?</p>
     <div class="modal-btns">
       <a href="tel:+441962854725" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--sky);color:white;padding:.7rem 1.4rem;border-radius:50px;font-weight:800;font-size:.95rem;text-decoration:none">📞 Call Us Now</a>
@@ -1060,7 +1074,7 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
 
 <!-- ══ COOKIE BANNER ══ -->
 <div class="cookie-banner" id="cookieBanner">
-  <p>We use cookies to improve your experience on our website. You can find out more in our <a href="#">Cookie Policy</a>. Under UK GDPR we need your permission for non-essential cookies.</p>
+  <p>We use cookies to improve your experience on our website. You can find out more in our <a href="#">Cookie Policy</a>. We require your consent for non-essential cookies.</p>
   <div class="cookie-acts">
     <button class="btn-ca" onclick="acceptCookies()">✅ Accept All</button>
     <button class="btn-cr" onclick="rejectCookies()">Essential Only</button>
@@ -1090,7 +1104,7 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
   <div class="chat-chips">
     <button class="chip" onclick="qs('Book an appointment')">📅 Book</button>
     <button class="chip" onclick="qs('Travel vaccinations')">✈️ Travel Jabs</button>
-    <button class="chip" onclick="qs('Ear wax removal')">👂 Ear Wax</button>
+    <button class="chip" onclick="qs('Ear wax removal')">👂 Ear Wax (Coming Soon)</button>
     <button class="chip" onclick="qs('WhatsApp')">💬 WhatsApp</button>
     <button class="chip" onclick="qs('Opening hours')">🕐 Hours</button>
     <button class="chip" onclick="qs('Free home delivery')">🚚 Free Delivery</button>
@@ -1114,8 +1128,8 @@ const C = {
   phone: '01962 854 725',
   phoneClean: '+441962854725',
   wa: '441962854725',
-  email: 'info@winchesterhealthcentre.co.uk',
-  hours: 'Mon–Fri 9am–6pm · Sat 9am–1pm · Sun Closed',
+  email: 'info@winchestertravelcentre.co.uk',
+  hours: 'Mon–Fri 9am–5pm · Sat 9am–3pm · Sun Closed',
   address: 'Winchester, Hampshire',
 };
 
@@ -1133,7 +1147,7 @@ function getReply(q) {
     return `⚠️ <strong>Please call 999 immediately for any medical emergency.</strong><br><br>For urgent but non-emergency questions:<br><a class="al ph" href="tel:${C.phoneClean}">📞 Call ${C.phone}</a>`;
 
   if(/whatsapp|whats.?app|wa\.me/.test(q))
-    return `You can reach us directly on <strong>WhatsApp</strong> — our team replies quickly during opening hours:<br><br><a class="al wa" href="https://wa.me/${C.wa}" target="_blank">💬 Open WhatsApp Chat</a><br><br>Opening hours: <strong>Mon–Fri 9am–6pm · Sat 9am–1pm</strong>`;
+    return `You can reach us directly on <strong>WhatsApp</strong> — our team replies quickly during opening hours:<br><br><a class="al wa" href="https://wa.me/${C.wa}" target="_blank">💬 Open WhatsApp Chat</a><br><br>Opening hours: <strong>Mon–Fri 9am–5pm · Sat 9am–3pm</strong>`;
 
   if(/\b(phone|call|ring|number|telephone|contact number)\b/.test(q))
     return `Give us a call — we're always happy to chat!<br><br><a class="al ph" href="tel:${C.phoneClean}">📞 Call ${C.phone}</a><br><br>Or message us on WhatsApp if it's easier:<br><a class="al wa" href="https://wa.me/${C.wa}" target="_blank">💬 WhatsApp</a>`;
@@ -1148,25 +1162,25 @@ function getReply(q) {
     return `✈️ Our <strong>Travel Clinic</strong> is ready to help you travel safely! We offer:<br><ul><li>Yellow Fever certificate</li><li>Typhoid, Hepatitis A &amp; B</li><li>Meningitis, Cholera, Rabies</li><li>Malaria prevention tablets</li><li>Destination health advice</li></ul>No GP referral needed — just book directly:<br><a class="al" href="#booking" onclick="toggleChat()">📅 Book Travel Clinic</a><a class="al wa" href="https://wa.me/${C.wa}" target="_blank">💬 WhatsApp</a>`;
 
   if(/ear.?wax|earwax|blocked ear|can't hear|hearing/.test(q))
-    return `👂 <strong>Ear Wax Removal</strong> — a quick and painless service:<br><ul><li>Safe microsuction or irrigation</li><li>Gentle, trained practitioners</li><li>Same-day or next-day slots</li><li>No GP waiting list!</li></ul>Book your appointment now:<br><a class="al" href="#booking" onclick="toggleChat()">📅 Book Ear Wax Removal</a><a class="al ph" href="tel:${C.phoneClean}">📞 Call to Book</a>`;
+    return `👂 <strong>Ear Wax Removal</strong> — <strong>Coming Soon!</strong><br><br>We're getting ready to launch this service — safe microsuction/irrigation from gentle, trained practitioners. Not bookable just yet, but check back soon or ask us for updates:<br><a class="al ph" href="tel:${C.phoneClean}">📞 Call for Updates</a><a class="al wa" href="https://wa.me/${C.wa}" target="_blank">💬 WhatsApp</a>`;
 
   if(/blood.?test|diagnos|cholesterol|blood.?pressure|blood.?sugar|glucose|health check|urine/.test(q))
     return `🔬 Our <strong>Diagnostic Tests</strong> include:<br><ul><li>Blood tests (cholesterol, glucose, HbA1c)</li><li>Urine analysis</li><li>Blood pressure checks</li><li>General health screening</li></ul>No GP referral needed — fast results!<br><a class="al" href="#booking" onclick="toggleChat()">📅 Book a Test</a><a class="al wa" href="https://wa.me/${C.wa}" target="_blank">💬 WhatsApp</a>`;
 
   if(/pharmacy.?first|common condition|sore throat|uti|earache|sinusitis|impetigo|shingles|insect bite/.test(q))
-    return `💊 <strong>Pharmacy First</strong> — FREE NHS service, no GP needed!<br><br>We treat 7 conditions:<br><ul><li>Earache (1–17 yrs)</li><li>Sore Throat (5+ yrs)</li><li>Urine infection / UTI (women 16–64)</li><li>Sinusitis (12+ yrs)</li><li>Impetigo (1+ yrs)</li><li>Shingles (18+ yrs)</li><li>Infected insect bites (1+ yrs)</li></ul>Just walk in or call:<br><a class="al ph" href="tel:${C.phoneClean}">📞 ${C.phone}</a>`;
+    return `💊 <strong>Pharmacy First</strong> — No GP appointment needed!<br><br>We treat 7 conditions:<br><ul><li>Earache (1–17 yrs)</li><li>Sore Throat (5+ yrs)</li><li>Urine infection / UTI (women 16–64)</li><li>Sinusitis (12+ yrs)</li><li>Impetigo (1+ yrs)</li><li>Shingles (18+ yrs)</li><li>Infected insect bites (1+ yrs)</li></ul>Just walk in or call:<br><a class="al ph" href="tel:${C.phoneClean}">📞 ${C.phone}</a>`;
 
   if(/smok|quit|stop smoking|cigarette|nicotine|nrt|smokefree/.test(q))
-    return `🚭 <strong>Smokefree Hampshire</strong> — FREE for eligible NHS patients!<br><ul><li>Friendly pharmacist support</li><li>Nicotine patches, gum, spray</li><li>Regular check-in appointments</li><li>Proven to help you quit</li></ul>You can do it — we'll support you every step!<br><a class="al" href="#booking" onclick="toggleChat()">📅 Book Support</a><a class="al ph" href="tel:${C.phoneClean}">📞 Call Us</a>`;
+    return `🚭 <strong>Smokefree Hampshire</strong> — Dedicated support to help you quit!<br><ul><li>Friendly pharmacist support</li><li>Nicotine patches, gum, spray</li><li>Regular check-in appointments</li><li>Proven to help you quit</li></ul>You can do it — we'll support you every step!<br><a class="al" href="#booking" onclick="toggleChat()">📅 Book Support</a><a class="al ph" href="tel:${C.phoneClean}">📞 Call Us</a>`;
 
   if(/delivery|home delivery|deliver|prescription delivery|door/.test(q))
     return `🚚 Our <strong>FREE Home Delivery</strong> service covers:<br><ul><li>Winchester, Littleton, Harestock</li><li>Sparsholt, Kings Worthy</li><li>Headbourne Worthy, Otterbourne</li><li>And surrounding areas!</li></ul>Sign up by calling or WhatsApping us:<br><a class="al ph" href="tel:${C.phoneClean}">📞 ${C.phone}</a><a class="al wa" href="https://wa.me/${C.wa}" target="_blank">💬 WhatsApp</a>`;
 
   if(/prescription|repeat|medication|medicine|dispens|collect/.test(q))
-    return `💊 We dispense <strong>NHS and private prescriptions</strong>.<br><br>Your options:<br><ul><li>🏪 Walk in with your prescription</li><li>🚚 <strong>Free home delivery</strong> service</li><li>📱 Nominate us on the NHS App</li><li>🔄 Set up repeat collection</li></ul><a class="al ph" href="tel:${C.phoneClean}">📞 ${C.phone}</a><a class="al wa" href="https://wa.me/${C.wa}" target="_blank">💬 WhatsApp</a>`;
+    return `💊 We dispense <strong>prescriptions quickly and reliably</strong>.<br><br>Your options:<br><ul><li>🏪 Walk in with your prescription</li><li>🚚 <strong>Free home delivery</strong> service</li><li>📱 Nominate us via your healthcare provider</li><li>🔄 Set up repeat collection</li></ul><a class="al ph" href="tel:${C.phoneClean}">📞 ${C.phone}</a><a class="al wa" href="https://wa.me/${C.wa}" target="_blank">💬 WhatsApp</a>`;
 
   if(/weight|bmi|weight.?loss|slimming|diet|ozempic|wegovy|mounjaro/.test(q))
-    return `⚖️ Our <strong>Weight Management</strong> service:<br><ul><li>Friendly BMI &amp; health assessment</li><li>Practical lifestyle advice</li><li>NHS Tier 1 referrals</li><li>Weight loss medication (if appropriate)</li></ul>We're caring and non-judgemental — everyone welcome!<br><a class="al" href="#booking" onclick="toggleChat()">📅 Book Consultation</a>`;
+    return `⚖️ Our <strong>Weight Management</strong> service:<br><ul><li>Friendly BMI &amp; health assessment</li><li>Practical lifestyle advice</li><li>Tailored wellness support</li><li>Weight loss medication (if appropriate)</li></ul>We're caring and non-judgemental — everyone welcome!<br><a class="al" href="#booking" onclick="toggleChat()">📅 Book Consultation</a>`;
 
   if(/contraception|morning after|emergency pill|pill|contraceptive/.test(q))
     return `We offer <strong>confidential contraception</strong> services — completely private and non-judgemental:<br><ul><li>Emergency contraception (morning after pill)</li><li>Oral contraceptive pill</li><li>Private consultation</li></ul><a class="al ph" href="tel:${C.phoneClean}">📞 Call (Private)</a><a class="al wa" href="https://wa.me/${C.wa}" target="_blank">💬 WhatsApp (Discreet)</a>`;
@@ -1175,19 +1189,19 @@ function getReply(q) {
     return `🏥 <strong>Discharge Medicine Service</strong>:<br><br>Just come home from hospital? We'll make sure your new medicines are ready quickly and our pharmacist will explain everything clearly and simply. Just give us a call:<br><a class="al ph" href="tel:${C.phoneClean}">📞 ${C.phone}</a>`;
 
   if(/\b(hours|open|opening|close|time|when|weekend|saturday|sunday)\b/.test(q))
-    return `🕐 <strong>Our opening hours:</strong><br><br>📅 Monday – Friday: <strong>9:00am – 6:00pm</strong><br>📅 Saturday: <strong>9:00am – 1:00pm</strong><br>❌ Sunday: <strong>Closed</strong><br><br>You can also leave a WhatsApp message outside of hours:<br><a class="al wa" href="https://wa.me/${C.wa}" target="_blank">💬 WhatsApp Us</a>`;
+    return `🕐 <strong>Our opening hours:</strong><br><br>📅 Monday – Friday: <strong>9:00am – 5:00pm</strong><br>📅 Saturday: <strong>9:00am – 3:00pm</strong><br>❌ Sunday: <strong>Closed</strong><br><br>You can also leave a WhatsApp message outside of hours:<br><a class="al wa" href="https://wa.me/${C.wa}" target="_blank">💬 WhatsApp Us</a>`;
 
   if(/\b(location|where|address|directions|find|map|park|postcode)\b/.test(q))
     return `📍 We're located in <strong>Winchester, Hampshire</strong>.<br><br>Serving: Littleton, Harestock, Sparsholt, Headbourne Worthy, Kings Worthy &amp; Otterbourne.<br><br><a class="al" href="https://maps.google.com" target="_blank">🗺️ Open Google Maps</a><a class="al wa" href="https://wa.me/${C.wa}" target="_blank">💬 Ask for Directions</a>`;
 
   if(/gphc|registered|regulated|accredited|safe|quality/.test(q))
-    return `🏅 Winchester Health Centre is <strong>GPhC Registered</strong> — all our pharmacists hold full registration with the General Pharmaceutical Council.<br><br>We also hold an NHS Pharmacy contract and are ICO registered for GDPR compliance. You're in safe hands!`;
+    return `🏅 Winchester Health Centre is <strong>GPhC Registered</strong> — all our pharmacists hold full registration with the General Pharmaceutical Council.<br><br>We are ICO registered and maintain strict privacy and quality standards. You're in safe hands!`;
 
-  if(/gdpr|privacy|data|information|confidential|secure/.test(q))
-    return `🔒 <strong>Your privacy is very important to us.</strong><br><br>We are ICO registered and fully UK GDPR compliant:<br><ul><li>Your data is stored securely</li><li>Never sold to anyone</li><li>Only shared with your direct care team</li></ul>Full details in our <a href="#" style="color:var(--sky)">Privacy Policy</a>.`;
+  if(/privacy|data|information|confidential|secure/.test(q))
+    return `🔒 <strong>Your privacy is very important to us.</strong><br><br>We are ICO registered and maintain rigorous data privacy standards:<br><ul><li>Your data is stored securely</li><li>Never sold to anyone</li><li>Only shared with your direct care team</li></ul>Full details in our <a href="#" style="color:var(--sky)">Privacy Policy</a>.`;
 
   if(/complaint|unhappy|problem|issue|feedback/.test(q))
-    return `We're sorry if something hasn't been right. Please do let us know:<br><ul><li>📞 Call: <a href="tel:${C.phoneClean}" style="color:var(--sky)">${C.phone}</a></li><li>💬 <a href="https://wa.me/${C.wa}" target="_blank" style="color:#25d366">WhatsApp</a></li><li>📧 <a href="mailto:${C.email}" style="color:var(--sky)">${C.email}</a></li></ul>We follow the NHS Complaints Framework and take all concerns seriously.`;
+    return `We're sorry if something hasn't been right. Please do let us know:<br><ul><li>📞 Call: <a href="tel:${C.phoneClean}" style="color:var(--sky)">${C.phone}</a></li><li>💬 <a href="https://wa.me/${C.wa}" target="_blank" style="color:#25d366">WhatsApp</a></li><li>📧 <a href="mailto:${C.email}" style="color:var(--sky)">${C.email}</a></li></ul>We follow a formal patient feedback process and take all concerns seriously.`;
 
   return `I'm sorry, I didn't quite catch that! 😊 But our friendly team will help:<br><br><a class="al ph" href="tel:${C.phoneClean}">📞 Call ${C.phone}</a><a class="al wa" href="https://wa.me/${C.wa}" target="_blank">💬 WhatsApp</a><a class="al" href="mailto:${C.email}">📧 Email</a><br><br>Or try asking about: <em>travel jabs, ear wax, blood tests, opening hours, home delivery, Pharmacy First, prescriptions</em> — or just say Hello! 👋`;
 }
@@ -1239,16 +1253,35 @@ function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>
 function openMenu() { document.getElementById('mobileMenu').classList.add('open'); document.body.style.overflow='hidden'; }
 function closeMenu() { document.getElementById('mobileMenu').classList.remove('open'); document.body.style.overflow=''; }
 function showModal() { document.getElementById('successModal').classList.add('show'); document.body.style.overflow='hidden'; }
+function toggleQuickTravelQuestions() {
+  const service = document.getElementById('quick_service').value;
+  document.getElementById('quick_travel_questions').style.display = isTravelService(service) ? 'block' : 'none';
+}
 async function submitQuickBooking() {
   const service = document.getElementById('quick_service').value;
   const name = document.getElementById('quick_name').value.trim();
   const phone = document.getElementById('quick_phone').value.trim();
+  const email = document.getElementById('quick_email').value.trim();
   const date = document.getElementById('quick_date').value;
+  let notes = document.getElementById('quick_notes').value.trim();
   const btn = document.getElementById('btn_quick_submit');
 
   if (!name) { alert('Please enter your name.'); return; }
   if (!phone) { alert('Please enter your phone number.'); return; }
+  if (!email) { alert('Please enter your email address.'); return; }
   if (service === 'Select a service…' || !service) { alert('Please select a service.'); return; }
+
+  if (isTravelService(service)) {
+    const destination = document.getElementById('quick_travel_destination').value.trim();
+    const people = document.getElementById('quick_travel_people').value.trim();
+    const duration = document.getElementById('quick_travel_duration').value.trim();
+    if (!destination) { alert('Please tell us where you are traveling to.'); return; }
+    if (!people) { alert('Please tell us how many people are traveling.'); return; }
+    if (!duration) { alert('Please tell us how long the trip is.'); return; }
+    const travelInfo = `Travel destination: ${destination}\nNumber of people: ${people}\nTrip length: ${duration}`;
+    notes = notes ? `${travelInfo}\n\n${notes}` : travelInfo;
+  }
+  notes = notes || null;
 
   btn.disabled = true;
   btn.innerText = 'Submitting...';
@@ -1257,15 +1290,21 @@ async function submitQuickBooking() {
     const response = await fetch('submit_booking.php', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, phone, service, preferred_date: date })
+      body: JSON.stringify({ name, phone, email, service, preferred_date: date, notes })
     });
     const result = await response.json();
     if (result.success) {
       showModal();
       document.getElementById('quick_name').value = '';
       document.getElementById('quick_phone').value = '';
+      document.getElementById('quick_email').value = '';
       document.getElementById('quick_date').value = '';
+      document.getElementById('quick_notes').value = '';
       document.getElementById('quick_service').selectedIndex = 0;
+      document.getElementById('quick_travel_destination').value = '';
+      document.getElementById('quick_travel_people').value = '';
+      document.getElementById('quick_travel_duration').value = '';
+      document.getElementById('quick_travel_questions').style.display = 'none';
     } else {
       alert(result.message || 'Submission failed.');
     }
@@ -1277,6 +1316,13 @@ async function submitQuickBooking() {
     btn.innerHTML = '📅 Request My Appointment <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" width="18" height="18"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
   }
 }
+function isTravelService(service) {
+  return /travel/i.test(service);
+}
+function toggleTravelQuestions() {
+  const service = document.getElementById('book_service').value;
+  document.getElementById('travel_questions').style.display = isTravelService(service) ? 'block' : 'none';
+}
 async function submitDetailedBooking() {
   const firstName = document.getElementById('book_first_name').value.trim();
   const lastName = document.getElementById('book_last_name').value.trim();
@@ -1285,7 +1331,7 @@ async function submitDetailedBooking() {
   const dob = document.getElementById('book_dob').value;
   const service = document.getElementById('book_service').value;
   const preferredDate = document.getElementById('book_preferred_date').value;
-  const notes = document.getElementById('book_notes').value.trim();
+  let notes = document.getElementById('book_notes').value.trim();
   const consent = document.getElementById('consent1').checked;
   const btn = document.getElementById('btn_book_submit');
 
@@ -1295,6 +1341,17 @@ async function submitDetailedBooking() {
   if (!dob) { alert('Please enter your date of birth.'); return; }
   if (!service || service === 'Choose a service…') { alert('Please select a service.'); return; }
   if (!consent) { alert('You must agree to the privacy policy consent to proceed.'); return; }
+
+  if (isTravelService(service)) {
+    const destination = document.getElementById('travel_destination').value.trim();
+    const people = document.getElementById('travel_people').value.trim();
+    const duration = document.getElementById('travel_duration').value.trim();
+    if (!destination) { alert('Please tell us where you are traveling to.'); return; }
+    if (!people) { alert('Please tell us how many people are traveling.'); return; }
+    if (!duration) { alert('Please tell us how long the trip is.'); return; }
+    const travelInfo = `Travel destination: ${destination}\nNumber of people: ${people}\nTrip length: ${duration}`;
+    notes = notes ? `${travelInfo}\n\n${notes}` : travelInfo;
+  }
 
   btn.disabled = true;
   btn.innerText = 'Submitting...';
@@ -1325,6 +1382,10 @@ async function submitDetailedBooking() {
       document.getElementById('book_service').selectedIndex = 0;
       document.getElementById('book_preferred_date').value = '';
       document.getElementById('book_notes').value = '';
+      document.getElementById('travel_destination').value = '';
+      document.getElementById('travel_people').value = '';
+      document.getElementById('travel_duration').value = '';
+      document.getElementById('travel_questions').style.display = 'none';
       document.getElementById('consent1').checked = false;
       document.getElementById('consent2').checked = false;
     } else {
@@ -1344,7 +1405,7 @@ function rejectCookies() { document.getElementById('cookieBanner').classList.add
 if(localStorage.getItem('cookies')) document.getElementById('cookieBanner').classList.add('hidden');
 const obs = new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); }),{threshold:.1});
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
-window.addEventListener('scroll',()=>{ document.querySelector('nav').style.boxShadow = window.scrollY>10 ? '0 4px 28px rgba(27,58,107,.16)' : '0 3px 20px rgba(27,58,107,.1)'; });
+window.addEventListener('scroll',()=>{ document.querySelector('nav').style.boxShadow = window.scrollY>10 ? '0 4px 28px rgba(10,47,82,.16)' : '0 3px 20px rgba(10,47,82,.1)'; });
 document.querySelectorAll('a[href^="#"]').forEach(a=>{ a.addEventListener('click',e=>{ const t=document.querySelector(a.getAttribute('href')); if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});} }); });
 </script>
 </body>
