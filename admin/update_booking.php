@@ -155,6 +155,139 @@ function send_status_update_email($email, $first_name, $service, $preferred_date
     }
 }
 
+/**
+ * Sends the patient an email notifying them that their appointment has been rescheduled.
+ */
+function send_reschedule_email($email, $first_name, $service, $old_date, $new_date, $reschedule_reason = null) {
+    $subject = 'Your Appointment Has Been Rescheduled - Winchester Travel Centre';
+    $from = defined('FROM_EMAIL') ? FROM_EMAIL : 'info@winchestertravelcentre.co.uk';
+    $portalUrl = defined('PATIENT_PORTAL_URL') ? PATIENT_PORTAL_URL : 'https://my.scripter.digital/appointment/organization/91?location_id=92';
+
+    $safe_name = htmlspecialchars($first_name);
+    $safe_service = htmlspecialchars($service);
+
+    // Format human-readable dates (e.g. Wednesday, 24 September 2026 at 2:30 PM)
+    $formatted_old_date = 'Not previously scheduled';
+    if (!empty($old_date)) {
+        $oldTime = strtotime($old_date);
+        $formatted_old_date = $oldTime ? date('l, j F Y \a\t g:i A', $oldTime) : htmlspecialchars($old_date);
+    }
+
+    $formatted_new_date = 'To be arranged';
+    if (!empty($new_date)) {
+        $newTime = strtotime($new_date);
+        $formatted_new_date = $newTime ? date('l, j F Y \a\t g:i A', $newTime) : htmlspecialchars($new_date);
+    }
+
+    $reasonSection = '';
+    if (!empty($reschedule_reason)) {
+        $safe_reason = nl2br(htmlspecialchars($reschedule_reason));
+        $reasonSection = "
+            <div style='margin: 22px 0; padding: 16px 20px; background-color: #f8fafc; border-left: 4px solid #0d9488; border-radius: 6px;'>
+                <p style='margin: 0 0 6px 0; font-size: 12px; font-weight: 700; color: #0f766e; text-transform: uppercase; letter-spacing: 0.6px;'>Message From Our Clinic Team</p>
+                <p style='margin: 0; font-size: 14px; color: #334155; line-height: 1.6;'>{$safe_reason}</p>
+            </div>
+        ";
+    }
+
+    $body = "
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>{$subject}</title>
+</head>
+<body style=\"margin: 0; padding: 0; background-color: #f1f5f9; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #334155;\">
+    <table border='0' cellpadding='0' cellspacing='0' width='100%' style='background-color: #f1f5f9; padding: 20px 0;'>
+        <tr>
+            <td align='center'>
+                <table border='0' cellpadding='0' cellspacing='0' width='600' style='background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);'>
+                    <!-- Header -->
+                    <tr>
+                        <td style='background: linear-gradient(135deg, #0f766e 0%, #0d9488 100%); padding: 30px; text-align: center;'>
+                            <h1 style='color: #ffffff; margin: 0; font-size: 24px; font-weight: 600; letter-spacing: 0.5px;'>Winchester Travel Centre</h1>
+                            <p style='color: #ccfbf1; margin: 6px 0 0 0; font-size: 15px; font-weight: 500;'>Appointment Rescheduled 🗓️</p>
+                        </td>
+                    </tr>
+                    
+                    <!-- Content Body -->
+                    <tr>
+                        <td style='padding: 35px 30px;'>
+                            <h2 style='color: #0f766e; margin-top: 0; font-size: 20px;'>Hello {$safe_name},</h2>
+                            <p style='font-size: 15px; line-height: 1.6; color: #475569; margin-bottom: 22px;'>
+                                Please note that your appointment date and time has been updated. Below are the revised details for your upcoming visit:
+                            </p>
+
+                            <!-- Highlighted Reschedule Box -->
+                            <div style='background: #f0fdfa; border: 2px solid #0d9488; border-radius: 10px; padding: 20px; margin-bottom: 22px;'>
+                                <table border='0' cellpadding='0' cellspacing='0' width='100%' style='border-collapse: collapse;'>
+                                    <tr>
+                                        <td style='padding: 6px 0; color: #64748b; font-size: 13px; font-weight: 600; width: 35%;'>Service:</td>
+                                        <td style='padding: 6px 0; color: #0f766e; font-size: 15px; font-weight: 700;'>{$safe_service}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style='padding: 8px 0; color: #94a3b8; font-size: 13px; font-weight: 600;'>Previous Slot:</td>
+                                        <td style='padding: 8px 0; color: #94a3b8; font-size: 14px; text-decoration: line-through;'>{$formatted_old_date}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style='padding: 10px 0; color: #0f766e; font-size: 14px; font-weight: 700; border-top: 1px dashed #99f6e4;'>NEW Date &amp; Time:</td>
+                                        <td style='padding: 10px 0; color: #0d9488; font-size: 16px; font-weight: 800; border-top: 1px dashed #99f6e4;'>
+                                            ✨ {$formatted_new_date}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style='padding: 6px 0; color: #64748b; font-size: 13px; font-weight: 600;'>Location:</td>
+                                        <td style='padding: 6px 0; color: #1e293b; font-size: 14px;'>Winchester Travel Centre, Hampshire</td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            {$reasonSection}
+
+                            <!-- Pre-Visit Notice -->
+                            <div style='background-color: #fafbfc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 18px; margin-bottom: 22px;'>
+                                <h4 style='margin: 0 0 6px 0; color: #1e293b; font-size: 14px;'>📋 Complete Your Pre-Visit Details Online</h4>
+                                <p style='margin: 0 0 12px 0; font-size: 13px; line-height: 1.5; color: #64748b;'>
+                                    Before visiting our clinic, please ensure your details are submitted on our patient portal so our clinical team can prepare for your visit:
+                                </p>
+                                <a href='{$portalUrl}' target='_blank' style='background-color: #0d9488; color: #ffffff; text-decoration: none; padding: 10px 22px; font-size: 13px; font-weight: 700; border-radius: 6px; display: inline-block;'>
+                                    Complete Pre-Visit Form &rarr;
+                                </a>
+                            </div>
+
+                            <!-- Change slot notice -->
+                            <p style='font-size: 14px; line-height: 1.6; color: #64748b; background-color: #f8fafc; padding: 15px; border-radius: 8px; border-left: 4px solid #0d9488; margin-top: 20px;'>
+                                <strong>Does this new time not work for you?</strong><br>
+                                If you need to adjust this slot or have any questions, please call our clinic directly at <a href='tel:+441962854725' style='color: #0f766e; font-weight: 700; text-decoration: none;'>01962 854 725</a> or simply reply to this email.
+                            </p>
+                        </td>
+                    </tr>
+                    
+                    <!-- Footer -->
+                    <tr>
+                        <td style='background-color: #f8fafc; padding: 25px; text-align: center; border-top: 1px solid #f1f5f9;'>
+                            <p style='margin: 0; font-size: 12px; color: #94a3b8; line-height: 1.5;'>
+                                Winchester Travel Centre &bull; Travel Clinic &amp; Health Services<br>
+                                Winchester, Hampshire
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>";
+
+    $res = send_system_mail($email, $subject, $body);
+    if (!$res['success']) {
+        error_log("[Reschedule Mail] Failed sending reschedule email to {$email}: " . ($res['error'] ?? 'Unknown error'));
+        return false;
+    }
+    return true;
+}
+
 // Support parsing both form variables and JSON bodies
 $contentType = $_SERVER["CONTENT_TYPE"] ?? '';
 if (stripos($contentType, 'application/json') !== false) {
@@ -319,6 +452,83 @@ try {
             ]);
         }
     } 
+    // ══════════════════════════════════════════════════════════════
+    // ACTION: RESCHEDULE BOOKING
+    // ══════════════════════════════════════════════════════════════
+    elseif ($action === 'reschedule') {
+        $preferred_date = trim($data['preferred_date'] ?? '');
+        $reschedule_reason = isset($data['reschedule_reason']) ? trim($data['reschedule_reason']) : null;
+        $notify_customer = isset($data['notify_customer']) ? filter_var($data['notify_customer'], FILTER_VALIDATE_BOOLEAN) : true;
+
+        if (empty($preferred_date)) {
+            echo json_encode(['success' => false, 'message' => 'A new appointment date and time is required.']);
+            exit;
+        }
+
+        // Convert datetime-local format (YYYY-MM-DDTHH:MM) to MySQL DATETIME (YYYY-MM-DD HH:MM:SS)
+        $preferred_date = str_replace('T', ' ', $preferred_date);
+        if (strlen($preferred_date) === 10) {
+            $preferred_date .= ' 09:00:00';
+        } elseif (strlen($preferred_date) === 16) {
+            $preferred_date .= ':00';
+        }
+
+        // Lookup current booking details
+        $lookupStmt = $pdo->prepare("SELECT first_name, last_name, phone, email, service, preferred_date, admin_notes, status FROM bookings WHERE id = ?");
+        $lookupStmt->execute([$id]);
+        $booking = $lookupStmt->fetch();
+
+        if (!$booking) {
+            echo json_encode(['success' => false, 'message' => 'Appointment record not found.']);
+            exit;
+        }
+
+        $old_date = $booking['preferred_date'];
+        
+        // Log an audit trail entry in admin_notes
+        $timestamp = date('d M Y H:i');
+        $oldDateStr = $old_date ? date('d M Y H:i', strtotime($old_date)) : 'Flexible';
+        $newDateStr = date('d M Y H:i', strtotime($preferred_date));
+        $auditEntry = "[Rescheduled on {$timestamp}: {$oldDateStr} ➔ {$newDateStr}" . ($reschedule_reason ? " | Note: {$reschedule_reason}" : "") . "]";
+        
+        $currentNotes = trim($booking['admin_notes'] ?? '');
+        $updated_admin_notes = empty($currentNotes) ? $auditEntry : $currentNotes . "\n" . $auditEntry;
+
+        // Optionally update status if specified or keep existing
+        $newStatus = isset($data['status']) && in_array($data['status'], ['Pending', 'Confirmed', 'Completed', 'Cancelled'])
+            ? $data['status']
+            : ($booking['status'] === 'Pending' ? 'Confirmed' : $booking['status']);
+
+        $updateStmt = $pdo->prepare("UPDATE bookings SET preferred_date = ?, admin_notes = ?, status = ? WHERE id = ?");
+        $result = $updateStmt->execute([$preferred_date, $updated_admin_notes, $newStatus, $id]);
+
+        if ($result) {
+            $mailSent = false;
+            $mailNotice = '';
+            if ($notify_customer) {
+                if (!empty($booking['email'])) {
+                    $mailSent = send_reschedule_email($booking['email'], $booking['first_name'], $booking['service'], $old_date, $preferred_date, $reschedule_reason);
+                    $mailNotice = $mailSent ? ' and customer notified via email.' : ' (email notification could not be delivered).';
+                } else {
+                    $mailNotice = ' (customer has no email on file).';
+                }
+            } else {
+                $mailNotice = ' (customer email notification was skipped).';
+            }
+
+            echo json_encode([
+                'success' => true,
+                'message' => 'Appointment rescheduled to ' . $newDateStr . $mailNotice,
+                'preferred_date' => $preferred_date,
+                'admin_notes' => $updated_admin_notes,
+                'status' => $newStatus,
+                'mail_sent' => $mailSent
+            ]);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Failed to update appointment record in database.']);
+        }
+        exit;
+    }
     // ══════════════════════════════════════════════════════════════
     // ACTIONS: STATUS TRANSITIONS (Confirm, Complete, Cancel)
     // ══════════════════════════════════════════════════════════════
