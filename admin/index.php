@@ -3383,6 +3383,38 @@ foreach ($standardServices as $std) {
       openWhatsAppMsg(fullName, b.phone, b.service, b.preferred_date || 'Flexible');
     }
 
+    // Robust centralized helper to call update_booking.php with URL resolution and clear error parsing
+    async function callAdminApi(payload) {
+      const currentPath = window.location.pathname;
+      let endpoint = 'update_booking.php';
+      if (!currentPath.endsWith('/') && !currentPath.includes('.')) {
+        endpoint = currentPath.replace(/\/+$/, '') + '/update_booking.php';
+      }
+
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      const text = await res.text();
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch (parseErr) {
+        console.error('Server returned non-JSON response:', text);
+        if (res.status === 403) {
+          throw new Error('Access Denied. Your session has expired. Please refresh the page and log in again.');
+        } else if (res.status === 404) {
+          throw new Error('API endpoint not found (404). Please refresh the page.');
+        } else {
+          throw new Error(`Server returned status ${res.status}. Please check connection or try again.`);
+        }
+      }
+
+      return data;
+    }
+
     async function saveActiveDetailNotes() {
       if (!selectedBookingId) return;
       const notesVal = document.getElementById('detail_admin_notes').value;
@@ -3391,12 +3423,7 @@ foreach ($standardServices as $std) {
       btn.disabled = true;
 
       try {
-        const res = await fetch('update_booking.php', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ id: selectedBookingId, action: 'save_notes', admin_notes: notesVal })
-        });
-        const data = await res.json();
+        const data = await callAdminApi({ id: selectedBookingId, action: 'save_notes', admin_notes: notesVal });
         if (data.success) {
           const b = allBookings.find(item => item.id == selectedBookingId);
           if (b) b.admin_notes = notesVal;
@@ -3407,7 +3434,7 @@ foreach ($standardServices as $std) {
           btn.disabled = false;
         }
       } catch (err) {
-        alert('Communication error with server');
+        alert(err.message || 'Communication error with server');
         btn.disabled = false;
       }
     }
@@ -3415,12 +3442,7 @@ foreach ($standardServices as $std) {
     async function saveIntakeNote(id) {
       const notesVal = document.getElementById(`intake_staff_note_${id}`).value;
       try {
-        const res = await fetch('update_booking.php', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ id: id, action: 'save_notes', admin_notes: notesVal })
-        });
-        const data = await res.json();
+        const data = await callAdminApi({ id: id, action: 'save_notes', admin_notes: notesVal });
         if (data.success) {
           const b = allBookings.find(item => item.id == id);
           if (b) b.admin_notes = notesVal;
@@ -3429,7 +3451,7 @@ foreach ($standardServices as $std) {
           alert(data.message || 'Failed to save note');
         }
       } catch (e) {
-        alert('Server communication error');
+        alert(e.message || 'Server communication error');
       }
     }
 
@@ -3447,12 +3469,7 @@ foreach ($standardServices as $std) {
 
     async function performStatusUpdate(id, action) {
       try {
-        const res = await fetch('update_booking.php', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ id: id, action: action })
-        });
-        const data = await res.json();
+        const data = await callAdminApi({ id: id, action: action });
         if (data.success) {
           const b = allBookings.find(item => item.id == id);
           if (b) b.status = data.status;
@@ -3463,7 +3480,7 @@ foreach ($standardServices as $std) {
           alert(data.message || 'Status update failed');
         }
       } catch (e) {
-        alert('Server error occurred');
+        alert(e.message || 'Server error occurred');
       }
     }
 
@@ -3472,12 +3489,7 @@ foreach ($standardServices as $std) {
       if (!confirm('🚨 Permanently delete this appointment record?')) return;
 
       try {
-        const res = await fetch('update_booking.php', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ id: selectedBookingId, action: 'delete' })
-        });
-        const data = await res.json();
+        const data = await callAdminApi({ id: selectedBookingId, action: 'delete' });
         if (data.success) {
           allBookings = allBookings.filter(item => item.id != selectedBookingId);
           closeModal('apptDetailsModal');
@@ -3488,7 +3500,7 @@ foreach ($standardServices as $std) {
           alert(data.message || 'Failed to delete');
         }
       } catch (e) {
-        alert('Server error');
+        alert(e.message || 'Server error occurred');
       }
     }
 
@@ -3565,19 +3577,14 @@ foreach ($standardServices as $std) {
       btn.innerText = 'Rescheduling & Notifying...';
 
       try {
-        const res = await fetch('update_booking.php', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            action: 'reschedule',
-            id: activeRescheduleId,
-            preferred_date: newDateVal,
-            reschedule_reason: reasonVal,
-            notify_customer: notifyVal
-          })
+        const data = await callAdminApi({
+          action: 'reschedule',
+          id: activeRescheduleId,
+          preferred_date: newDateVal,
+          reschedule_reason: reasonVal,
+          notify_customer: notifyVal
         });
 
-        const data = await res.json();
         if (data.success) {
           const b = allBookings.find(item => item.id == activeRescheduleId);
           if (b) {
@@ -3603,7 +3610,7 @@ foreach ($standardServices as $std) {
           errDiv.style.display = 'block';
         }
       } catch (err) {
-        errDiv.innerText = 'Server communication error occurred.';
+        errDiv.innerText = err.message || 'Server communication error occurred.';
         errDiv.style.display = 'block';
       } finally {
         btn.disabled = false;
@@ -3665,24 +3672,19 @@ foreach ($standardServices as $std) {
       btn.innerText = 'Creating...';
 
       try {
-        const res = await fetch('update_booking.php', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            action: 'create_booking',
-            first_name: firstName,
-            last_name: lastName,
-            phone: phone,
-            email: email,
-            service: service,
-            preferred_date: prefDate,
-            status: status,
-            dob: dob,
-            admin_notes: adminNotes
-          })
+        const data = await callAdminApi({
+          action: 'create_booking',
+          first_name: firstName,
+          last_name: lastName,
+          phone: phone,
+          email: email,
+          service: service,
+          preferred_date: prefDate,
+          status: status,
+          dob: dob,
+          admin_notes: adminNotes
         });
 
-        const data = await res.json();
         if (data.success) {
           const newBooking = {
             id: data.id,
@@ -3691,7 +3693,7 @@ foreach ($standardServices as $std) {
             phone: phone,
             email: email,
             service: service,
-            preferred_date: prefDate.replace('T', ' ') + ':00',
+            preferred_date: prefDate.replace('T', ' ') + (prefDate.length === 16 ? ':00' : ''),
             status: status,
             dob: dob,
             admin_notes: adminNotes,
@@ -3709,7 +3711,8 @@ foreach ($standardServices as $std) {
           errorDiv.style.display = 'block';
         }
       } catch (err) {
-        errorDiv.innerText = 'Server error occurred.';
+        console.error('Create appointment error:', err);
+        errorDiv.innerText = err.message || 'Server error occurred.';
         errorDiv.style.display = 'block';
       } finally {
         btn.disabled = false;
@@ -3782,12 +3785,7 @@ foreach ($standardServices as $std) {
       btn.innerText = 'Saving...';
 
       try {
-        const res = await fetch('update_booking.php', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ action: 'change_password', old_password: oldP, new_password: newP })
-        });
-        const data = await res.json();
+        const data = await callAdminApi({ action: 'change_password', old_password: oldP, new_password: newP });
         if (data.success) {
           alert('Password successfully changed!');
           closeModal('settingsModal');
@@ -3796,7 +3794,7 @@ foreach ($standardServices as $std) {
           errDiv.style.display = 'block';
         }
       } catch (err) {
-        errDiv.innerText = 'Server error occurred.';
+        errDiv.innerText = err.message || 'Server error occurred.';
         errDiv.style.display = 'block';
       } finally {
         btn.disabled = false;

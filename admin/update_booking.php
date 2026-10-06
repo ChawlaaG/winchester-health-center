@@ -364,8 +364,22 @@ try {
             exit;
         }
 
+        // Sanitize and normalize date of birth (support DD/MM/YYYY, DD-MM-YYYY, or YYYY-MM-DD)
+        if ($dob) {
+            $dob = trim($dob);
+            if (preg_match('/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})$/', $dob, $m)) {
+                $dob = sprintf('%04d-%02d-%02d', $m[3], $m[2], $m[1]);
+            }
+        }
+
+        // Sanitize and normalize preferred date & time
         if ($preferred_date) {
-            $preferred_date = str_replace('T', ' ', trim($preferred_date));
+            $preferred_date = trim($preferred_date);
+            if (preg_match('/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})[\sT]+(\d{1,2}:\d{2}(?::\d{2})?)$/', $preferred_date, $m)) {
+                $preferred_date = sprintf('%04d-%02d-%02d %s', $m[3], $m[2], $m[1], $m[4]);
+            } else {
+                $preferred_date = str_replace('T', ' ', $preferred_date);
+            }
             if (strlen($preferred_date) === 10) {
                 $preferred_date .= ' 09:00:00';
             } elseif (strlen($preferred_date) === 16) {
@@ -393,7 +407,11 @@ try {
         if ($result) {
             $newId = $pdo->lastInsertId();
             if (!empty($email) && $status === 'Confirmed') {
-                send_status_update_email($email, $first_name, $service, $preferred_date, $status);
+                try {
+                    send_status_update_email($email, $first_name, $service, $preferred_date, $status);
+                } catch (Throwable $mailEx) {
+                    error_log("[Create Booking] Email sending warning: " . $mailEx->getMessage());
+                }
             }
             echo json_encode([
                 'success' => true,
@@ -577,5 +595,11 @@ try {
     echo json_encode([
         'success' => false,
         'message' => 'Database error occurred: ' . $e->getMessage()
+    ]);
+} catch (Throwable $e) {
+    error_log("[admin/update_booking.php] Uncaught error: " . $e->getMessage());
+    echo json_encode([
+        'success' => false,
+        'message' => 'Server error occurred: ' . $e->getMessage()
     ]);
 }

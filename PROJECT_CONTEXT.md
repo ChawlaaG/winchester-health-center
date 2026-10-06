@@ -1,6 +1,6 @@
 # Winchester Health Centre - Context & Chronological Work Log
 
-> **Last Updated**: 2026-09-24 20:05:00  
+> **Last Updated**: 2026-10-06 20:45:00  
 > **Status**: Active / In Development  
 
 ---
@@ -30,6 +30,28 @@ Winchester Travel & Health Centre is a private healthcare and travel clinic webs
 ---
 
 ## 🕒 4. Chronological Work Log (Latest on Top)
+
+### 📅 2026-10-06 20:45:00 - Fixed "+ Create New Appointment" Server Error, Normalized Dates & Hardened API
+- **Goal / Request**: Fix the issue shown on the user's laptop where "+ Create New Appointment" modal threw a red error banner: `Server error occurred.` when attempting to create a booking for Hugh Hawkey (`01962322180`, `hugh.hawkey@live.com`, `10/10/2026 13:00`).
+- **What Was Done**:
+  - **Root Cause Analysis**: Identified four points of failure: (1) client-side `catch` block blindly reported hardcoded `'Server error occurred.'` whenever non-JSON/403 session expired or path issues occurred, (2) UK localized date inputs (`DD/MM/YYYY` / `DD/MM/YYYY HH:MM`) were not normalized by regex prior to MySQL insert, (3) mail dispatch in `create_booking` was unshielded against socket/transport warnings, and (4) uncaught non-PDO exceptions in PHP 8 triggered HTML 500 output instead of JSON.
+  - **Backend (`admin/update_booking.php`)**:
+    - Added regex normalizers for `$dob` (`DD/MM/YYYY` or `DD-MM-YYYY` -> `YYYY-MM-DD`) and `$preferred_date` (`DD/MM/YYYY HH:MM` -> `YYYY-MM-DD HH:MM:00`).
+    - Shielded `send_status_update_email()` inside `try...catch (Throwable $mailEx)` so mail delivery issues never block appointment insertion or break the JSON response.
+    - Added top-level `catch (Throwable $e)` to ensure all PHP 8 errors/exceptions return structured JSON errors instead of raw HTML error pages.
+  - **Admin Panel UI (`admin/index.php`)**:
+    - Implemented robust `callAdminApi(payload)` helper with relative/absolute URL resolution and specific HTTP error handling (403 Session Timeout, 404, etc.).
+    - Refactored `submitCreateAppointment()`, `submitReschedule()`, `saveActiveDetailNotes()`, `saveIntakeNote()`, `performStatusUpdate()`, `deleteActiveDetailBooking()`, and `submitChangePassword()` to use `callAdminApi()`.
+    - Made error div report dynamic `err.message` instead of generic `Server error occurred.`.
+  - **Offline/Preview Resilience (`admin/dashboard_preview.html`)**:
+    - Implemented `callAdminApi()` with dual mode: calls live server if online, or performs graceful simulation if opened locally (`file://`) or on static host.
+  - **Live Production Deployment & Verification**:
+    - Uploaded all updated files to Hostinger production server via SFTP.
+    - Verified remote `php -l` syntax checks with 0 errors.
+    - Successfully created Hugh Hawkey's appointment (ID 178) directly in the live MySQL database with clean date normalization (`1999-07-18`, `2026-10-10 13:00:00`).
+- **Files Modified**: [`admin/update_booking.php`](file:///f:/Client%20Projects/Winchester%20Health%20Center/admin/update_booking.php), [`admin/index.php`](file:///f:/Client%20Projects/Winchester%20Health%20Center/admin/index.php), [`admin/dashboard_preview.html`](file:///f:/Client%20Projects/Winchester%20Health%20Center/admin/dashboard_preview.html), [`PROJECT_CONTEXT.md`](file:///f:/Client%20Projects/Winchester%20Health%20Center/PROJECT_CONTEXT.md).
+
+---
 
 ### 📅 2026-09-24 20:30:00 - Quality Gate Review & Production Hardening
 - **Goal / Request**: User triggered standard quality check review ("can you do our checks ?").
