@@ -381,7 +381,7 @@ try {
                 $preferred_date = str_replace('T', ' ', $preferred_date);
             }
             if (strlen($preferred_date) === 10) {
-                $preferred_date .= ' 09:00:00';
+                $preferred_date .= ' 11:30:00';
             } elseif (strlen($preferred_date) === 16) {
                 $preferred_date .= ':00';
             }
@@ -486,7 +486,7 @@ try {
         // Convert datetime-local format (YYYY-MM-DDTHH:MM) to MySQL DATETIME (YYYY-MM-DD HH:MM:SS)
         $preferred_date = str_replace('T', ' ', $preferred_date);
         if (strlen($preferred_date) === 10) {
-            $preferred_date .= ' 09:00:00';
+            $preferred_date .= ' 11:30:00';
         } elseif (strlen($preferred_date) === 16) {
             $preferred_date .= ':00';
         }

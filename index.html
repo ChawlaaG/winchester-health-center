@@ -51,14 +51,14 @@
     {
       "@type": "OpeningHoursSpecification",
       "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-      "opens": "09:00",
-      "closes": "18:00"
+      "opens": "09:30",
+      "closes": "17:00"
     },
     {
       "@type": "OpeningHoursSpecification",
       "dayOfWeek": ["Saturday"],
-      "opens": "09:00",
-      "closes": "13:00"
+      "opens": "09:30",
+      "closes": "15:00"
     }
   ]
 }
@@ -488,7 +488,7 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
       <a href="mailto:info@winchestertravelcentre.co.uk">✉ info@winchestertravelcentre.co.uk</a>
     </div>
     <div class="topbar-right">
-      <span>Mon–Fri 9am–5pm · Sat 9am–3pm</span>
+      <span>Mon–Fri 9:30am–5pm · Sat 9:30am–3pm</span>
       <div class="topbar-divider"></div>
       <a href="#">GPhC Registered</a>
       <div class="topbar-divider"></div>
@@ -587,7 +587,32 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
               <div><label class="form-lbl">How long is the trip?</label><input type="text" id="quick_travel_duration" class="form-inp" placeholder="e.g. 2 weeks"></div>
             </div>
           </div>
-          <div><label class="form-lbl">Best Date for You</label><input type="date" id="quick_date" class="form-inp"></div>
+          <div class="form-row2">
+            <div>
+              <label class="form-lbl">Preferred Date *</label>
+              <input type="date" id="quick_date" class="form-inp" onchange="validateQuickBookingDate(this)">
+            </div>
+            <div>
+              <label class="form-lbl">Time Slot (30m) *</label>
+              <select id="quick_time" class="form-sel">
+                <option value="">Select slot…</option>
+                <option value="11:30">11:30 AM</option>
+                <option value="12:00">12:00 PM</option>
+                <option value="12:30">12:30 PM</option>
+                <option value="13:00">01:00 PM</option>
+                <option value="13:30">01:30 PM</option>
+                <option value="14:00">02:00 PM</option>
+                <option value="14:30">02:30 PM</option>
+                <option value="15:00">03:00 PM</option>
+                <option value="15:30">03:30 PM</option>
+                <option value="16:00">04:00 PM</option>
+                <option value="16:30">04:30 PM</option>
+              </select>
+            </div>
+          </div>
+          <div style="font-size:0.75rem;color:rgba(255,255,255,0.78);margin:-0.3rem 0 0.5rem 0;">
+            🕒 30-min booking slots available Mon–Sat from 11:30 AM to 4:30 PM
+          </div>
           <div><label class="form-lbl">Anything we should know?</label><textarea id="quick_notes" class="form-inp" style="resize:vertical;min-height:80px" placeholder="e.g. which countries you're visiting, any allergies, current medications…"></textarea></div>
           <button class="btn-submit-hero" id="btn_quick_submit" onclick="submitQuickBooking()">📅 Request My Appointment <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" width="18" height="18"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
         </div>
@@ -929,7 +954,32 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
               <div><label class="bform-lbl">How long is the trip? *</label><input type="text" id="travel_duration" class="bform-inp" placeholder="e.g. 2 weeks"></div>
             </div>
           </div>
-          <div><label class="bform-lbl">Preferred Date &amp; Time</label><input type="datetime-local" id="book_preferred_date" class="bform-inp"></div>
+          <div class="bform-row">
+            <div>
+              <label class="bform-lbl">Preferred Date *</label>
+              <input type="date" id="book_preferred_date" class="bform-inp" onchange="validateDetailedBookingDate(this)">
+            </div>
+            <div>
+              <label class="bform-lbl">Time Slot (30 mins) *</label>
+              <select id="book_preferred_time" class="bform-sel">
+                <option value="">Choose 30-min time slot…</option>
+                <option value="11:30">11:30 AM</option>
+                <option value="12:00">12:00 PM</option>
+                <option value="12:30">12:30 PM</option>
+                <option value="13:00">01:00 PM</option>
+                <option value="13:30">01:30 PM</option>
+                <option value="14:00">02:00 PM</option>
+                <option value="14:30">02:30 PM</option>
+                <option value="15:00">03:00 PM</option>
+                <option value="15:30">03:30 PM</option>
+                <option value="16:00">04:00 PM</option>
+                <option value="16:30">04:30 PM</option>
+              </select>
+            </div>
+          </div>
+          <div style="font-size:0.8rem;color:var(--grey-5);font-weight:600;margin:-0.3rem 0 0.85rem 0;">
+            🕒 Appointment slots available: <strong>Monday to Saturday, 11:30 AM – 4:30 PM</strong> (30 min duration).
+          </div>
           <div><label class="bform-lbl">Anything we should know?</label><textarea id="book_notes" class="bform-ta" placeholder="e.g. which countries you're visiting, any allergies, current medications…"></textarea></div>
           <div class="privacy-box">🔒 <strong>Your Privacy Matters.</strong> We are ICO registered and adhere to strict patient confidentiality standards. Your personal and health information is stored securely and never shared with third parties without your permission, except where needed for your direct care.</div>
           <div class="consent-row"><input type="checkbox" id="consent1" required><label for="consent1">I agree to Winchester Health Centre using my information to process my booking and provide care. I've read the <a href="#">Privacy Policy</a>. *</label></div>
@@ -959,7 +1009,7 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
           </div>
           <div class="contact-item">
             <div class="c-icon c-icon-sky">🕐</div>
-            <div class="c-text"><p>Opening Hours</p><p>Mon–Fri: 9:00am – 5:00pm<br>Saturday: 9:00am – 3:00pm<br>Sunday: Closed</p></div>
+            <div class="c-text"><p>Opening Hours</p><p>Mon–Fri: 9:30am – 5:00pm<br>Saturday: 9:30am – 3:00pm<br>Sunday: Closed</p></div>
           </div>
           <div class="map-box" onclick="window.open('https://maps.google.com','_blank')">
             <span>🗺️</span>
@@ -1096,7 +1146,7 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
           <li><a href="tel:+441962854725">📞 01962 854 725</a></li>
           <li><a href="https://wa.me/441962854725">💬 WhatsApp Us</a></li>
           <li><a href="mailto:info@winchestertravelcentre.co.uk">✉️ Email Us</a></li>
-          <li style="color:rgba(255,255,255,.4);font-size:.9rem;padding-top:.35rem;font-weight:600">Mon–Fri: 9am–5pm<br>Sat: 9am–3pm · Sun: Closed</li>
+          <li style="color:rgba(255,255,255,.4);font-size:.9rem;padding-top:.35rem;font-weight:600">Mon–Fri: 9:30am–5pm<br>Sat: 9:30am–3pm · Sun: Closed</li>
         </ul>
       </div>
     </div>
@@ -1118,7 +1168,7 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
   <div class="modal">
     <div class="modal-ico">✅</div>
     <h3>Booking Received!</h3>
-    <p>Thank you! Our friendly team will call or text you within 2 hours during opening hours (Mon–Fri 9am–5pm, Sat 9am–3pm) to confirm your booking.</p>
+    <p>Thank you! Our friendly team will call or text you within 2 hours during opening hours (Mon–Fri 9:30am–5pm, Sat 9:30am–3pm) to confirm your booking.</p>
     <p style="font-size:.9rem;color:var(--grey-3);font-weight:600">Prefer to speak to someone right now?</p>
     <div class="modal-btns">
       <a href="tel:+441962854725" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--sky);color:white;padding:.7rem 1.4rem;border-radius:50px;font-weight:800;font-size:.95rem;text-decoration:none">📞 Call Us Now</a>
@@ -1185,7 +1235,7 @@ const C = {
   phoneClean: '+441962854725',
   wa: '441962854725',
   email: 'info@winchestertravelcentre.co.uk',
-  hours: 'Mon–Fri 9am–5pm · Sat 9am–3pm · Sun Closed',
+  hours: 'Mon–Fri 9:30am–5pm · Sat 9:30am–3pm · Sun Closed',
   address: 'Winchester, Hampshire',
 };
 
@@ -1203,7 +1253,7 @@ function getReply(q) {
     return `⚠️ <strong>Please call 999 immediately for any medical emergency.</strong><br><br>For urgent but non-emergency questions:<br><a class="al ph" href="tel:${C.phoneClean}">📞 Call ${C.phone}</a>`;
 
   if(/whatsapp|whats.?app|wa\.me/.test(q))
-    return `You can reach us directly on <strong>WhatsApp</strong> — our team replies quickly during opening hours:<br><br><a class="al wa" href="https://wa.me/${C.wa}" target="_blank">💬 Open WhatsApp Chat</a><br><br>Opening hours: <strong>Mon–Fri 9am–5pm · Sat 9am–3pm</strong>`;
+    return `You can reach us directly on <strong>WhatsApp</strong> — our team replies quickly during opening hours:<br><br><a class="al wa" href="https://wa.me/${C.wa}" target="_blank">💬 Open WhatsApp Chat</a><br><br>Opening hours: <strong>Mon–Fri 9:30am–5pm · Sat 9:30am–3pm</strong>`;
 
   if(/\b(phone|call|ring|number|telephone|contact number)\b/.test(q))
     return `Give us a call — we're always happy to chat!<br><br><a class="al ph" href="tel:${C.phoneClean}">📞 Call ${C.phone}</a><br><br>Or message us on WhatsApp if it's easier:<br><a class="al wa" href="https://wa.me/${C.wa}" target="_blank">💬 WhatsApp</a>`;
@@ -1245,7 +1295,7 @@ function getReply(q) {
     return `🏥 <strong>Discharge Medicine Service</strong>:<br><br>Just come home from hospital? We'll make sure your new medicines are ready quickly and our pharmacist will explain everything clearly and simply. Just give us a call:<br><a class="al ph" href="tel:${C.phoneClean}">📞 ${C.phone}</a>`;
 
   if(/\b(hours|open|opening|close|time|when|weekend|saturday|sunday)\b/.test(q))
-    return `🕐 <strong>Our opening hours:</strong><br><br>📅 Monday – Friday: <strong>9:00am – 5:00pm</strong><br>📅 Saturday: <strong>9:00am – 3:00pm</strong><br>❌ Sunday: <strong>Closed</strong><br><br>You can also leave a WhatsApp message outside of hours:<br><a class="al wa" href="https://wa.me/${C.wa}" target="_blank">💬 WhatsApp Us</a>`;
+    return `🕐 <strong>Our opening hours:</strong><br><br>📅 Monday – Friday: <strong>9:30am – 5:00pm</strong><br>📅 Saturday: <strong>9:30am – 3:00pm</strong><br>❌ Sunday: <strong>Closed</strong><br><br>📅 <em>Customer booking slots:</em> <strong>11:30am – 4:30pm (30-min intervals)</strong><br><br>You can also leave a WhatsApp message outside of hours:<br><a class="al wa" href="https://wa.me/${C.wa}" target="_blank">💬 WhatsApp Us</a>`;
 
   if(/\b(location|where|address|directions|find|map|park|postcode)\b/.test(q))
     return `📍 We're located in <strong>Winchester, Hampshire</strong>.<br><br>Serving: Littleton, Harestock, Sparsholt, Headbourne Worthy, Kings Worthy &amp; Otterbourne.<br><br><a class="al" href="https://maps.google.com" target="_blank">🗺️ Open Google Maps</a><a class="al wa" href="https://wa.me/${C.wa}" target="_blank">💬 Ask for Directions</a>`;
@@ -1319,6 +1369,7 @@ async function submitQuickBooking() {
   const phone = document.getElementById('quick_phone').value.trim();
   const email = document.getElementById('quick_email').value.trim();
   const date = document.getElementById('quick_date').value;
+  const time = document.getElementById('quick_time').value;
   let notes = document.getElementById('quick_notes').value.trim();
   const btn = document.getElementById('btn_quick_submit');
 
@@ -1326,6 +1377,19 @@ async function submitQuickBooking() {
   if (!phone) { alert('Please enter your phone number.'); return; }
   if (!email) { alert('Please enter your email address.'); return; }
   if (service === 'Select a service…' || !service) { alert('Please select a service.'); return; }
+
+  if (date) {
+    const checkDate = new Date(date + 'T00:00:00');
+    if (checkDate.getDay() === 0) {
+      alert('Winchester Health Centre is closed on Sundays. Please choose a date from Monday to Saturday.');
+      return;
+    }
+  }
+
+  let preferredDateVal = null;
+  if (date) {
+    preferredDateVal = time ? `${date} ${time}:00` : `${date} 11:30:00`;
+  }
 
   if (isTravelService(service)) {
     const destination = document.getElementById('quick_travel_destination').value.trim();
@@ -1346,7 +1410,7 @@ async function submitQuickBooking() {
     const response = await fetch('submit_booking.php', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, phone, email, service, preferred_date: date, notes })
+      body: JSON.stringify({ name, phone, email, service, preferred_date: preferredDateVal, notes })
     });
     const result = await response.json();
     if (result.success) {
@@ -1355,6 +1419,7 @@ async function submitQuickBooking() {
       document.getElementById('quick_phone').value = '';
       document.getElementById('quick_email').value = '';
       document.getElementById('quick_date').value = '';
+      document.getElementById('quick_time').value = '';
       document.getElementById('quick_notes').value = '';
       document.getElementById('quick_service').selectedIndex = 0;
       document.getElementById('quick_travel_destination').value = '';
@@ -1387,6 +1452,7 @@ async function submitDetailedBooking() {
   const dob = document.getElementById('book_dob').value;
   const service = document.getElementById('book_service').value;
   const preferredDate = document.getElementById('book_preferred_date').value;
+  const preferredTime = document.getElementById('book_preferred_time').value;
   let notes = document.getElementById('book_notes').value.trim();
   const consent = document.getElementById('consent1').checked;
   const btn = document.getElementById('btn_book_submit');
@@ -1396,7 +1462,18 @@ async function submitDetailedBooking() {
   if (!phone) { alert('Please enter your phone number.'); return; }
   if (!dob) { alert('Please enter your date of birth.'); return; }
   if (!service || service === 'Choose a service…') { alert('Please select a service.'); return; }
+  if (!preferredDate) { alert('Please select your preferred appointment date.'); return; }
+  
+  const checkDate = new Date(preferredDate + 'T00:00:00');
+  if (checkDate.getDay() === 0) {
+    alert('Winchester Health Centre is closed on Sundays. Please choose a date from Monday to Saturday.');
+    return;
+  }
+  
+  if (!preferredTime) { alert('Please select a 30-minute time slot (11:30 AM to 4:30 PM).'); return; }
   if (!consent) { alert('You must agree to the privacy policy consent to proceed.'); return; }
+
+  const combinedPreferredDate = `${preferredDate} ${preferredTime}:00`;
 
   if (isTravelService(service)) {
     const destination = document.getElementById('travel_destination').value.trim();
@@ -1423,7 +1500,7 @@ async function submitDetailedBooking() {
         email,
         dob,
         service,
-        preferred_date: preferredDate,
+        preferred_date: combinedPreferredDate,
         notes
       })
     });
@@ -1437,6 +1514,7 @@ async function submitDetailedBooking() {
       document.getElementById('book_dob').value = '';
       document.getElementById('book_service').selectedIndex = 0;
       document.getElementById('book_preferred_date').value = '';
+      document.getElementById('book_preferred_time').value = '';
       document.getElementById('book_notes').value = '';
       document.getElementById('travel_destination').value = '';
       document.getElementById('travel_people').value = '';
@@ -1463,6 +1541,33 @@ const obs = new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting) e.
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 window.addEventListener('scroll',()=>{ document.querySelector('nav').style.boxShadow = window.scrollY>10 ? '0 4px 28px rgba(10,47,82,.16)' : '0 3px 20px rgba(10,47,82,.1)'; });
 document.querySelectorAll('a[href^="#"]').forEach(a=>{ a.addEventListener('click',e=>{ const t=document.querySelector(a.getAttribute('href')); if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});} }); });
+
+// Set min date to today for booking pickers & validate Sunday
+function setupDatePickers() {
+  const today = new Date().toISOString().split('T')[0];
+  const qDate = document.getElementById('quick_date');
+  const bDate = document.getElementById('book_preferred_date');
+  if (qDate) qDate.min = today;
+  if (bDate) bDate.min = today;
+}
+setupDatePickers();
+
+function validateQuickBookingDate(el) {
+  if (!el.value) return;
+  const d = new Date(el.value + 'T00:00:00');
+  if (d.getDay() === 0) {
+    alert('Winchester Health Centre is closed on Sundays. Please choose a date from Monday to Saturday.');
+    el.value = '';
+  }
+}
+function validateDetailedBookingDate(el) {
+  if (!el.value) return;
+  const d = new Date(el.value + 'T00:00:00');
+  if (d.getDay() === 0) {
+    alert('Winchester Health Centre is closed on Sundays. Please choose a date from Monday to Saturday.');
+    el.value = '';
+  }
+}
 </script>
 </body>
 </html>

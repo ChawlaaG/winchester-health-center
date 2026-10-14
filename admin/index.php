@@ -2089,7 +2089,7 @@ foreach ($standardServices as $std) {
         </div>
         <div class="form-group-item">
           <label>Date &amp; Time *</label>
-          <input type="datetime-local" id="new_preferred_date" class="form-input-field" required>
+          <input type="datetime-local" id="new_preferred_date" class="form-input-field" step="1800" required>
         </div>
       </div>
 
@@ -2224,8 +2224,8 @@ foreach ($standardServices as $std) {
 
       <div class="form-group-item">
         <label>New Appointment Date &amp; Time *</label>
-        <input type="datetime-local" id="reschedule_datetime" class="form-input-field" required>
-        <span style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-top: 0.25rem;">Select the revised date and time slot for this patient.</span>
+        <input type="datetime-local" id="reschedule_datetime" class="form-input-field" step="1800" required>
+        <span style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-top: 0.25rem;">Select the revised date and time slot for this patient (30-min intervals).</span>
       </div>
 
       <div class="form-group-item">

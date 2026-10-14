@@ -61,7 +61,7 @@ $notes = isset($data['notes']) && !empty(trim($data['notes'])) ? trim($data['not
 if ($preferred_date) {
     $preferred_date = str_replace('T', ' ', trim($preferred_date));
     if (strlen($preferred_date) === 10) {
-        $preferred_date .= ' 09:00:00';
+        $preferred_date .= ' 11:30:00';
     } elseif (strlen($preferred_date) === 16) {
         $preferred_date .= ':00';
     }

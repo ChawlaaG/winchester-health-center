@@ -1,6 +1,6 @@
 # Winchester Health Centre - Context & Chronological Work Log
 
-> **Last Updated**: 2026-10-06 20:45:00  
+> **Last Updated**: 2026-10-14 19:00:00  
 > **Status**: Active / In Development  
 
 ---
@@ -30,6 +30,24 @@ Winchester Travel & Health Centre is a private healthcare and travel clinic webs
 ---
 
 ## 🕒 4. Chronological Work Log (Latest on Top)
+
+### 📅 2026-10-14 19:00:00 - Updated Opening Hours & Implemented 30-Min Booking Slots (11:30am–4:30pm)
+- **Goal / Request**: Client requested updating website opening hours (Mon–Fri: 9:30am–5:00pm, Sat: 9:30am–3:00pm, Sun: Closed) and restricting customer appointment bookings to 30-minute intervals starting strictly from 11:30am to 4:30pm (for both weekdays and Saturdays).
+- **What Was Done**:
+  - **Website Public Hours (`index.html`)**:
+    - Updated topbar announcement ticker, contact info cards, footer contact listing, booking confirmation modal copy, and chatbot automated responses to `Mon–Fri 9:30am–5:00pm · Sat 9:30am–3:00pm · Sun Closed`.
+    - Updated JSON-LD `MedicalBusiness` `openingHoursSpecification` schema (`opens: 09:30`, `closes: 17:00` / `closes: 15:00`).
+  - **30-Minute Customer Booking Slots (`index.html`)**:
+    - **Hero Quick Booking Form**: Replaced single open date field with a 2-column responsive layout (`Preferred Date` + `Time Slot (30m)` dropdown with discrete slots: `11:30 AM`, `12:00 PM`, `12:30 PM`, `01:00 PM`, `01:30 PM`, `02:00 PM`, `02:30 PM`, `03:00 PM`, `03:30 PM`, `04:00 PM`, `04:30 PM`). Added clear slot timing hint.
+    - **Detailed Booking Form**: Replaced generic unconstrained `datetime-local` input with clean `Preferred Date` picker + `Time Slot (30 mins)` dropdown with 11:30am–4:30pm 30-min options.
+    - **Validation & Business Logic**: Implemented `min` date restrictions (past dates disabled), automated Sunday closure alerts with input reset, and combined date + time slot payloads into standard MySQL `DATETIME` format (`YYYY-MM-DD HH:MM:00`).
+  - **Backend Fallback Normalization (`submit_booking.php` & `admin/update_booking.php`)**:
+    - Updated default time fallback from `09:00:00` to `11:30:00` when raw date strings are processed.
+  - **Admin Panel Alignment (`admin/index.php` & `admin/dashboard_preview.html`)**:
+    - Added `step="1800"` (30-minute step) to `new_preferred_date` and `reschedule_datetime` modals so staff appointments also naturally snap to 30-minute intervals.
+- **Files Modified**: [`index.html`](file:///f:/Client%20Projects/Winchester%20Health%20Center/index.html), [`submit_booking.php`](file:///f:/Client%20Projects/Winchester%20Health%20Center/submit_booking.php), [`admin/update_booking.php`](file:///f:/Client%20Projects/Winchester%20Health%20Center/admin/update_booking.php), [`admin/index.php`](file:///f:/Client%20Projects/Winchester%20Health%20Center/admin/index.php), [`admin/dashboard_preview.html`](file:///f:/Client%20Projects/Winchester%20Health%20Center/admin/dashboard_preview.html), [`PROJECT_CONTEXT.md`](file:///f:/Client%20Projects/Winchester%20Health%20Center/PROJECT_CONTEXT.md).
+
+---
 
 ### 📅 2026-10-06 20:45:00 - Fixed "+ Create New Appointment" Server Error, Normalized Dates & Hardened API
 - **Goal / Request**: Fix the issue shown on the user's laptop where "+ Create New Appointment" modal threw a red error banner: `Server error occurred.` when attempting to create a booking for Hugh Hawkey (`01962322180`, `hugh.hawkey@live.com`, `10/10/2026 13:00`).
