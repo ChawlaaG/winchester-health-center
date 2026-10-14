@@ -43,8 +43,12 @@ Winchester Travel & Health Centre is a private healthcare and travel clinic webs
     - **Validation & Business Logic**: Implemented `min` date restrictions (past dates disabled), automated Sunday closure alerts with input reset, and combined date + time slot payloads into standard MySQL `DATETIME` format (`YYYY-MM-DD HH:MM:00`).
   - **Backend Fallback Normalization (`submit_booking.php` & `admin/update_booking.php`)**:
     - Updated default time fallback from `09:00:00` to `11:30:00` when raw date strings are processed.
-  - **Admin Panel Alignment (`admin/index.php` & `admin/dashboard_preview.html`)**:
-    - Added `step="1800"` (30-minute step) to `new_preferred_date` and `reschedule_datetime` modals so staff appointments also naturally snap to 30-minute intervals.
+  - **Live Production Deployment via SFTP & Verification**:
+    - Connected to Hostinger server (`217.21.84.159:65002`) and created automated timestamped backups of all 5 target files.
+    - Uploaded [`index.html`](file:///f:/Client%20Projects/Winchester%20Health%20Center/index.html), [`submit_booking.php`](file:///f:/Client%20Projects/Winchester%20Health%20Center/submit_booking.php), [`admin/index.php`](file:///f:/Client%20Projects/Winchester%20Health%20Center/admin/index.php), [`admin/update_booking.php`](file:///f:/Client%20Projects/Winchester%20Health%20Center/admin/update_booking.php), and [`admin/dashboard_preview.html`](file:///f:/Client%20Projects/Winchester%20Health%20Center/admin/dashboard_preview.html) via SFTP to `domains/winchestertravelcentre.co.uk/public_html/`.
+    - Executed remote `php -l` syntax validation across all PHP endpoints — verified 0 syntax errors.
+    - Verified live HTTP 200 response on `https://winchestertravelcentre.co.uk/` with `9:30am` opening times and `11:30 AM` booking slots live.
+    - Committed and pushed to GitHub `origin/master` (`102c7bd`).
 - **Files Modified**: [`index.html`](file:///f:/Client%20Projects/Winchester%20Health%20Center/index.html), [`submit_booking.php`](file:///f:/Client%20Projects/Winchester%20Health%20Center/submit_booking.php), [`admin/update_booking.php`](file:///f:/Client%20Projects/Winchester%20Health%20Center/admin/update_booking.php), [`admin/index.php`](file:///f:/Client%20Projects/Winchester%20Health%20Center/admin/index.php), [`admin/dashboard_preview.html`](file:///f:/Client%20Projects/Winchester%20Health%20Center/admin/dashboard_preview.html), [`PROJECT_CONTEXT.md`](file:///f:/Client%20Projects/Winchester%20Health%20Center/PROJECT_CONTEXT.md).
 
 ---
