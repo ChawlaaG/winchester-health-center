@@ -83,7 +83,7 @@ function send_status_update_email($email, $first_name, $service, $preferred_date
                                 </p>
                                 <div style='margin-top: 16px; padding-top: 14px; border-top: 1px dashed #99f6e4; font-size: 13px; line-height: 1.5; color: #334155; text-align: left;'>
                                     📞 <strong>Can't complete this online or have questions?</strong><br>
-                                    If you are unable to fill out the form online or have any trouble, please call our clinic directly on <a href='tel:+441962854725' style='color: #0f766e; font-weight: 700; text-decoration: none;'>01962 854 725</a>. Our friendly staff will be delighted to assist you over the phone or help you in person when you arrive.
+                                    If you are unable to fill out the form online or have any trouble, please call our clinic directly on <a href='tel:+441962422180' style='color: #0f766e; font-weight: 700; text-decoration: none;'>01962 422 180</a>. Our friendly staff will be delighted to assist you over the phone or help you in person when you arrive.
                                 </div>
                             </div>";
     }
@@ -130,7 +130,7 @@ function send_status_update_email($email, $first_name, $service, $preferred_date
                             {$preVisitSection}
 
                             <p style='font-size: 14px; line-height: 1.6; color: #64748b; background-color: #f8fafc; padding: 15px; border-radius: 8px; border-left: 4px solid {$copy['color']}; margin-top: 25px;'>
-                                <strong>Questions or need to make changes?</strong> Contact us at <strong>01962 854 725</strong> or reply directly to this email.
+                                <strong>Questions or need to make changes?</strong> Contact us at <strong>01962 422 180</strong> or reply directly to this email.
                             </p>
                         </td>
                     </tr>
@@ -259,7 +259,7 @@ function send_reschedule_email($email, $first_name, $service, $old_date, $new_da
                             <!-- Change slot notice -->
                             <p style='font-size: 14px; line-height: 1.6; color: #64748b; background-color: #f8fafc; padding: 15px; border-radius: 8px; border-left: 4px solid #0d9488; margin-top: 20px;'>
                                 <strong>Does this new time not work for you?</strong><br>
-                                If you need to adjust this slot or have any questions, please call our clinic directly at <a href='tel:+441962854725' style='color: #0f766e; font-weight: 700; text-decoration: none;'>01962 854 725</a> or simply reply to this email.
+                                If you need to adjust this slot or have any questions, please call our clinic directly at <a href='tel:+441962422180' style='color: #0f766e; font-weight: 700; text-decoration: none;'>01962 422 180</a> or simply reply to this email.
                             </p>
                         </td>
                     </tr>

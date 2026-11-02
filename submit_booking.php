@@ -263,7 +263,7 @@ try {
                             </table>
                             
                             <p style='font-size: 14px; line-height: 1.6; color: #64748b; background-color: #f8fafc; padding: 15px; border-radius: 8px; border-left: 4px solid #0d9488; margin-top: 25px;'>
-                                <strong>Need to make changes?</strong> If you need to reschedule or have any questions, you can contact us at <strong>01962 854 725</strong> or reply directly to this email.
+                                <strong>Need to make changes?</strong> If you need to reschedule or have any questions, you can contact us at <strong>01962 422 180</strong> or reply directly to this email.
                             </p>
                         </td>
                     </tr>

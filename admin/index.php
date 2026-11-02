@@ -3277,7 +3277,7 @@ foreach ($standardServices as $std) {
           <div><strong>PATIENT:</strong> ${escapeHtml(name.toUpperCase())}</div>
           <div><strong>APPOINTMENT DATE:</strong> ${date}</div>
           <div><strong>CLINIC:</strong> ${escapeHtml(b.service || 'Health Clinic')} (Room 1)</div>
-          <div style="margin-top:8px;font-size:0.75rem;">Please arrive 5 minutes prior to scheduled time. Call 01962 854 725 to amend.</div>
+          <div style="margin-top:8px;font-size:0.75rem;">Please arrive 5 minutes prior to scheduled time. Call 01962 422 180 to amend.</div>
         `;
       }
     }
