@@ -221,6 +221,16 @@ try {
 
         // Send confirmation email to patient if email is provided
         if (!empty($email)) {
+            // Load dynamic clinic settings
+            $clinicSettingsFile = __DIR__ . '/clinic_settings.json';
+            $clinicPhone = '01962 422 180';
+            if (file_exists($clinicSettingsFile)) {
+                $csData = json_decode(@file_get_contents($clinicSettingsFile), true);
+                if (!empty($csData['phone_display'])) {
+                    $clinicPhone = htmlspecialchars($csData['phone_display']);
+                }
+            }
+
             $patientSubject = 'Appointment Request Received - Winchester Travel Centre';
             $patientBody = "
 <!DOCTYPE html>
@@ -263,7 +273,7 @@ try {
                             </table>
                             
                             <p style='font-size: 14px; line-height: 1.6; color: #64748b; background-color: #f8fafc; padding: 15px; border-radius: 8px; border-left: 4px solid #0d9488; margin-top: 25px;'>
-                                <strong>Need to make changes?</strong> If you need to reschedule or have any questions, you can contact us at <strong>01962 422 180</strong> or reply directly to this email.
+                                <strong>Need to make changes?</strong> If you need to reschedule or have any questions, you can contact us at <strong>{$clinicPhone}</strong> or reply directly to this email.
                             </p>
                         </td>
                     </tr>

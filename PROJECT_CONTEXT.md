@@ -1,6 +1,6 @@
 # Winchester Health Centre - Context & Chronological Work Log
 
-> **Last Updated**: 2026-10-14 19:00:00  
+> **Last Updated**: 2026-11-02 20:30:00  
 > **Status**: Active / In Development  
 
 ---
@@ -11,25 +11,54 @@ Winchester Travel & Health Centre is a private healthcare and travel clinic webs
 ## 🛠️ 2. Tech Stack & Environment
 - **Frontend**: HTML5, Vanilla CSS (custom design system, responsive UI, glassmorphism, modals), Vanilla JavaScript (no external runtime frameworks)
 - **Backend / API**: PHP 8.x (Native PDO, RFC 5322 CRLF email dispatch, socket SMTP + native mail fallback)
-- **Database**: MySQL (`bookings`, `admin_users`)
+- **Database**: MySQL (`bookings`, `admin_users`, `clinic_settings`)
 - **Hosting / Deploy**: Hostinger / Apache (`.htaccess` security & compression)
 - **Email / Notifications**: RFC-compliant dual-engine mailer (`mailer.php`), custom HTML responsive templates for patient confirmations and admin alerts
 - **Integrations**: WhatsApp direct click-to-chat, Scripter Digital pre-visit patient portal, Voice AI Assistant webhook support
 
 ## 🏗️ 3. Architecture & Key Files
-- `index.html`: Public-facing website & booking form
-- `submit_booking.php`: Public API endpoint handling patient booking submissions & alert emails
+- `index.html`: Public-facing website, booking form & real-time dynamic clinic settings hydrator
+- `clinic_settings.json`: Static JSON cache for instant (0ms) clinic contact numbers & opening hours
+- `get_settings.php`: Public REST API endpoint returning dynamic practice phone, whatsapp, email & schedule
+- `submit_booking.php`: Public API endpoint handling patient booking submissions & alert emails with dynamic phone tags
 - `mailer.php`: Centralized email delivery system (SMTP / native mail with SPF/DMARC alignment)
 - `db.php` / `db.example.php`: Database connection credentials and system configuration constants
-- `database.sql` / `migrate.sql`: MySQL table schemas (`bookings`, `admin_users`)
-- `admin/index.php`: Comprehensive admin panel (calendar, day timeline, booking queues, patient directory, intake notes, appointment creation/status updates)
+- `database.sql` / `migrate.sql`: MySQL table schemas (`bookings`, `admin_users`, `clinic_settings`)
+- `admin/index.php`: Comprehensive admin panel (calendar, day timeline, booking queues, patient directory, intake notes, appointment creation/status updates & tabbed Practice Settings manager)
 - `admin/login.php` & `admin/logout.php`: Session-authenticated staff login portal
-- `admin/update_booking.php`: Backend AJAX handler for admin operations (status transitions, internal notes, direct appointment creation, credentials change)
+- `admin/update_booking.php`: Backend AJAX handler for admin operations (status transitions, internal notes, direct appointment creation, credentials change, clinic settings persistence)
 - `admin/dashboard_preview.html`: Standalone offline/preview version of the admin dashboard
 
 ---
 
 ## 🕒 4. Chronological Work Log (Latest on Top)
+
+### 📅 2026-11-02 20:30:00 - Updated Phone Number to 01962 422 180 & Implemented Dynamic Practice Settings in Admin Dashboard
+- **Goal / Request**: Client Honey Patel requested updating the website phone number to `01962422180`, deploying it live via SSH/SFTP, and creating an admin management dashboard giving staff the ability to dynamically update clinic phone numbers, WhatsApp, opening hours, banner announcements, and booking slot timings without code changes.
+- **What Was Done**:
+  - **Phone Number Update (`01962 422 180`)**:
+    - Replaced all instances of `01962 854 725` with `01962 422 180` across [`index.html`](file:///f:/Client%20Projects/Winchester%20Health%20Center/index.html), [`submit_booking.php`](file:///f:/Client%20Projects/Winchester%20Health%20Center/submit_booking.php), [`admin/update_booking.php`](file:///f:/Client%20Projects/Winchester%20Health%20Center/admin/update_booking.php), [`admin/index.php`](file:///f:/Client%20Projects/Winchester%20Health%20Center/admin/index.php), and [`admin/dashboard_preview.html`](file:///f:/Client%20Projects/Winchester%20Health%20Center/admin/dashboard_preview.html).
+    - Updated JSON-LD Schema `telephone` to `+44 1962 422 180` and `tel:` / `wa.me/` links to `+441962422180` / `441962422180`.
+  - **Dynamic Settings Architecture**:
+    - Created [`clinic_settings.json`](file:///f:/Client%20Projects/Winchester%20Health%20Center/clinic_settings.json) in project root as an ultra-fast zero-latency cache for public visitors.
+    - Created [`get_settings.php`](file:///f:/Client%20Projects/Winchester%20Health%20Center/get_settings.php) public REST API endpoint with database fallback and caching headers.
+    - Added `clinic_settings` table schema in [`database.sql`](file:///f:/Client%20Projects/Winchester%20Health%20Center/database.sql) and executed schema creation on live MySQL server.
+    - Added `data-setting` and `data-setting-href` semantic attributes across [`index.html`](file:///f:/Client%20Projects/Winchester%20Health%20Center/index.html) and attached `loadDynamicClinicSettings()` for seamless client-side hydration.
+    - Updated [`submit_booking.php`](file:///f:/Client%20Projects/Winchester%20Health%20Center/submit_booking.php) and [`admin/update_booking.php`](file:///f:/Client%20Projects/Winchester%20Health%20Center/admin/update_booking.php) to dynamically inject current clinic phone into confirmation and reschedule emails.
+  - **Admin Settings Dashboard UI (`admin/index.php` & `admin/dashboard_preview.html`)**:
+    - Upgraded `settingsModal` into a full-featured tabbed Practice Settings panel:
+      - **Tab 1 (Contact & Phone)**: Edit phone display, WhatsApp number, contact email, and clinic location.
+      - **Tab 2 (Hours & Slots)**: Edit Monday–Friday hours, Saturday hours, Sunday status, topbar announcement banner, booking guidance notice, and slot interval bounds.
+      - **Tab 3 (Security)**: Administrator password update.
+    - Implemented `save_clinic_settings` action in [`admin/update_booking.php`](file:///f:/Client%20Projects/Winchester%20Health%20Center/admin/update_booking.php) syncing to both MySQL table and `clinic_settings.json`.
+    - Added offline preview simulation support in [`admin/dashboard_preview.html`](file:///f:/Client%20Projects/Winchester%20Health%20Center/admin/dashboard_preview.html).
+  - **Live Production Deployment via SSH/SFTP & Verification**:
+    - Uploaded all 7 files ([`index.html`](file:///f:/Client%20Projects/Winchester%20Health%20Center/index.html), [`clinic_settings.json`](file:///f:/Client%20Projects/Winchester%20Health%20Center/clinic_settings.json), [`get_settings.php`](file:///f:/Client%20Projects/Winchester%20Health%20Center/get_settings.php), [`submit_booking.php`](file:///f:/Client%20Projects/Winchester%20Health%20Center/submit_booking.php), [`admin/update_booking.php`](file:///f:/Client%20Projects/Winchester%20Health%20Center/admin/update_booking.php), [`admin/index.php`](file:///f:/Client%20Projects/Winchester%20Health%20Center/admin/index.php), [`admin/dashboard_preview.html`](file:///f:/Client%20Projects/Winchester%20Health%20Center/admin/dashboard_preview.html)) to Hostinger production server with automated timestamped remote backups.
+    - Verified remote `php -l` linting across all endpoints — 0 errors detected.
+    - Verified live HTTP 200 response on `https://winchestertravelcentre.co.uk/get_settings.php` and `https://winchestertravelcentre.co.uk/` with phone number `01962 422 180` active.
+- **Files Modified / Created**: [`index.html`](file:///f:/Client%20Projects/Winchester%20Health%20Center/index.html), [`clinic_settings.json`](file:///f:/Client%20Projects/Winchester%20Health%20Center/clinic_settings.json), [`get_settings.php`](file:///f:/Client%20Projects/Winchester%20Health%20Center/get_settings.php), [`submit_booking.php`](file:///f:/Client%20Projects/Winchester%20Health%20Center/submit_booking.php), [`admin/update_booking.php`](file:///f:/Client%20Projects/Winchester%20Health%20Center/admin/update_booking.php), [`admin/index.php`](file:///f:/Client%20Projects/Winchester%20Health%20Center/admin/index.php), [`admin/dashboard_preview.html`](file:///f:/Client%20Projects/Winchester%20Health%20Center/admin/dashboard_preview.html), [`database.sql`](file:///f:/Client%20Projects/Winchester%20Health%20Center/database.sql), [`PROJECT_CONTEXT.md`](file:///f:/Client%20Projects/Winchester%20Health%20Center/PROJECT_CONTEXT.md).
+
+---
 
 ### 📅 2026-10-14 19:00:00 - Updated Opening Hours & Implemented 30-Min Booking Slots (11:30am–4:30pm)
 - **Goal / Request**: Client requested updating website opening hours (Mon–Fri: 9:30am–5:00pm, Sat: 9:30am–3:00pm, Sun: Closed) and restricting customer appointment bookings to 30-minute intervals starting strictly from 11:30am to 4:30pm (for both weekdays and Saturdays).

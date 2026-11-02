@@ -27,10 +27,42 @@ if (!isset($pdo)) {
     exit;
 }
 
+// Global Clinic Settings Helper
+function get_system_clinic_settings() {
+    $defaults = [
+        'phone_display'  => '01962 422 180',
+        'phone_clean'    => '+441962422180',
+        'whatsapp'       => '441962422180',
+        'email'          => 'info@winchestertravelcentre.co.uk',
+        'address'        => 'Winchester Health Centre, Winchester, Hampshire',
+        'hours_weekday'  => 'Mon–Fri: 9:30am – 5:00pm',
+        'hours_sat'      => 'Saturday: 9:30am – 3:00pm',
+        'hours_sun'      => 'Sunday: Closed',
+        'topbar_ticker'  => 'Mon–Fri 9:30am–5pm · Sat 9:30am–3pm · Sun Closed',
+        'booking_notice' => 'Appointment slots available: Monday to Saturday, 11:30 AM – 4:30 PM (30 min duration).',
+        'slot_start'     => '11:30',
+        'slot_end'       => '16:30'
+    ];
+    $jsonFile = dirname(__DIR__) . '/clinic_settings.json';
+    if (file_exists($jsonFile)) {
+        $raw = @file_get_contents($jsonFile);
+        if ($raw) {
+            $parsed = json_decode($raw, true);
+            if (is_array($parsed)) {
+                return array_merge($defaults, $parsed);
+            }
+        }
+    }
+    return $defaults;
+}
+
 // Sends the patient an email reflecting the new status of their booking
 function send_status_update_email($email, $first_name, $service, $preferred_date, $status) {
     $from = defined('FROM_EMAIL') ? FROM_EMAIL : 'info@winchestertravelcentre.co.uk';
     $portalUrl = defined('PATIENT_PORTAL_URL') ? PATIENT_PORTAL_URL : 'https://my.scripter.digital/appointment/organization/91?location_id=92';
+    $settings = get_system_clinic_settings();
+    $clinicPhone = htmlspecialchars($settings['phone_display'] ?? '01962 422 180');
+    $clinicPhoneClean = htmlspecialchars($settings['phone_clean'] ?? '+441962422180');
 
     $statusCopy = [
         'Confirmed' => [
@@ -83,7 +115,7 @@ function send_status_update_email($email, $first_name, $service, $preferred_date
                                 </p>
                                 <div style='margin-top: 16px; padding-top: 14px; border-top: 1px dashed #99f6e4; font-size: 13px; line-height: 1.5; color: #334155; text-align: left;'>
                                     📞 <strong>Can't complete this online or have questions?</strong><br>
-                                    If you are unable to fill out the form online or have any trouble, please call our clinic directly on <a href='tel:+441962422180' style='color: #0f766e; font-weight: 700; text-decoration: none;'>01962 422 180</a>. Our friendly staff will be delighted to assist you over the phone or help you in person when you arrive.
+                                    If you are unable to fill out the form online or have any trouble, please call our clinic directly on <a href='tel:{$clinicPhoneClean}' style='color: #0f766e; font-weight: 700; text-decoration: none;'>{$clinicPhone}</a>. Our friendly staff will be delighted to assist you over the phone or help you in person when you arrive.
                                 </div>
                             </div>";
     }
@@ -130,7 +162,7 @@ function send_status_update_email($email, $first_name, $service, $preferred_date
                             {$preVisitSection}
 
                             <p style='font-size: 14px; line-height: 1.6; color: #64748b; background-color: #f8fafc; padding: 15px; border-radius: 8px; border-left: 4px solid {$copy['color']}; margin-top: 25px;'>
-                                <strong>Questions or need to make changes?</strong> Contact us at <strong>01962 422 180</strong> or reply directly to this email.
+                                <strong>Questions or need to make changes?</strong> Contact us at <strong>{$clinicPhone}</strong> or reply directly to this email.
                             </p>
                         </td>
                     </tr>
@@ -259,7 +291,7 @@ function send_reschedule_email($email, $first_name, $service, $old_date, $new_da
                             <!-- Change slot notice -->
                             <p style='font-size: 14px; line-height: 1.6; color: #64748b; background-color: #f8fafc; padding: 15px; border-radius: 8px; border-left: 4px solid #0d9488; margin-top: 20px;'>
                                 <strong>Does this new time not work for you?</strong><br>
-                                If you need to adjust this slot or have any questions, please call our clinic directly at <a href='tel:+441962422180' style='color: #0f766e; font-weight: 700; text-decoration: none;'>01962 422 180</a> or simply reply to this email.
+                                If you need to adjust this slot or have any questions, please call our clinic directly at <a href='tel:{$clinicPhoneClean}' style='color: #0f766e; font-weight: 700; text-decoration: none;'>{$clinicPhone}</a> or simply reply to this email.
                             </p>
                         </td>
                     </tr>
@@ -309,6 +341,70 @@ if (empty($action)) {
 }
 
 try {
+    // ══════════════════════════════════════════════════════════════
+    // ACTION: SAVE CLINIC SETTINGS (PHONE, HOURS, TIMINGS)
+    // ══════════════════════════════════════════════════════════════
+    if ($action === 'save_clinic_settings') {
+        $settingsData = isset($data['settings']) && is_array($data['settings']) ? $data['settings'] : [];
+        if (empty($settingsData)) {
+            echo json_encode(['success' => false, 'message' => 'No settings data provided.']);
+            exit;
+        }
+
+        $allowedKeys = [
+            'phone_display', 'phone_clean', 'whatsapp', 'email', 'address',
+            'hours_weekday', 'hours_sat', 'hours_sun', 'topbar_ticker',
+            'booking_notice', 'slot_start', 'slot_end'
+        ];
+
+        // Ensure table exists
+        $pdo->exec("CREATE TABLE IF NOT EXISTS clinic_settings (
+            setting_key VARCHAR(64) NOT NULL PRIMARY KEY,
+            setting_value TEXT NOT NULL,
+            updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+
+        $current = get_system_clinic_settings();
+        $stmt = $pdo->prepare("INSERT INTO clinic_settings (setting_key, setting_value) VALUES (?, ?) ON DUPLICATE KEY UPDATE setting_value = VALUES(setting_value)");
+
+        foreach ($allowedKeys as $k) {
+            if (isset($settingsData[$k])) {
+                $val = trim((string)$settingsData[$k]);
+                $stmt->execute([$k, $val]);
+                $current[$k] = $val;
+            }
+        }
+
+        // Auto clean phone if phone_clean was not supplied or phone_display changed
+        if (empty($current['phone_clean']) && !empty($current['phone_display'])) {
+            $digits = preg_replace('/[^\d+]/', '', $current['phone_display']);
+            if (strpos($digits, '0') === 0) {
+                $digits = '+44' . substr($digits, 1);
+            }
+            $current['phone_clean'] = $digits;
+            $stmt->execute(['phone_clean', $digits]);
+        }
+
+        // Write to clinic_settings.json for instant static delivery
+        $jsonFile = dirname(__DIR__) . '/clinic_settings.json';
+        @file_put_contents($jsonFile, json_encode($current, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+
+        echo json_encode([
+            'success' => true,
+            'message' => 'Practice settings and website timings updated successfully!',
+            'settings' => $current
+        ]);
+        exit;
+    }
+
+    if ($action === 'get_clinic_settings') {
+        echo json_encode([
+            'success' => true,
+            'settings' => get_system_clinic_settings()
+        ]);
+        exit;
+    }
+
     // ══════════════════════════════════════════════════════════════
     // ACTION: CHANGE PASSWORD
     // ══════════════════════════════════════════════════════════════

@@ -483,12 +483,12 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
 <div class="topbar">
   <div class="topbar-inner">
     <div class="topbar-left">
-      <a href="tel:+441962422180">📞 01962 422 180</a>
+      <a href="tel:+441962422180" data-setting-href="tel">📞 <span data-setting="phone_display">01962 422 180</span></a>
       <div class="topbar-divider"></div>
-      <a href="mailto:info@winchestertravelcentre.co.uk">✉ info@winchestertravelcentre.co.uk</a>
+      <a href="mailto:info@winchestertravelcentre.co.uk" data-setting-href="email">✉ <span data-setting="email">info@winchestertravelcentre.co.uk</span></a>
     </div>
     <div class="topbar-right">
-      <span>Mon–Fri 9:30am–5pm · Sat 9:30am–3pm</span>
+      <span data-setting="topbar_ticker">Mon–Fri 9:30am–5pm · Sat 9:30am–3pm</span>
       <div class="topbar-divider"></div>
       <a href="#">GPhC Registered</a>
       <div class="topbar-divider"></div>
@@ -511,7 +511,7 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
       <li><a href="#booking">Contact</a></li>
     </ul>
     <div class="nav-cta">
-      <a href="https://wa.me/441962422180" target="_blank" class="btn-wa">💬 WhatsApp</a>
+      <a href="https://wa.me/441962422180" target="_blank" class="btn-wa" data-setting-href="whatsapp">💬 WhatsApp</a>
       <a href="#booking" class="btn-book">📅 Book Now</a>
     </div>
     <button class="hamburger" onclick="openMenu()" aria-label="Open menu"><span></span><span></span><span></span></button>
@@ -527,7 +527,7 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
   <a href="#booking" onclick="closeMenu()">Prescriptions</a>
   <a href="#booking" onclick="closeMenu()">Contact</a>
   <div class="mobile-ctas">
-    <a href="https://wa.me/441962422180" target="_blank" class="btn-wa" style="border-radius:14px;padding:1rem;justify-content:center;font-size:1.1rem">💬 WhatsApp Us</a>
+    <a href="https://wa.me/441962422180" target="_blank" class="btn-wa" data-setting-href="whatsapp" style="border-radius:14px;padding:1rem;justify-content:center;font-size:1.1rem">💬 WhatsApp Us</a>
     <a href="#booking" onclick="closeMenu()" class="btn-book" style="border-radius:14px;padding:1rem;justify-content:center;font-size:1.1rem">📅 Book a Service</a>
   </div>
 </div>
@@ -547,7 +547,7 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
       <p class="hero-sub">Fast, friendly healthcare services for the whole family — travel vaccinations, diagnostic tests, ear wax removal and much more. No long waits.</p>
       <div class="hero-btns">
         <a href="#booking" class="btn-book" style="font-size:1.15rem;padding:1rem 2rem">📅 Book a Service</a>
-        <a href="https://wa.me/441962422180" target="_blank" class="btn-wa" style="font-size:1.15rem;padding:1rem 2rem">💬 WhatsApp Us</a>
+        <a href="https://wa.me/441962422180" target="_blank" class="btn-wa" data-setting-href="whatsapp" style="font-size:1.15rem;padding:1rem 2rem">💬 WhatsApp Us</a>
       </div>
       <div class="hero-stats-row">
         <div class="hero-stat"><div class="hero-stat-emoji">⭐</div><div class="hero-stat-num">4.9<span>/5</span></div><div class="hero-stat-label">Google Rating</div></div>
@@ -977,9 +977,7 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
               </select>
             </div>
           </div>
-          <div style="font-size:0.8rem;color:var(--grey-5);font-weight:600;margin:-0.3rem 0 0.85rem 0;">
-            🕒 Appointment slots available: <strong>Monday to Saturday, 11:30 AM – 4:30 PM</strong> (30 min duration).
-          </div>
+          <div style="font-size:0.8rem;color:var(--grey-5);font-weight:600;margin:-0.3rem 0 0.85rem 0;" data-setting="booking_notice">🕒 Appointment slots available: <strong>Monday to Saturday, 11:30 AM – 4:30 PM</strong> (30 min duration).</div>
           <div><label class="bform-lbl">Anything we should know?</label><textarea id="book_notes" class="bform-ta" placeholder="e.g. which countries you're visiting, any allergies, current medications…"></textarea></div>
           <div class="privacy-box">🔒 <strong>Your Privacy Matters.</strong> We are ICO registered and adhere to strict patient confidentiality standards. Your personal and health information is stored securely and never shared with third parties without your permission, except where needed for your direct care.</div>
           <div class="consent-row"><input type="checkbox" id="consent1" required><label for="consent1">I agree to Winchester Health Centre using my information to process my booking and provide care. I've read the <a href="#">Privacy Policy</a>. *</label></div>
@@ -993,23 +991,23 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
           <h4>📬 Ways to Reach Us</h4>
           <div class="contact-item">
             <div class="c-icon c-icon-sky">📞</div>
-            <div class="c-text"><p>Phone</p><p><a href="tel:+441962422180">01962 422 180</a></p></div>
+            <div class="c-text"><p>Phone</p><p><a href="tel:+441962422180" data-setting-href="tel" data-setting="phone_display">01962 422 180</a></p></div>
           </div>
           <div class="contact-item">
             <div class="c-icon c-icon-green" style="background:#e7fef0">💬</div>
-            <div class="c-text"><p>WhatsApp</p><p><a href="https://wa.me/441962422180" target="_blank">Message Us on WhatsApp</a></p></div>
+            <div class="c-text"><p>WhatsApp</p><p><a href="https://wa.me/441962422180" target="_blank" data-setting-href="whatsapp">Message Us on WhatsApp</a></p></div>
           </div>
           <div class="contact-item">
             <div class="c-icon c-icon-sky">✉️</div>
-            <div class="c-text"><p>Email</p><p>info@winchestertravelcentre.co.uk</p></div>
+            <div class="c-text"><p>Email</p><p><a href="mailto:info@winchestertravelcentre.co.uk" data-setting-href="email" data-setting="email" style="color:inherit;text-decoration:none">info@winchestertravelcentre.co.uk</a></p></div>
           </div>
           <div class="contact-item">
             <div class="c-icon c-icon-amber">📍</div>
-            <div class="c-text"><p>Address</p><p>Winchester Health Centre, Winchester, Hampshire</p></div>
+            <div class="c-text"><p>Address</p><p data-setting="address">Winchester Health Centre, Winchester, Hampshire</p></div>
           </div>
           <div class="contact-item">
             <div class="c-icon c-icon-sky">🕐</div>
-            <div class="c-text"><p>Opening Hours</p><p>Mon–Fri: 9:30am – 5:00pm<br>Saturday: 9:30am – 3:00pm<br>Sunday: Closed</p></div>
+            <div class="c-text"><p>Opening Hours</p><p><span data-setting="hours_weekday">Mon–Fri: 9:30am – 5:00pm</span><br><span data-setting="hours_sat">Saturday: 9:30am – 3:00pm</span><br><span data-setting="hours_sun">Sunday: Closed</span></p></div>
           </div>
           <div class="map-box" onclick="window.open('https://maps.google.com','_blank')">
             <span>🗺️</span>
@@ -1022,11 +1020,11 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
         <div class="contact-card" style="border-color:var(--green)">
           <h4>📲 Contact Us Instantly</h4>
           <div style="display:flex;flex-direction:column;gap:.85rem;margin-top:.5rem">
-            <a href="tel:+441962422180" style="display:flex;align-items:center;gap:1rem;background:var(--sky-pale);border:2px solid var(--sky);border-radius:14px;padding:1rem 1.25rem;text-decoration:none;transition:all .2s" onmouseover="this.style.background='var(--sky)';this.querySelector('span').style.color='white';this.querySelector('strong').style.color='white'" onmouseout="this.style.background='var(--sky-pale)';this.querySelector('span').style.color='var(--navy)';this.querySelector('strong').style.color='var(--navy)'">
+            <a href="tel:+441962422180" data-setting-href="tel" style="display:flex;align-items:center;gap:1rem;background:var(--sky-pale);border:2px solid var(--sky);border-radius:14px;padding:1rem 1.25rem;text-decoration:none;transition:all .2s" onmouseover="this.style.background='var(--sky)';this.querySelector('span').style.color='white';this.querySelector('strong').style.color='white'" onmouseout="this.style.background='var(--sky-pale)';this.querySelector('span').style.color='var(--navy)';this.querySelector('strong').style.color='var(--navy)'">
               <span style="font-size:2rem;transition:color .2s">📞</span>
-              <div><strong style="display:block;font-size:1rem;font-weight:800;color:var(--navy);transition:color .2s">Call Us Now</strong><small style="color:var(--grey-5);font-weight:600;font-size:.88rem">01962 422 180</small></div>
+              <div><strong style="display:block;font-size:1rem;font-weight:800;color:var(--navy);transition:color .2s">Call Us Now</strong><small style="color:var(--grey-5);font-weight:600;font-size:.88rem" data-setting="phone_display">01962 422 180</small></div>
             </a>
-            <a href="https://wa.me/441962422180" target="_blank" style="display:flex;align-items:center;gap:1rem;background:#e7fef0;border:2px solid #25d366;border-radius:14px;padding:1rem 1.25rem;text-decoration:none;transition:all .2s" onmouseover="this.style.background='#25d366';this.querySelector('strong').style.color='white'" onmouseout="this.style.background='#e7fef0';this.querySelector('strong').style.color='var(--navy)'">
+            <a href="https://wa.me/441962422180" target="_blank" data-setting-href="whatsapp" style="display:flex;align-items:center;gap:1rem;background:#e7fef0;border:2px solid #25d366;border-radius:14px;padding:1rem 1.25rem;text-decoration:none;transition:all .2s" onmouseover="this.style.background='#25d366';this.querySelector('strong').style.color='white'" onmouseout="this.style.background='#e7fef0';this.querySelector('strong').style.color='var(--navy)'">
               <span style="font-size:2rem">💬</span>
               <div><strong style="display:block;font-size:1rem;font-weight:800;color:var(--navy);transition:color .2s">WhatsApp Us</strong><small style="color:var(--grey-5);font-weight:600;font-size:.88rem">Message anytime — quick reply</small></div>
             </a>
@@ -1113,7 +1111,7 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
         <p>Winchester Health Centre — your trusted local pharmacy and travel clinic serving Winchester, Littleton, Harestock, Sparsholt, Headbourne Worthy, Kings Worthy and Otterbourne.</p>
         <div class="footer-socials">
           <a href="#" class="soc-btn" aria-label="Facebook">📘</a>
-          <a href="https://wa.me/441962422180" target="_blank" class="soc-btn" aria-label="WhatsApp">💬</a>
+          <a href="https://wa.me/441962422180" target="_blank" class="soc-btn" aria-label="WhatsApp" data-setting-href="whatsapp">💬</a>
           <a href="#" class="soc-btn" aria-label="Instagram">📸</a>
         </div>
       </div>
@@ -1143,10 +1141,10 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
       <div class="footer-col">
         <h5>Contact</h5>
         <ul>
-          <li><a href="tel:+441962422180">📞 01962 422 180</a></li>
-          <li><a href="https://wa.me/441962422180">💬 WhatsApp Us</a></li>
+          <li><a href="tel:+441962422180" data-setting-href="tel">📞 <span data-setting="phone_display">01962 422 180</span></a></li>
+          <li><a href="https://wa.me/441962422180" data-setting-href="whatsapp">💬 WhatsApp Us</a></li>
           <li><a href="mailto:info@winchestertravelcentre.co.uk">✉️ Email Us</a></li>
-          <li style="color:rgba(255,255,255,.4);font-size:.9rem;padding-top:.35rem;font-weight:600">Mon–Fri: 9:30am–5pm<br>Sat: 9:30am–3pm · Sun: Closed</li>
+          <li style="color:rgba(255,255,255,.4);font-size:.9rem;padding-top:.35rem;font-weight:600"><span data-setting="hours_weekday">Mon–Fri: 9:30am–5pm</span><br><span data-setting="hours_sat">Sat: 9:30am–3pm</span> · <span data-setting="hours_sun">Sun: Closed</span></li>
         </ul>
       </div>
     </div>
@@ -1171,8 +1169,8 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
     <p>Thank you! Our friendly team will call or text you within 2 hours during opening hours (Mon–Fri 9:30am–5pm, Sat 9:30am–3pm) to confirm your booking.</p>
     <p style="font-size:.9rem;color:var(--grey-3);font-weight:600">Prefer to speak to someone right now?</p>
     <div class="modal-btns">
-      <a href="tel:+441962422180" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--sky);color:white;padding:.7rem 1.4rem;border-radius:50px;font-weight:800;font-size:.95rem;text-decoration:none">📞 Call Us Now</a>
-      <a href="https://wa.me/441962422180" target="_blank" style="display:inline-flex;align-items:center;gap:.5rem;background:#25d366;color:white;padding:.7rem 1.4rem;border-radius:50px;font-weight:800;font-size:.95rem;text-decoration:none">💬 WhatsApp</a>
+      <a href="tel:+441962422180" data-setting-href="tel" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--sky);color:white;padding:.7rem 1.4rem;border-radius:50px;font-weight:800;font-size:.95rem;text-decoration:none">📞 Call Us Now</a>
+      <a href="https://wa.me/441962422180" target="_blank" data-setting-href="whatsapp" style="display:inline-flex;align-items:center;gap:.5rem;background:#25d366;color:white;padding:.7rem 1.4rem;border-radius:50px;font-weight:800;font-size:.95rem;text-decoration:none">💬 WhatsApp</a>
     </div>
     <button class="modal-close" onclick="hideModal()">Close</button>
   </div>
@@ -1568,6 +1566,57 @@ function validateDetailedBookingDate(el) {
     el.value = '';
   }
 }
+
+// ══ DYNAMIC CLINIC SETTINGS LOADER ══
+async function loadDynamicClinicSettings() {
+  try {
+    let res = await fetch('clinic_settings.json?v=' + Date.now());
+    if (!res.ok) {
+      res = await fetch('get_settings.php');
+    }
+    if (!res.ok) return;
+    const s = await res.json();
+    if (!s || typeof s !== 'object') return;
+
+    // Sync with chatbot C object
+    if (typeof C !== 'undefined') {
+      if (s.phone_display) C.phone = s.phone_display;
+      if (s.phone_clean) C.phoneClean = s.phone_clean;
+      if (s.whatsapp) C.wa = s.whatsapp.replace(/[^0-9]/g, '');
+      if (s.email) C.email = s.email;
+      if (s.address) C.address = s.address;
+      if (s.topbar_ticker) C.hours = s.topbar_ticker;
+    }
+
+    // Sync text elements
+    document.querySelectorAll('[data-setting]').forEach(el => {
+      const k = el.getAttribute('data-setting');
+      if (s[k]) {
+        if (k === 'booking_notice') {
+          el.innerHTML = '🕒 ' + s[k];
+        } else {
+          el.textContent = s[k];
+        }
+      }
+    });
+
+    // Sync href elements
+    document.querySelectorAll('[data-setting-href]').forEach(el => {
+      const t = el.getAttribute('data-setting-href');
+      if (t === 'tel' && s.phone_clean) {
+        el.href = 'tel:' + s.phone_clean;
+      } else if (t === 'whatsapp' && s.whatsapp) {
+        el.href = 'https://wa.me/' + s.whatsapp.replace(/[^0-9]/g, '');
+      } else if (t === 'email' && s.email) {
+        el.href = 'mailto:' + s.email;
+      }
+    });
+  } catch (err) {
+    // Graceful fallback to static defaults
+  }
+}
+loadDynamicClinicSettings();
+
 </script>
 </body>
 </html>

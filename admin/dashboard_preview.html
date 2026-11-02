@@ -2096,40 +2096,144 @@
 
   <!-- Modal 4: Settings -->
   <div class="modal-backdrop" id="settingsModal" onclick="closeModalOnBackdrop(event, 'settingsModal')">
-    <div class="modal-panel" style="width: 420px;">
+    <div class="modal-panel" style="width: 660px; max-width: 95vw;">
       <div class="modal-header">
-        <h3 class="modal-title">⚙️ Practice Settings</h3>
+        <div>
+          <h3 class="modal-title">⚙️ Practice &amp; Website Settings</h3>
+          <span style="font-size: 0.8rem; color: var(--text-muted);">Manage clinic phone number, opening hours, booking slot timings, and security.</span>
+        </div>
         <button class="modal-close-btn" onclick="closeModal('settingsModal')">✕</button>
       </div>
 
-      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.25rem;">Update your administrator panel access credentials.</p>
+      <!-- Settings Nav Tabs -->
+      <div style="display: flex; gap: 0.5rem; border-bottom: 1px solid var(--border); margin: 0.85rem 0 1.25rem 0; padding-bottom: 0.25rem;">
+        <button type="button" class="settings-nav-tab active" id="btn_settings_tab_contact" onclick="switchSettingsTab('contact')" style="padding: 0.5rem 0.85rem; font-size: 0.85rem; font-weight: 700; border-radius: 6px; border: 1px solid #c7ece6; background: #e6f4f2; color: #0f766e; cursor: pointer;">
+          📞 Contact &amp; Phone
+        </button>
+        <button type="button" class="settings-nav-tab" id="btn_settings_tab_hours" onclick="switchSettingsTab('hours')" style="padding: 0.5rem 0.85rem; font-size: 0.85rem; font-weight: 600; border-radius: 6px; border: 1px solid transparent; background: transparent; color: var(--text-muted); cursor: pointer;">
+          🕒 Opening Hours &amp; Slots
+        </button>
+        <button type="button" class="settings-nav-tab" id="btn_settings_tab_security" onclick="switchSettingsTab('security')" style="padding: 0.5rem 0.85rem; font-size: 0.85rem; font-weight: 600; border-radius: 6px; border: 1px solid transparent; background: transparent; color: var(--text-muted); cursor: pointer;">
+          🔒 Admin Password
+        </button>
+      </div>
 
-      <div id="settings_modal_error" style="display:none;background:#fee2e2;color:#991b1b;padding:0.65rem;border-radius:6px;font-size:0.85rem;font-weight:600;margin-bottom:1rem;"></div>
+      <div id="settings_modal_alert" style="display:none;padding:0.75rem 1rem;border-radius:8px;font-size:0.85rem;font-weight:600;margin-bottom:1.15rem;"></div>
 
-      <form id="settings_password_form" onsubmit="event.preventDefault(); submitChangePassword();" autocomplete="off">
-        <!-- Hidden username field so browser password managers pair credentials strictly with this form -->
-        <input type="text" name="username" value="Dr. A. Sharma (Lead Admin)" autocomplete="username" style="display:none;" aria-hidden="true" tabindex="-1">
-
-        <div class="form-group-item">
-          <label>Current Password</label>
-          <input type="password" id="old_password" name="old_password" class="form-input-field" placeholder="••••••••" autocomplete="current-password">
+      <!-- Tab 1: Contact Details -->
+      <div id="settings_tab_contact">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div class="form-group-item">
+            <label>Clinic Phone Number (Display) *</label>
+            <input type="text" id="setting_phone_display" class="form-input-field" placeholder="01962 422 180" required>
+            <span style="font-size: 0.72rem; color: var(--text-muted); display: block; margin-top: 0.25rem;">Shown across website header, contact cards, footer &amp; patient emails.</span>
+          </div>
+          <div class="form-group-item">
+            <label>WhatsApp Number *</label>
+            <input type="text" id="setting_whatsapp" class="form-input-field" placeholder="441962422180" required>
+            <span style="font-size: 0.72rem; color: var(--text-muted); display: block; margin-top: 0.25rem;">International format without + or spaces (e.g. 441962422180).</span>
+          </div>
         </div>
 
-        <div class="form-group-item">
-          <label>New Password</label>
-          <input type="password" id="new_password" name="new_password" class="form-input-field" placeholder="Min 8 characters" autocomplete="new-password">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 0.5rem;">
+          <div class="form-group-item">
+            <label>Clinic Contact Email *</label>
+            <input type="email" id="setting_email" class="form-input-field" placeholder="info@winchestertravelcentre.co.uk" required>
+            <span style="font-size: 0.72rem; color: var(--text-muted); display: block; margin-top: 0.25rem;">Patient inquiries and booking reply-to address.</span>
+          </div>
+          <div class="form-group-item">
+            <label>Clinic Location / Address</label>
+            <input type="text" id="setting_address" class="form-input-field" placeholder="Winchester Health Centre, Winchester, Hampshire">
+            <span style="font-size: 0.72rem; color: var(--text-muted); display: block; margin-top: 0.25rem;">Physical clinic location displayed on website.</span>
+          </div>
         </div>
 
-        <div class="form-group-item">
-          <label>Confirm New Password</label>
-          <input type="password" id="confirm_password" name="confirm_password" class="form-input-field" placeholder="••••••••" autocomplete="new-password">
+        <div style="background: #f0fdfa; border: 1px solid #ccfbf1; border-radius: 8px; padding: 0.85rem 1rem; margin-top: 1rem; font-size: 0.8rem; color: #0f766e;">
+          💡 <strong>Live Website Sync:</strong> When you save, this phone number immediately updates on the live website buttons, click-to-call links, WhatsApp chat triggers, and automated confirmation emails.
         </div>
 
-        <div class="modal-actions-row">
-          <button type="button" class="btn-modal-secondary" onclick="closeModal('settingsModal')">Cancel</button>
-          <button type="submit" class="btn-modal-primary" id="btn_save_password">Save Password</button>
+        <div class="modal-actions-row" style="margin-top: 1.25rem;">
+          <button type="button" class="btn-modal-secondary" onclick="closeModal('settingsModal')">Close</button>
+          <button type="button" class="btn-modal-primary" id="btn_save_contact_settings" onclick="submitSaveClinicSettings()">💾 Save Contact Settings</button>
         </div>
-      </form>
+      </div>
+
+      <!-- Tab 2: Hours & Booking Slots -->
+      <div id="settings_tab_hours" style="display: none;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div class="form-group-item">
+            <label>Monday – Friday Opening Hours *</label>
+            <input type="text" id="setting_hours_weekday" class="form-input-field" placeholder="Mon–Fri: 9:30am – 5:00pm">
+          </div>
+          <div class="form-group-item">
+            <label>Saturday Opening Hours *</label>
+            <input type="text" id="setting_hours_sat" class="form-input-field" placeholder="Saturday: 9:30am – 3:00pm">
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 0.5rem;">
+          <div class="form-group-item">
+            <label>Sunday Status *</label>
+            <input type="text" id="setting_hours_sun" class="form-input-field" placeholder="Sunday: Closed">
+          </div>
+          <div class="form-group-item">
+            <label>Topbar Announcement Banner</label>
+            <input type="text" id="setting_topbar_ticker" class="form-input-field" placeholder="Mon–Fri 9:30am–5pm · Sat 9:30am–3pm · Sun Closed">
+          </div>
+        </div>
+
+        <div class="form-group-item" style="margin-top: 0.5rem;">
+          <label>Booking Slot Guidance Notice</label>
+          <input type="text" id="setting_booking_notice" class="form-input-field" placeholder="Appointment slots available: Monday to Saturday, 11:30 AM – 4:30 PM (30 min duration).">
+          <span style="font-size: 0.72rem; color: var(--text-muted); display: block; margin-top: 0.25rem;">Displayed directly above the patient booking calendar form.</span>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 0.5rem;">
+          <div class="form-group-item">
+            <label>Daily Booking Slot Window Start</label>
+            <input type="text" id="setting_slot_start" class="form-input-field" placeholder="11:30 AM">
+          </div>
+          <div class="form-group-item">
+            <label>Daily Booking Slot Window End</label>
+            <input type="text" id="setting_slot_end" class="form-input-field" placeholder="04:30 PM">
+          </div>
+        </div>
+
+        <div class="modal-actions-row" style="margin-top: 1.25rem;">
+          <button type="button" class="btn-modal-secondary" onclick="closeModal('settingsModal')">Close</button>
+          <button type="button" class="btn-modal-primary" id="btn_save_hours_settings" onclick="submitSaveClinicSettings()">💾 Save Hours &amp; Timings</button>
+        </div>
+      </div>
+
+      <!-- Tab 3: Security & Password -->
+      <div id="settings_tab_security" style="display: none;">
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.25rem;">Update your administrator panel access credentials.</p>
+
+        <form id="settings_password_form" onsubmit="event.preventDefault(); submitChangePassword();" autocomplete="off">
+          <input type="text" name="username" value="Dr. A. Sharma (Lead Admin)" autocomplete="username" style="display:none;" aria-hidden="true" tabindex="-1">
+
+          <div class="form-group-item">
+            <label>Current Password</label>
+            <input type="password" id="old_password" name="old_password" class="form-input-field" placeholder="••••••••" autocomplete="current-password">
+          </div>
+
+          <div class="form-group-item">
+            <label>New Password</label>
+            <input type="password" id="new_password" name="new_password" class="form-input-field" placeholder="Min 8 characters" autocomplete="new-password">
+          </div>
+
+          <div class="form-group-item">
+            <label>Confirm New Password</label>
+            <input type="password" id="confirm_password" name="confirm_password" class="form-input-field" placeholder="••••••••" autocomplete="new-password">
+          </div>
+
+          <div class="modal-actions-row">
+            <button type="button" class="btn-modal-secondary" onclick="closeModal('settingsModal')">Cancel</button>
+            <button type="submit" class="btn-modal-primary" id="btn_save_password">Save Password</button>
+          </div>
+        </form>
+      </div>
+
     </div>
   </div>
 
@@ -2196,6 +2300,20 @@
        ══════════════════════════════════════════════════════════════ -->
   <script>
     let allBookings = [{"id": 101, "first_name": "Eleanor", "last_name": "Vance", "phone": "+44 7700 900142", "email": "e.vance@example.co.uk", "dob": "1988-04-12", "service": "Travel Clinic & Vaccinations", "preferred_date": "2026-09-02 10:30:00", "notes": "Travelling to Southeast Asia, needs Yellow Fever & Typhoid boosters.", "admin_notes": "Vaccines prepared in Room 2 cold chain.", "status": "Confirmed", "created_at": "2026-09-01 09:15:00"}, {"id": 102, "first_name": "James", "last_name": "Holloway", "phone": "+44 7700 900582", "email": "james.holloway@example.com", "dob": "1975-11-23", "service": "Pharmacy First Consultation", "preferred_date": "2026-09-02 11:15:00", "notes": "Severe earache and throat pain ongoing 3 days.", "admin_notes": "Otoscopic examination required.", "status": "Pending", "created_at": "2026-09-02 08:30:00"}, {"id": 103, "first_name": "Sophia", "last_name": "Chen", "phone": "+44 7700 900891", "email": "sophia.chen@example.org", "dob": "1994-02-17", "service": "Ear Wax Removal (Microsuction)", "preferred_date": "2026-09-02 14:00:00", "notes": "Both ears blocked for 2 weeks, olive oil drops applied.", "admin_notes": "Room 1 prepped.", "status": "Confirmed", "created_at": "2026-08-30 14:20:00"}, {"id": 104, "first_name": "Marcus", "last_name": "Sterling", "phone": "+44 7700 900329", "email": "m.sterling@example.co.uk", "dob": "1968-07-09", "service": "Blood Pressure Screening", "preferred_date": "2026-09-02 15:30:00", "notes": "Routine cardio monitoring follow-up.", "admin_notes": "Completed test; readings logged into summary.", "status": "Completed", "created_at": "2026-08-28 11:00:00"}, {"id": 105, "first_name": "Clara", "last_name": "Oswald", "phone": "+44 7700 900673", "email": "clara.oswald@example.co.uk", "dob": "1991-09-05", "service": "Diagnostic & Blood Tests", "preferred_date": "2026-09-03 09:30:00", "notes": "Full health & hormone profile blood screening.", "admin_notes": "Centrifuge tubes reserved.", "status": "Confirmed", "created_at": "2026-09-01 16:45:00"}, {"id": 106, "first_name": "David", "last_name": "Tennant", "phone": "+44 7700 900412", "email": "d.tennant@example.com", "dob": "1971-04-18", "service": "Weight Management Consultation", "preferred_date": "2026-09-03 11:00:00", "notes": "GLP-1 health assessment and lifestyle guidance review.", "admin_notes": "Initial consultation completed.", "status": "Pending", "created_at": "2026-09-02 07:15:00"}, {"id": 107, "first_name": "Hannah", "last_name": "Abbott", "phone": "+44 7700 900994", "email": "hannah.a@example.co.uk", "dob": "1997-03-21", "service": "Oral Contraception Service", "preferred_date": "2026-09-03 13:30:00", "notes": "Annual pill check and repeat prescription review.", "admin_notes": "Blood pressure checked in consultation.", "status": "Confirmed", "created_at": "2026-08-31 10:10:00"}, {"id": 108, "first_name": "Arthur", "last_name": "Pendelton", "phone": "+44 7700 900221", "email": "a.pendelton@example.com", "dob": "1952-12-01", "service": "Prescription Home Delivery", "preferred_date": "2026-09-04 10:00:00", "notes": "Monthly repeat blister pack delivery to residential address.", "admin_notes": "Driver route 4 assigned.", "status": "Confirmed", "created_at": "2026-09-01 12:00:00"}];
+        let clinicSettings = {
+      phone_display: '01962 422 180',
+      phone_clean: '+441962422180',
+      whatsapp: '441962422180',
+      email: 'info@winchestertravelcentre.co.uk',
+      address: 'Winchester Health Centre, Winchester, Hampshire',
+      hours_weekday: 'Mon–Fri: 9:30am – 5:00pm',
+      hours_sat: 'Saturday: 9:30am – 3:00pm',
+      hours_sun: 'Sunday: Closed',
+      topbar_ticker: 'Mon–Fri 9:30am–5pm · Sat 9:30am–3pm · Sun Closed',
+      booking_notice: 'Appointment slots available: Monday to Saturday, 11:30 AM – 4:30 PM (30 min duration).',
+      slot_start: '11:30',
+      slot_end: '16:30'
+    };
     let currentViewMode = 'week';
     let currentActiveNav = 'appointments';
     let activeDate = new Date();
@@ -3358,6 +3476,11 @@
         return { success: true, status: statusMap[payload.action] || 'Confirmed' };
       } else if (payload.action === 'change_password') {
         return { success: true };
+      } else if (payload.action === 'save_clinic_settings') {
+        if (typeof clinicSettings !== 'undefined') {
+          Object.assign(clinicSettings, payload.settings);
+        }
+        return { success: true, message: 'Practice settings updated successfully!', settings: clinicSettings };
       }
       return { success: true };
     }
@@ -3700,34 +3823,147 @@
       applyAllFilters();
     }
 
+    function switchSettingsTab(tab) {
+      const tabs = ['contact', 'hours', 'security'];
+      tabs.forEach(t => {
+        const el = document.getElementById('settings_tab_' + t);
+        const btn = document.getElementById('btn_settings_tab_' + t);
+        if (el) el.style.display = (t === tab) ? 'block' : 'none';
+        if (btn) {
+          if (t === tab) {
+            btn.style.background = '#e6f4f2';
+            btn.style.color = '#0f766e';
+            btn.style.borderColor = '#c7ece6';
+            btn.style.fontWeight = '700';
+          } else {
+            btn.style.background = 'transparent';
+            btn.style.color = 'var(--text-muted)';
+            btn.style.borderColor = 'transparent';
+            btn.style.fontWeight = '600';
+          }
+        }
+      });
+      const alertEl = document.getElementById('settings_modal_alert');
+      if (alertEl) alertEl.style.display = 'none';
+    }
+
     function openSettingsModal() {
+      switchSettingsTab('contact');
+      const alertEl = document.getElementById('settings_modal_alert');
+      if (alertEl) alertEl.style.display = 'none';
+
+      // Populate settings fields from clinicSettings in memory
+      if (typeof clinicSettings !== 'undefined') {
+        if (document.getElementById('setting_phone_display'))
+          document.getElementById('setting_phone_display').value = clinicSettings.phone_display || '';
+        if (document.getElementById('setting_whatsapp'))
+          document.getElementById('setting_whatsapp').value = clinicSettings.whatsapp || '';
+        if (document.getElementById('setting_email'))
+          document.getElementById('setting_email').value = clinicSettings.email || '';
+        if (document.getElementById('setting_address'))
+          document.getElementById('setting_address').value = clinicSettings.address || '';
+        if (document.getElementById('setting_hours_weekday'))
+          document.getElementById('setting_hours_weekday').value = clinicSettings.hours_weekday || '';
+        if (document.getElementById('setting_hours_sat'))
+          document.getElementById('setting_hours_sat').value = clinicSettings.hours_sat || '';
+        if (document.getElementById('setting_hours_sun'))
+          document.getElementById('setting_hours_sun').value = clinicSettings.hours_sun || '';
+        if (document.getElementById('setting_topbar_ticker'))
+          document.getElementById('setting_topbar_ticker').value = clinicSettings.topbar_ticker || '';
+        if (document.getElementById('setting_booking_notice'))
+          document.getElementById('setting_booking_notice').value = clinicSettings.booking_notice || '';
+        if (document.getElementById('setting_slot_start'))
+          document.getElementById('setting_slot_start').value = clinicSettings.slot_start || '11:30';
+        if (document.getElementById('setting_slot_end'))
+          document.getElementById('setting_slot_end').value = clinicSettings.slot_end || '16:30';
+      }
+
+      // Clear password inputs
       document.getElementById('old_password').value = '';
       document.getElementById('new_password').value = '';
       document.getElementById('confirm_password').value = '';
-      document.getElementById('settings_modal_error').style.display = 'none';
+
       document.getElementById('settingsModal').classList.add('show');
+    }
+
+    function showSettingsAlert(msg, isError) {
+      const el = document.getElementById('settings_modal_alert');
+      if (!el) return;
+      el.innerText = msg;
+      el.style.display = 'block';
+      if (isError) {
+        el.style.background = '#fee2e2';
+        el.style.color = '#991b1b';
+        el.style.border = '1px solid #fecaca';
+      } else {
+        el.style.background = '#f0fdf4';
+        el.style.color = '#166534';
+        el.style.border = '1px solid #bbf7d0';
+      }
+    }
+
+    async function submitSaveClinicSettings() {
+      const payload = {
+        phone_display:  document.getElementById('setting_phone_display').value.trim(),
+        whatsapp:       document.getElementById('setting_whatsapp').value.trim(),
+        email:          document.getElementById('setting_email').value.trim(),
+        address:        document.getElementById('setting_address').value.trim(),
+        hours_weekday:  document.getElementById('setting_hours_weekday').value.trim(),
+        hours_sat:      document.getElementById('setting_hours_sat').value.trim(),
+        hours_sun:      document.getElementById('setting_hours_sun').value.trim(),
+        topbar_ticker:  document.getElementById('setting_topbar_ticker').value.trim(),
+        booking_notice: document.getElementById('setting_booking_notice').value.trim(),
+        slot_start:     document.getElementById('setting_slot_start').value.trim(),
+        slot_end:       document.getElementById('setting_slot_end').value.trim()
+      };
+
+      if (!payload.phone_display) {
+        showSettingsAlert('Phone number cannot be empty.', true);
+        return;
+      }
+
+      const btn1 = document.getElementById('btn_save_contact_settings');
+      const btn2 = document.getElementById('btn_save_hours_settings');
+      if (btn1) { btn1.disabled = true; btn1.innerText = 'Saving...'; }
+      if (btn2) { btn2.disabled = true; btn2.innerText = 'Saving...'; }
+
+      try {
+        const res = await callAdminApi({
+          action: 'save_clinic_settings',
+          settings: payload
+        });
+
+        if (res.success) {
+          if (typeof clinicSettings !== 'undefined') {
+            Object.assign(clinicSettings, res.settings || payload);
+          }
+          showSettingsAlert('✅ Practice settings updated! Live website & emails updated instantly.', false);
+        } else {
+          showSettingsAlert(res.message || 'Failed to save settings.', true);
+        }
+      } catch (err) {
+        showSettingsAlert(err.message || 'Server error occurred while saving settings.', true);
+      } finally {
+        if (btn1) { btn1.disabled = false; btn1.innerText = '💾 Save Contact Settings'; }
+        if (btn2) { btn2.disabled = false; btn2.innerText = '💾 Save Hours & Timings'; }
+      }
     }
 
     async function submitChangePassword() {
       const oldP = document.getElementById('old_password').value;
       const newP = document.getElementById('new_password').value;
       const confP = document.getElementById('confirm_password').value;
-      const errDiv = document.getElementById('settings_modal_error');
 
-      errDiv.style.display = 'none';
       if (!oldP || !newP || !confP) {
-        errDiv.innerText = 'All fields are required.';
-        errDiv.style.display = 'block';
+        showSettingsAlert('All password fields are required.', true);
         return;
       }
       if (newP.length < 8) {
-        errDiv.innerText = 'New password must be at least 8 characters.';
-        errDiv.style.display = 'block';
+        showSettingsAlert('New password must be at least 8 characters.', true);
         return;
       }
       if (newP !== confP) {
-        errDiv.innerText = 'New password and confirmation do not match.';
-        errDiv.style.display = 'block';
+        showSettingsAlert('New password and confirmation do not match.', true);
         return;
       }
 
@@ -3738,15 +3974,13 @@
       try {
         const data = await callAdminApi({ action: 'change_password', old_password: oldP, new_password: newP });
         if (data.success) {
-          alert('Password successfully changed!');
-          closeModal('settingsModal');
+          showSettingsAlert('✅ Password successfully changed!', false);
+          setTimeout(() => closeModal('settingsModal'), 1200);
         } else {
-          errDiv.innerText = data.message || 'Failed to update password';
-          errDiv.style.display = 'block';
+          showSettingsAlert(data.message || 'Failed to update password.', true);
         }
       } catch (err) {
-        errDiv.innerText = err.message || 'Server error occurred.';
-        errDiv.style.display = 'block';
+        showSettingsAlert(err.message || 'Server error occurred.', true);
       } finally {
         btn.disabled = false;
         btn.innerText = 'Save Password';
