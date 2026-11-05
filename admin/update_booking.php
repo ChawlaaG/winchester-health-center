@@ -75,6 +75,20 @@ function get_system_clinic_settings() {
     return $defaults;
 }
 
+// Blocked Dates Helper
+function sync_blocked_dates_json($pdo) {
+    try {
+        $stmt = $pdo->query("SELECT id, blocked_date, reason, created_at FROM blocked_dates ORDER BY blocked_date ASC");
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $jsonPath = dirname(__DIR__) . '/blocked_dates.json';
+        @file_put_contents($jsonPath, json_encode($rows, JSON_PRETTY_PRINT));
+        return $rows;
+    } catch (Throwable $e) {
+        error_log("[Blocked Dates Sync] Error: " . $e->getMessage());
+        return [];
+    }
+}
+
 // Sends the patient an email reflecting the new status of their booking
 function send_status_update_email($email, $first_name, $service, $preferred_date, $status) {
     $from = defined('FROM_EMAIL') ? FROM_EMAIL : 'info@winchestertravelcentre.co.uk';
@@ -364,9 +378,55 @@ if (empty($action)) {
 
 try {
     // ══════════════════════════════════════════════════════════════
+    // ACTION: BLOCK / UNBLOCK WHOLE DAY BOOKINGS
+    // ══════════════════════════════════════════════════════════════
+    if ($action === 'block_day') {
+        $blockDate = trim($data['date'] ?? '');
+        $reason = trim($data['reason'] ?? 'Clinic Closed / Day Blocked');
+        if (empty($blockDate) || !preg_match('/^\d{4}-\d{2}-\d{2}$/', $blockDate)) {
+            clean_json_output(['success' => false, 'message' => 'Valid date (YYYY-MM-DD) is required.']);
+        }
+        $stmt = $pdo->prepare("INSERT INTO blocked_dates (blocked_date, reason) VALUES (?, ?) ON DUPLICATE KEY UPDATE reason = VALUES(reason)");
+        $stmt->execute([$blockDate, $reason]);
+        $allBlocked = sync_blocked_dates_json($pdo);
+        $formattedDate = date('l, j F Y', strtotime($blockDate));
+        clean_json_output([
+            'success' => true,
+            'message' => "Successfully blocked {$formattedDate}. Customer bookings on this date are now closed.",
+            'blocked_date' => $blockDate,
+            'reason' => $reason,
+            'blocked_dates' => $allBlocked
+        ]);
+    }
+    elseif ($action === 'unblock_day') {
+        $blockDate = trim($data['date'] ?? '');
+        if (empty($blockDate)) {
+            clean_json_output(['success' => false, 'message' => 'Date to unblock is required.']);
+        }
+        $stmt = $pdo->prepare("DELETE FROM blocked_dates WHERE blocked_date = ?");
+        $stmt->execute([$blockDate]);
+        $allBlocked = sync_blocked_dates_json($pdo);
+        $formattedDate = date('l, j F Y', strtotime($blockDate));
+        clean_json_output([
+            'success' => true,
+            'message' => "Successfully unblocked {$formattedDate}. Customer bookings are now open.",
+            'blocked_date' => $blockDate,
+            'blocked_dates' => $allBlocked
+        ]);
+    }
+    elseif ($action === 'get_blocked_dates') {
+        $stmt = $pdo->query("SELECT id, blocked_date, reason, created_at FROM blocked_dates ORDER BY blocked_date ASC");
+        $allBlocked = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        clean_json_output([
+            'success' => true,
+            'blocked_dates' => $allBlocked
+        ]);
+    }
+
+    // ══════════════════════════════════════════════════════════════
     // ACTION: SAVE CLINIC SETTINGS (PHONE, HOURS, TIMINGS)
     // ══════════════════════════════════════════════════════════════
-    if ($action === 'save_clinic_settings') {
+    elseif ($action === 'save_clinic_settings') {
         $settingsData = isset($data['settings']) && is_array($data['settings']) ? $data['settings'] : [];
         if (empty($settingsData)) {
             echo json_encode(['success' => false, 'message' => 'No settings data provided.']);

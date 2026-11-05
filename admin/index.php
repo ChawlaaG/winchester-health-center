@@ -13,6 +13,7 @@ require_once '../db.php';
 
 $connectionError = '';
 $bookings = [];
+$blockedDates = [];
 $stats = [
     'total' => 0,
     'pending' => 0,
@@ -66,6 +67,10 @@ if (!isset($pdo)) {
         // Fetch all bookings sorted by date / created_at
         $stmt = $pdo->query("SELECT * FROM bookings ORDER BY COALESCE(preferred_date, created_at) DESC, id DESC");
         $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Fetch all blocked dates
+        $stmtBlocked = $pdo->query("SELECT id, blocked_date, reason, created_at FROM blocked_dates ORDER BY blocked_date ASC");
+        $blockedDates = $stmtBlocked ? $stmtBlocked->fetchAll(PDO::FETCH_ASSOC) : [];
 
         // Gather unique services for dynamic filter
         $servicesQuery = $pdo->query("SELECT DISTINCT service FROM bookings WHERE service IS NOT NULL AND service != '' ORDER BY service ASC");
@@ -2147,38 +2152,85 @@ foreach ($standardServices as $std) {
     </div>
   </div>
 
-  <!-- Modal 3: Block Time -->
+  <!-- Modal 3: Block Day / Time -->
   <div class="modal-backdrop" id="blockTimeModal" onclick="closeModalOnBackdrop(event, 'blockTimeModal')">
-    <div class="modal-panel" style="width: 440px;">
+    <div class="modal-panel" style="width: 520px; max-width: 95vw;">
       <div class="modal-header">
-        <h3 class="modal-title">⏱️ Block Schedule Time</h3>
+        <div>
+          <h3 class="modal-title">🔒 Block Day Bookings &amp; Slots</h3>
+          <span style="font-size: 0.8rem; color: var(--text-muted);">Prevent customer bookings for an entire day (e.g. Bank Holiday, Staff Training, Clinic Closed) or block a specific time slot.</span>
+        </div>
         <button class="modal-close-btn" onclick="closeModal('blockTimeModal')">✕</button>
       </div>
 
-      <div class="form-group-item">
-        <label>Reason for Block</label>
-        <input type="text" id="block_reason" class="form-input-field" placeholder="e.g. Staff Lunch Break / Meeting / Clinic Maintenance" value="Staff Break / Unavailable">
+      <!-- Mode Selector Tabs -->
+      <div style="display:flex;gap:0.5rem;margin:1rem 0;background:#f1f5f9;padding:4px;border-radius:8px;">
+        <button type="button" id="btn_block_mode_day" onclick="switchBlockModalMode('day')" style="flex:1;padding:0.5rem 0.6rem;font-size:0.85rem;font-weight:700;border:none;border-radius:6px;background:#ffffff;color:#0f766e;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,0.1);">
+          🔒 Block Whole Day (Closed)
+        </button>
+        <button type="button" id="btn_block_mode_slot" onclick="switchBlockModalMode('slot')" style="flex:1;padding:0.5rem 0.6rem;font-size:0.85rem;font-weight:600;border:none;border-radius:6px;background:transparent;color:var(--text-muted);cursor:pointer;">
+          ⏱️ Block Single Slot
+        </button>
       </div>
 
-      <div class="form-group-item">
-        <label>Date &amp; Time</label>
-        <input type="datetime-local" id="block_datetime" class="form-input-field">
+      <!-- Alert Box -->
+      <div id="block_modal_alert" style="display:none;padding:0.6rem 0.85rem;border-radius:6px;font-size:0.82rem;font-weight:600;margin-bottom:0.85rem;"></div>
+
+      <!-- SECTION A: BLOCK WHOLE DAY -->
+      <div id="block_section_day">
+        <div class="form-group-item">
+          <label style="font-weight:700;font-size:0.85rem;">Select Date to Block *</label>
+          <input type="date" id="block_day_date" class="form-input-field" style="font-weight:600;">
+        </div>
+
+        <div class="form-group-item">
+          <label style="font-weight:700;font-size:0.85rem;">Reason for Closure / Blocking</label>
+          <input type="text" id="block_day_reason" class="form-input-field" placeholder="e.g. Clinic Closed, Bank Holiday, Staff Training, Maintenance" value="Clinic Closed">
+        </div>
+
+        <div style="background:#fef2f2;border:1px solid #fecaca;color:#991b1b;padding:0.75rem 0.85rem;border-radius:6px;font-size:0.8rem;line-height:1.45;margin-bottom:1rem;">
+          ⚠️ <strong>What happens when you block a day:</strong><br>
+          • All website booking slots for this date will be locked immediately.<br>
+          • Visitors will see <em>"Winchester Health Centre is closed on this date"</em>.<br>
+          • This day will be clearly marked as <strong>CLOSED</strong> on your staff calendar.
+        </div>
+
+        <div class="modal-actions-row">
+          <button type="button" class="btn-modal-secondary" onclick="closeModal('blockTimeModal')">Cancel</button>
+          <button type="button" class="btn-modal-primary" id="btn_submit_block_day" onclick="submitBlockWholeDay()" style="background:#dc2626;border-color:#b91c1c;">
+            🔒 Block Entire Day
+          </button>
+        </div>
       </div>
 
-      <div class="form-group-item">
-        <label>Room / Location</label>
-        <select id="block_room" class="form-select-field">
-          <option value="All Rooms">All Rooms</option>
-          <option value="Room 1">Consultation Room 1</option>
-          <option value="Room 2">Travel Clinic Room 2</option>
-          <option value="Room 3">Diagnostics Room 3</option>
-        </select>
+      <!-- SECTION B: BLOCK SPECIFIC TIME SLOT -->
+      <div id="block_section_slot" style="display:none;">
+        <div class="form-group-item">
+          <label style="font-weight:700;font-size:0.85rem;">Select Date &amp; Time *</label>
+          <input type="datetime-local" id="block_datetime" class="form-input-field">
+        </div>
+        <div class="form-group-item">
+          <label style="font-weight:700;font-size:0.85rem;">Reason / Label</label>
+          <input type="text" id="block_slot_reason" class="form-input-field" placeholder="e.g. Doctor Break, Room Maintenance" value="Staff Break / Slot Blocked">
+        </div>
+        <div class="modal-actions-row">
+          <button type="button" class="btn-modal-secondary" onclick="closeModal('blockTimeModal')">Cancel</button>
+          <button type="button" class="btn-modal-primary" id="btn_submit_block_slot" onclick="submitBlockSingleSlot()">
+            ⏱️ Block Single Slot
+          </button>
+        </div>
       </div>
 
-      <div class="modal-actions-row">
-        <button class="btn-modal-secondary" onclick="closeModal('blockTimeModal')">Cancel</button>
-        <button class="btn-modal-primary" onclick="submitBlockTime()">Block Slot</button>
+      <!-- CURRENTLY BLOCKED DATES LIST -->
+      <div style="margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--border);">
+        <h4 style="font-size:0.85rem;color:var(--text-main);margin:0 0 0.65rem 0;font-weight:700;">
+          📋 Currently Blocked Days (<span id="blocked_days_count">0</span>)
+        </h4>
+        <div id="blocked_days_list_container" style="max-height:160px;overflow-y:auto;display:flex;flex-direction:column;gap:0.4rem;">
+          <!-- dynamically populated -->
+        </div>
       </div>
+
     </div>
   </div>
 
@@ -2389,6 +2441,7 @@ foreach ($standardServices as $std) {
   <script>
     let allBookings = <?php echo json_encode($bookings, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP); ?>;
     let clinicSettings = <?php echo json_encode($clinicSettings, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP); ?>;
+    let allBlockedDates = <?php echo json_encode($blockedDates, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP); ?> || [];
     let currentViewMode = 'week';
     let currentActiveNav = 'appointments';
     let activeDate = new Date();
@@ -2700,9 +2753,13 @@ foreach ($standardServices as $std) {
       weekDays.forEach((dayObj, index) => {
         const key = formatDateKey(dayObj);
         const isToday = (key === todayKey);
+        const blockedInfo = allBlockedDates.find(b => b.blocked_date === key);
         const col = document.createElement('div');
         col.className = `week-day-col-header ${isToday ? 'is-today' : ''}`;
-        col.innerHTML = `${dayNames[index]} <span class="day-number">${dayObj.getDate()}</span>`;
+        col.innerHTML = `
+          ${dayNames[index]} <span class="day-number">${dayObj.getDate()}</span>
+          ${blockedInfo ? `<span style="display:block;font-size:0.62rem;color:#b91c1c;background:#fee2e2;border:1px solid #fca5a5;padding:1px 3px;border-radius:4px;margin-top:2px;font-weight:800;">🔒 CLOSED</span>` : ''}
+        `;
         headersRow.appendChild(col);
       });
 
@@ -2747,6 +2804,17 @@ foreach ($standardServices as $std) {
 
           const slotKey = `${dateKey}_${h}`;
           const items = slotMap[slotKey] || [];
+          const blockedInfo = allBlockedDates.find(b => b.blocked_date === dateKey);
+
+          if (blockedInfo) {
+            slotCell.style.background = 'repeating-linear-gradient(45deg, #fef2f2, #fef2f2 10px, #fff5f5 10px, #fff5f5 20px)';
+            if (h === 8) {
+              const banner = document.createElement('div');
+              banner.style.cssText = 'background:#fee2e2;border:1px solid #fca5a5;color:#991b1b;padding:4px 6px;border-radius:4px;font-size:0.68rem;font-weight:700;margin-bottom:4px;display:flex;align-items:center;justify-content:space-between;';
+              banner.innerHTML = `<span title="${escapeHtml(blockedInfo.reason)}">🔒 Closed: ${escapeHtml(blockedInfo.reason || 'Day Blocked')}</span><button onclick="quickUnblockDate('${dateKey}');event.stopPropagation();" style="background:#ffffff;border:1px solid #f87171;color:#b91c1c;border-radius:3px;font-size:0.6rem;padding:0 4px;cursor:pointer;font-weight:700;">Unblock</button>`;
+              slotCell.appendChild(banner);
+            }
+          }
 
           // Sort appointments chronologically ascending by exact time, then ID
           items.sort((a, b) => {
@@ -2829,6 +2897,14 @@ foreach ($standardServices as $std) {
 
       const gridBody = document.getElementById('day_grid_body');
       gridBody.innerHTML = '';
+
+      const dayBlockedInfo = allBlockedDates.find(b => b.blocked_date === activeKey);
+      if (dayBlockedInfo) {
+        const banner = document.createElement('div');
+        banner.style.cssText = 'grid-column: 1 / -1; background:#fee2e2;border:1px solid #f87171;color:#991b1b;padding:8px 12px;border-radius:6px;font-size:0.82rem;font-weight:700;margin:0 0 10px 0;display:flex;align-items:center;justify-content:space-between;';
+        banner.innerHTML = `<span>🔒 This entire day is BLOCKED for customer bookings (${escapeHtml(dayBlockedInfo.reason || 'Clinic Closed')}).</span><button onclick="quickUnblockDate('${activeKey}')" style="background:#ffffff;border:1px solid #f87171;color:#b91c1c;border-radius:4px;padding:3px 10px;font-size:0.75rem;cursor:pointer;font-weight:700;">Unblock Day</button>`;
+        gridBody.appendChild(banner);
+      }
 
       for (let h = 8; h <= 19; h++) {
         const hourRow = document.createElement('div');
@@ -2944,6 +3020,14 @@ foreach ($standardServices as $std) {
         const cell = document.createElement('div');
         cell.className = `month-cell ${isToday ? 'is-today' : ''}`;
         cell.innerHTML = `<span class="month-date-number">${d}</span>`;
+
+        const monthBlockedInfo = allBlockedDates.find(b => b.blocked_date === key);
+        if (monthBlockedInfo) {
+          const banner = document.createElement('div');
+          banner.style.cssText = 'background:#fee2e2;border:1px solid #fca5a5;color:#991b1b;border-radius:4px;font-size:0.65rem;font-weight:700;padding:2px 4px;margin-bottom:3px;';
+          banner.innerText = `🔒 Closed: ${monthBlockedInfo.reason || 'Day Blocked'}`;
+          cell.appendChild(banner);
+        }
 
         const dayItems = [];
         filteredBookings.forEach(b => {
@@ -3919,33 +4003,217 @@ foreach ($standardServices as $std) {
       }
     }
 
-    function openBlockTimeModal() {
+    function switchBlockModalMode(mode) {
+      const btnDay = document.getElementById('btn_block_mode_day');
+      const btnSlot = document.getElementById('btn_block_mode_slot');
+      const secDay = document.getElementById('block_section_day');
+      const secSlot = document.getElementById('block_section_slot');
+      const alertEl = document.getElementById('block_modal_alert');
+      if (alertEl) alertEl.style.display = 'none';
+
+      if (mode === 'day') {
+        secDay.style.display = 'block';
+        secSlot.style.display = 'none';
+        btnDay.style.background = '#ffffff';
+        btnDay.style.color = '#0f766e';
+        btnDay.style.boxShadow = '0 1px 3px rgba(0,0,0,0.1)';
+        btnDay.style.fontWeight = '700';
+
+        btnSlot.style.background = 'transparent';
+        btnSlot.style.color = 'var(--text-muted)';
+        btnSlot.style.boxShadow = 'none';
+        btnSlot.style.fontWeight = '600';
+      } else {
+        secDay.style.display = 'none';
+        secSlot.style.display = 'block';
+        btnSlot.style.background = '#ffffff';
+        btnSlot.style.color = '#0f766e';
+        btnSlot.style.boxShadow = '0 1px 3px rgba(0,0,0,0.1)';
+        btnSlot.style.fontWeight = '700';
+
+        btnDay.style.background = 'transparent';
+        btnDay.style.color = 'var(--text-muted)';
+        btnDay.style.boxShadow = 'none';
+        btnDay.style.fontWeight = '600';
+      }
+    }
+
+    function renderBlockedDaysList() {
+      const container = document.getElementById('blocked_days_list_container');
+      const countEl = document.getElementById('blocked_days_count');
+      if (!container) return;
+
+      if (!Array.isArray(allBlockedDates) || allBlockedDates.length === 0) {
+        container.innerHTML = '<div style="font-size:0.8rem;color:var(--text-muted);font-style:italic;padding:0.5rem 0;">No days are currently blocked.</div>';
+        if (countEl) countEl.innerText = '0';
+        return;
+      }
+
+      if (countEl) countEl.innerText = allBlockedDates.length;
+      let html = '';
+      allBlockedDates.forEach(item => {
+        const dStr = item.blocked_date;
+        const reason = item.reason || 'Clinic Closed / Day Blocked';
+        const formattedDate = new Date(dStr + 'T00:00:00').toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
+        html += `
+          <div style="display:flex;align-items:center;justify-content:space-between;background:#fef2f2;border:1px solid #fecaca;padding:0.45rem 0.75rem;border-radius:6px;font-size:0.82rem;">
+            <div>
+              <strong style="color:#991b1b;">🔒 ${formattedDate}</strong>
+              <div style="font-size:0.75rem;color:#7f1d1d;margin-top:2px;">Reason: ${escapeHtml(reason)}</div>
+            </div>
+            <button type="button" onclick="quickUnblockDate('${dStr}')" style="background:#ffffff;border:1px solid #f87171;color:#b91c1c;padding:3px 8px;border-radius:4px;font-size:0.75rem;font-weight:700;cursor:pointer;">
+              🗑️ Unblock
+            </button>
+          </div>
+        `;
+      });
+      container.innerHTML = html;
+    }
+
+    function openBlockTimeModal(prefillDate = '') {
+      const alertEl = document.getElementById('block_modal_alert');
+      if (alertEl) alertEl.style.display = 'none';
+
+      const dateField = document.getElementById('block_day_date');
+      const targetDate = prefillDate || formatDateKey(activeDate);
+      if (dateField) dateField.value = targetDate;
+
       const now = new Date();
       now.setMinutes(0, 0, 0);
       const localISO = new Date(now.getTime() - (now.getTimezoneOffset() * 60000)).toISOString().slice(0, 16);
-      document.getElementById('block_datetime').value = localISO;
+      const dtField = document.getElementById('block_datetime');
+      if (dtField) dtField.value = localISO;
+
+      switchBlockModalMode('day');
+      renderBlockedDaysList();
       document.getElementById('blockTimeModal').classList.add('show');
     }
 
-    function submitBlockTime() {
-      const reason = document.getElementById('block_reason').value;
-      const dt = document.getElementById('block_datetime').value;
-      const room = document.getElementById('block_room').value;
+    async function submitBlockWholeDay() {
+      const dateVal = document.getElementById('block_day_date').value;
+      const reasonVal = document.getElementById('block_day_reason').value.trim() || 'Clinic Closed / Day Blocked';
+      const alertEl = document.getElementById('block_modal_alert');
+      const btn = document.getElementById('btn_submit_block_day');
 
-      const blockBooking = {
-        id: 'block_' + Date.now(),
-        first_name: '⛔ ' + reason,
-        last_name: `(${room})`,
-        phone: '—',
-        email: '',
-        service: 'Blocked Time / Staff Break',
-        preferred_date: dt.replace('T', ' ') + ':00',
-        status: 'Cancelled',
-        created_at: new Date().toISOString()
-      };
-      allBookings.unshift(blockBooking);
-      closeModal('blockTimeModal');
-      applyAllFilters();
+      if (!dateVal) {
+        if (alertEl) {
+          alertEl.style.display = 'block';
+          alertEl.style.background = '#fee2e2';
+          alertEl.style.color = '#991b1b';
+          alertEl.innerText = 'Please select a date to block.';
+        }
+        return;
+      }
+
+      btn.disabled = true;
+      btn.innerText = 'Locking Day...';
+
+      try {
+        const res = await callAdminApi({
+          action: 'block_day',
+          date: dateVal,
+          reason: reasonVal
+        });
+
+        if (res.success) {
+          allBlockedDates = res.blocked_dates || [];
+          renderBlockedDaysList();
+          applyAllFilters();
+
+          if (alertEl) {
+            alertEl.style.display = 'block';
+            alertEl.style.background = '#f0fdf4';
+            alertEl.style.color = '#166534';
+            alertEl.innerText = res.message || 'Date successfully blocked!';
+          }
+
+          setTimeout(() => {
+            closeModal('blockTimeModal');
+          }, 1200);
+        } else {
+          if (alertEl) {
+            alertEl.style.display = 'block';
+            alertEl.style.background = '#fee2e2';
+            alertEl.style.color = '#991b1b';
+            alertEl.innerText = res.message || 'Failed to block date.';
+          }
+        }
+      } catch (err) {
+        if (alertEl) {
+          alertEl.style.display = 'block';
+          alertEl.style.background = '#fee2e2';
+          alertEl.style.color = '#991b1b';
+          alertEl.innerText = err.message || 'Server error occurred.';
+        }
+      } finally {
+        btn.disabled = false;
+        btn.innerText = '🔒 Block Entire Day';
+      }
+    }
+
+    async function quickUnblockDate(dateStr) {
+      if (!confirm(`Are you sure you want to unblock ${dateStr}? Customer booking slots will become available again.`)) {
+        return;
+      }
+
+      try {
+        const res = await callAdminApi({
+          action: 'unblock_day',
+          date: dateStr
+        });
+
+        if (res.success) {
+          allBlockedDates = res.blocked_dates || [];
+          renderBlockedDaysList();
+          applyAllFilters();
+          alert(res.message || 'Date successfully unblocked!');
+        } else {
+          alert(res.message || 'Failed to unblock date.');
+        }
+      } catch (err) {
+        alert(err.message || 'Server error while unblocking date.');
+      }
+    }
+
+    async function submitBlockSingleSlot() {
+      const dtVal = document.getElementById('block_datetime').value;
+      const reasonVal = document.getElementById('block_slot_reason').value.trim() || 'Staff Break / Slot Blocked';
+      const btn = document.getElementById('btn_submit_block_slot');
+
+      if (!dtVal) {
+        alert('Please choose a date and time.');
+        return;
+      }
+
+      btn.disabled = true;
+      btn.innerText = 'Blocking Slot...';
+
+      try {
+        const res = await callAdminApi({
+          action: 'create_booking',
+          first_name: '⛔ Blocked Slot',
+          last_name: `(${reasonVal})`,
+          phone: '01962 422 180',
+          email: 'info@winchestertravelcentre.co.uk',
+          service: 'Staff Break / Blocked Slot',
+          preferred_date: dtVal.replace('T', ' ') + ':00',
+          status: 'Confirmed',
+          admin_notes: 'Blocked by staff: ' + reasonVal,
+          force_slot: true
+        });
+
+        if (res.success) {
+          closeModal('blockTimeModal');
+          location.reload();
+        } else {
+          alert(res.message || 'Failed to block slot.');
+        }
+      } catch (err) {
+        alert(err.message || 'Server communication error.');
+      } finally {
+        btn.disabled = false;
+        btn.innerText = '⏱️ Block Single Slot';
+      }
     }
 
     function switchSettingsTab(tab) {

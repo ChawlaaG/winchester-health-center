@@ -1593,8 +1593,10 @@ async function refreshSlotAvailability(dateStr, selectId) {
     if (!res.ok) throw new Error('Network error');
     const data = await res.json();
     const booked = Array.isArray(data.booked_slots) ? data.booked_slots : [];
+    const isBlocked = !!data.is_blocked;
+    const blockReason = data.block_reason || 'Clinic Closed';
 
-    renderSlotSelect(select, booked, prevValue, defaultText, statusEl, isHero);
+    renderSlotSelect(select, booked, prevValue, defaultText, statusEl, isHero, isBlocked, blockReason);
   } catch (err) {
     console.warn('Slot availability check failed:', err);
     renderSlotSelect(select, [], prevValue, defaultText, statusEl, isHero);
@@ -1603,7 +1605,16 @@ async function refreshSlotAvailability(dateStr, selectId) {
   }
 }
 
-function renderSlotSelect(select, bookedSlots, prevValue, defaultText, statusEl, isHero) {
+function renderSlotSelect(select, bookedSlots, prevValue, defaultText, statusEl, isHero, isBlocked = false, blockReason = '') {
+  if (isBlocked) {
+    select.innerHTML = `<option value="">🔒 Closed (${blockReason})</option>`;
+    select.value = '';
+    if (statusEl) {
+      statusEl.innerHTML = `<span style="color:#ef4444;font-weight:700;">🔒 Clinic closed on this date (${blockReason}). Please choose another date.</span>`;
+    }
+    return;
+  }
+
   let html = `<option value="">${defaultText}</option>`;
   let availableCount = 0;
 

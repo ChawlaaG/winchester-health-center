@@ -1,6 +1,6 @@
 # Winchester Health Centre - Context & Chronological Work Log
 
-> **Last Updated**: 2026-11-05 20:05:00  
+> **Last Updated**: 2026-11-05 20:20:00  
 > **Status**: Active / In Production  
 
 ---
@@ -11,28 +11,57 @@ Winchester Travel & Health Centre is a private healthcare and travel clinic webs
 ## 🛠️ 2. Tech Stack & Environment
 - **Frontend**: HTML5, Vanilla CSS (custom design system, responsive UI, glassmorphism, modals), Vanilla JavaScript (no external runtime frameworks)
 - **Backend / API**: PHP 8.x (Native PDO, RFC 5322 CRLF email dispatch, socket SMTP + native mail fallback)
-- **Database**: MySQL (`bookings`, `admin_users`, `clinic_settings`)
+- **Database**: MySQL (`bookings`, `admin_users`, `clinic_settings`, `blocked_dates`)
 - **Hosting / Deploy**: Hostinger / Apache (`.htaccess` security & compression)
 - **Email / Notifications**: RFC-compliant dual-engine mailer (`mailer.php`), custom HTML responsive templates for patient confirmations and admin alerts
 - **Integrations**: WhatsApp direct click-to-chat, Scripter Digital pre-visit patient portal, Voice AI Assistant webhook support
 
 ## 🏗️ 3. Architecture & Key Files
-- `index.html`: Public-facing website, booking form, dynamic clinic settings hydrator & real-time slot availability blocker
-- `get_booked_slots.php`: Public REST API endpoint returning booked/unavailable slots for any date (excluding cancelled bookings)
+- `index.html`: Public-facing website, booking form, dynamic clinic settings hydrator, real-time slot availability blocker & full day closure detection
+- `get_booked_slots.php`: Public REST API endpoint returning booked slots and day-level clinic closure status (`is_blocked`)
+- `blocked_dates.json`: High-speed local cache for full-day clinic closures and holidays
 - `clinic_settings.json`: Static JSON cache for instant (0ms) clinic contact numbers & opening hours
 - `get_settings.php`: Public REST API endpoint returning dynamic practice phone, whatsapp, email & schedule
-- `submit_booking.php`: Public API endpoint handling patient booking submissions with double-booking prevention guard & alert emails
+- `submit_booking.php`: Public API endpoint handling patient booking submissions with double-booking prevention guard, blocked-day guard & alert emails
 - `mailer.php`: Centralized email delivery system (SMTP / native mail with SPF/DMARC alignment)
 - `db.php` / `db.example.php`: Database connection credentials and system configuration constants
-- `database.sql` / `migrate.sql`: MySQL table schemas (`bookings`, `admin_users`, `clinic_settings`)
-- `admin/index.php`: Comprehensive admin panel (calendar with chronological slot ordering, day timeline, booking queues, patient directory, intake notes, appointment creation/status updates & tabbed Practice Settings manager)
+- `database.sql` / `migrate.sql`: MySQL table schemas (`bookings`, `admin_users`, `clinic_settings`, `blocked_dates`)
+- `admin/index.php`: Comprehensive admin panel (calendar with chronological slot ordering, day timeline, full day blocking manager, booking queues, patient directory, intake notes, appointment creation/status updates & tabbed Practice Settings manager)
 - `admin/login.php` & `admin/logout.php`: Session-authenticated staff login portal
-- `admin/update_booking.php`: Backend AJAX handler for admin operations (status transitions, internal notes, direct appointment creation with conflict detection, credentials change, clinic settings persistence)
+- `admin/update_booking.php`: Backend AJAX handler for admin operations (status transitions, internal notes, direct appointment creation with conflict detection, day blocking/unblocking, credentials change, clinic settings persistence)
 - `admin/dashboard_preview.html`: Standalone offline/preview version of the admin dashboard
 
 ---
 
 ## 🕒 4. Chronological Work Log (Latest on Top)
+
+### 📅 2026-11-05 20:20:00 - Implemented Full Day Booking Blocking & Closure Management
+- **Goal / Request**: Clinic owner Honey Patel asked via WhatsApp screenshot: *"how can i block bookings for the whole day ?"*
+- **What Was Done**:
+  - **Database & Persistence**:
+    - Created `blocked_dates` table (`id`, `blocked_date`, `reason`, `created_by`, `created_at`) on live Hostinger MySQL server and updated [`database.sql`](file:///f:/Client%20Projects/Winchester%20Health%20Center/database.sql).
+    - Created [`blocked_dates.json`](file:///f:/Client%20Projects/Winchester%20Health%20Center/blocked_dates.json) static cache file for high-speed 0ms reading by public endpoints.
+  - **Admin Dashboard UI ([`admin/index.php`](file:///f:/Client%20Projects/Winchester%20Health%20Center/admin/index.php) & [`admin/dashboard_preview.html`](file:///f:/Client%20Projects/Winchester%20Health%20Center/admin/dashboard_preview.html))**:
+    - Upgraded `blockTimeModal` into a full-featured Day & Slot Blocking Console:
+      - **Mode 1: "🔒 Block Whole Day (Closed)"**: Select any date with a closure reason (e.g. Bank Holiday, Staff Training, Maintenance, Clinic Closed). Immediately disables all customer slots.
+      - **Mode 2: "⏱️ Block Single Slot"**: Create a blocked break/maintenance slot for a specific time.
+      - **Active Blocked Days List**: Displays all currently blocked dates with reason and 1-click `🗑️ Unblock` button.
+    - **Visual Calendar Indicators**:
+      - **Week View**: Closed day header displays `🔒 CLOSED` badge. Day column displays striped tint with top closure banner & quick `Unblock` button.
+      - **Day View**: Top banner alerts staff: *"🔒 This entire day is BLOCKED for customer bookings"*.
+      - **Month View**: Cell displays `🔒 Closed: [Reason]`.
+  - **Backend API & Guards ([`admin/update_booking.php`](file:///f:/Client%20Projects/Winchester%20Health%20Center/admin/update_booking.php), [`get_booked_slots.php`](file:///f:/Client%20Projects/Winchester%20Health%20Center/get_booked_slots.php), [`submit_booking.php`](file:///f:/Client%20Projects/Winchester%20Health%20Center/submit_booking.php))**:
+    - Added `block_day`, `unblock_day`, and `get_blocked_dates` endpoints in `admin/update_booking.php`.
+    - Updated `get_booked_slots.php`: If date is blocked, returns `is_blocked: true`, `block_reason`, and all slots blocked.
+    - Added database guard in `submit_booking.php` rejecting any booking attempt on a blocked date with: *"Winchester Health Centre is closed on this date ([Reason]). Please select another date for your appointment."*
+  - **Public Frontend ([`index.html`](file:///f:/Client%20Projects/Winchester%20Health%20Center/index.html))**:
+    - If a user chooses a blocked date in the hero or full booking form, the time dropdown updates to `🔒 Closed ([Reason])` and displays red banner: *"🔒 Clinic closed on this date ([Reason]). Please choose another date."*
+  - **Live Verification**:
+    - Deployed all modified files to Hostinger via SFTP.
+    - Simulated blocking a date (`2026-11-25`), verified `get_booked_slots.php` returns `is_blocked: true`, verified `submit_booking.php` blocks booking attempts, tested `unblock_day`, and verified clean restoration.
+- **Files Modified / Created**: [`database.sql`](file:///f:/Client%20Projects/Winchester%20Health%20Center/database.sql), [`blocked_dates.json`](file:///f:/Client%20Projects/Winchester%20Health%20Center/blocked_dates.json), [`admin/update_booking.php`](file:///f:/Client%20Projects/Winchester%20Health%20Center/admin/update_booking.php), [`admin/index.php`](file:///f:/Client%20Projects/Winchester%20Health%20Center/admin/index.php), [`admin/dashboard_preview.html`](file:///f:/Client%20Projects/Winchester%20Health%20Center/admin/dashboard_preview.html), [`get_booked_slots.php`](file:///f:/Client%20Projects/Winchester%20Health%20Center/get_booked_slots.php), [`index.html`](file:///f:/Client%20Projects/Winchester%20Health%20Center/index.html), [`submit_booking.php`](file:///f:/Client%20Projects/Winchester%20Health%20Center/submit_booking.php), [`PROJECT_CONTEXT.md`](file:///f:/Client%20Projects/Winchester%20Health%20Center/PROJECT_CONTEXT.md).
+
+---
 
 ### 📅 2026-11-05 20:05:00 - Fixed "Server returned status 200" on Reschedule with Email Notification
 - **Goal / Request**: Owner Honey Patel reported an error when clicking "Confirm Reschedule" with email notification checked: *"Server returned status 200. Please check connection or try again."*

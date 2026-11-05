@@ -82,6 +82,21 @@ if (empty($service) || strpos($service, 'Choose a service') !== false || strpos(
 }
 
 try {
+    // Check if entire date is blocked by clinic staff
+    if (!empty($preferred_date)) {
+        $bookingDateOnly = date('Y-m-d', strtotime($preferred_date));
+        $blockCheckStmt = $pdo->prepare("SELECT reason FROM blocked_dates WHERE blocked_date = ? LIMIT 1");
+        $blockCheckStmt->execute([$bookingDateOnly]);
+        if ($blockRow = $blockCheckStmt->fetch(PDO::FETCH_ASSOC)) {
+            $reason = !empty($blockRow['reason']) ? $blockRow['reason'] : 'Clinic Closed';
+            echo json_encode([
+                'success' => false,
+                'message' => "Winchester Health Centre is closed on this date ({$reason}). Please select another date for your appointment."
+            ]);
+            exit;
+        }
+    }
+
     // Check for double booking: ensure no active appointment exists for the same slot
     if (!empty($preferred_date)) {
         $slotCheckStmt = $pdo->prepare("

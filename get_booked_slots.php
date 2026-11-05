@@ -41,6 +41,48 @@ if ($timestamp === false) {
 $dayOfWeek = date('w', $timestamp); // 0 = Sunday
 $isSunday = ($dayOfWeek == '0');
 
+// Check if entire date is blocked by clinic staff
+$is_blocked = false;
+$block_reason = '';
+
+try {
+    $blockStmt = $pdo->prepare("SELECT reason FROM blocked_dates WHERE blocked_date = ? LIMIT 1");
+    $blockStmt->execute([$date]);
+    if ($blockRow = $blockStmt->fetch(PDO::FETCH_ASSOC)) {
+        $is_blocked = true;
+        $block_reason = $blockRow['reason'] ?: 'Clinic Closed / Day Blocked';
+    }
+} catch (Throwable $e) {
+    // Fallback to cache if table check fails
+    $cacheFile = __DIR__ . '/blocked_dates.json';
+    if (file_exists($cacheFile)) {
+        $cached = json_decode(@file_get_contents($cacheFile), true);
+        if (is_array($cached)) {
+            foreach ($cached as $item) {
+                if (is_array($item) && ($item['blocked_date'] ?? '') === $date) {
+                    $is_blocked = true;
+                    $block_reason = $item['reason'] ?? 'Clinic Closed / Day Blocked';
+                    break;
+                }
+            }
+        }
+    }
+}
+
+$standardSlots = ['11:30', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30'];
+
+if ($is_blocked) {
+    echo json_encode([
+        'success' => true,
+        'date' => $date,
+        'is_sunday' => $isSunday,
+        'is_blocked' => true,
+        'block_reason' => $block_reason,
+        'booked_slots' => $standardSlots
+    ]);
+    exit;
+}
+
 $booked_slots = [];
 
 // Query database for all active bookings on this date (exclude cancelled)
