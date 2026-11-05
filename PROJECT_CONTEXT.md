@@ -1,7 +1,7 @@
 # Winchester Health Centre - Context & Chronological Work Log
 
-> **Last Updated**: 2026-11-02 20:30:00  
-> **Status**: Active / In Development  
+> **Last Updated**: 2026-11-05 18:05:00  
+> **Status**: Active / In Production  
 
 ---
 
@@ -17,21 +17,55 @@ Winchester Travel & Health Centre is a private healthcare and travel clinic webs
 - **Integrations**: WhatsApp direct click-to-chat, Scripter Digital pre-visit patient portal, Voice AI Assistant webhook support
 
 ## 🏗️ 3. Architecture & Key Files
-- `index.html`: Public-facing website, booking form & real-time dynamic clinic settings hydrator
+- `index.html`: Public-facing website, booking form, dynamic clinic settings hydrator & real-time slot availability blocker
+- `get_booked_slots.php`: Public REST API endpoint returning booked/unavailable slots for any date (excluding cancelled bookings)
 - `clinic_settings.json`: Static JSON cache for instant (0ms) clinic contact numbers & opening hours
 - `get_settings.php`: Public REST API endpoint returning dynamic practice phone, whatsapp, email & schedule
-- `submit_booking.php`: Public API endpoint handling patient booking submissions & alert emails with dynamic phone tags
+- `submit_booking.php`: Public API endpoint handling patient booking submissions with double-booking prevention guard & alert emails
 - `mailer.php`: Centralized email delivery system (SMTP / native mail with SPF/DMARC alignment)
 - `db.php` / `db.example.php`: Database connection credentials and system configuration constants
 - `database.sql` / `migrate.sql`: MySQL table schemas (`bookings`, `admin_users`, `clinic_settings`)
-- `admin/index.php`: Comprehensive admin panel (calendar, day timeline, booking queues, patient directory, intake notes, appointment creation/status updates & tabbed Practice Settings manager)
+- `admin/index.php`: Comprehensive admin panel (calendar with chronological slot ordering, day timeline, booking queues, patient directory, intake notes, appointment creation/status updates & tabbed Practice Settings manager)
 - `admin/login.php` & `admin/logout.php`: Session-authenticated staff login portal
-- `admin/update_booking.php`: Backend AJAX handler for admin operations (status transitions, internal notes, direct appointment creation, credentials change, clinic settings persistence)
+- `admin/update_booking.php`: Backend AJAX handler for admin operations (status transitions, internal notes, direct appointment creation with conflict detection, credentials change, clinic settings persistence)
 - `admin/dashboard_preview.html`: Standalone offline/preview version of the admin dashboard
 
 ---
 
 ## 🕒 4. Chronological Work Log (Latest on Top)
+
+### 📅 2026-11-05 18:05:00 - Implemented Strict Slot Double-Booking Prevention & Chronological Calendar Time Sorting
+- **Goal / Request**: Clinic owner Honey Patel reported two critical workflow issues via voice note & screenshot:
+  1. **Double-Booking Prevention**: On Saturday, Nov 7, 2026, 3 separate bookings occurred at the same time slot (11:30 AM). Once a 30-minute slot is booked, it must be locked/disabled on the website so no one else can book that same time.
+  2. **Chronological Time Sorting in Admin Calendar**: On Saturday Nov 7, 12:30 PM (`Julie Herridge`) was displayed *above* 12:00 PM (`Jonathan Ford`), and on Friday Nov 6, 13:30 (`Jenny De jongh`) was displayed *above* 13:00 (`Jonny Griffiths` & `Rebecca Lam`). Appointments within any calendar cell must be sorted in strictly ascending chronological order (`12:00` above `12:30`; `13:00` above `13:30`).
+- **What Was Done**:
+  - **Dynamic Slot Availability API (`get_booked_slots.php`)**:
+    - Created high-performance REST endpoint returning all booked time slots for any requested `YYYY-MM-DD` date.
+    - Excludes `Cancelled` bookings and automatically includes past slots if the queried date is today (Europe/London time).
+  - **Frontend Slot Blocking Engine (`index.html`)**:
+    - Attached change/input listeners to both date pickers (`quick_date` in hero, `book_preferred_date` in booking modal).
+    - As soon as a date is chosen, queries `get_booked_slots.php` asynchronously.
+    - Updates time slot dropdown options: already-booked slots are disabled, styled grey, and labeled `(Booked)`.
+    - Added live availability indicator badges (`quick_slot_status`, `book_slot_status`) showing real-time slot count (e.g. `🟢 8 of 11 slots available` or `🔴 Fully booked on this date`).
+    - Added pre-submission validation in both `submitQuickBooking` and `submitDetailedBooking` blocking disabled option selection.
+  - **Server-Side SQL Guard (`submit_booking.php`)**:
+    - Added database-level guard before insertion: checks `WHERE preferred_date = ? AND status != 'Cancelled' LIMIT 1`.
+    - If a race condition occurs or a user attempts to bypass frontend restrictions, rejects the submission with: *"The [Time, Date] appointment slot has already been booked by another patient. Please choose another available time slot."*
+  - **Admin Conflict Detection (`admin/update_booking.php`)**:
+    - Added slot collision checks for both `create_booking` and `reschedule` actions with an optional `force_slot` override parameter.
+  - **Admin Calendar Chronological Sorting (`admin/index.php` & `admin/dashboard_preview.html`)**:
+    - Fixed root cause of inverted order: appointments within hour cells in `renderWeekCalendar()`, `renderDayCalendar()`, and `renderMonthCalendar()` are now strictly sorted ascending by exact appointment time (`preferred_date ASC, id ASC`).
+    - Fixed the screenshot issue: `12:00 PM (Jonathan Ford)` now appears *above* `12:30 PM (Julie Herridge)`; `13:00 (Jonny Griffiths & Rebecca Lam)` now appears *above* `13:30 (Jenny De jongh)`.
+    - Added an automatic overlap detection tag (`⚠️ Overlap (N)`) inside calendar appointment cards if multiple historical bookings share the exact same minute slot.
+  - **Production SFTP Deployment & Remote Verification**:
+    - Backed up live files into timestamped remote backup directory `domains/winchestertravelcentre.co.uk/public_html/backups/backup_20261105_180420/`.
+    - Uploaded all updated files via SFTP to Hostinger.
+    - Executed remote `php -l` linting across all PHP files — 0 syntax errors detected.
+    - Tested live endpoint `get_booked_slots.php?date=2026-11-07` — confirmed `11:30`, `12:00`, `12:30`, `14:00`, `10:00` are blocked.
+    - Verified live booking submission guard by testing duplicate slot booking rejection.
+- **Files Modified / Created**: [`get_booked_slots.php`](file:///f:/Client%20Projects/Winchester%20Health%20Center/get_booked_slots.php), [`submit_booking.php`](file:///f:/Client%20Projects/Winchester%20Health%20Center/submit_booking.php), [`index.html`](file:///f:/Client%20Projects/Winchester%20Health%20Center/index.html), [`admin/update_booking.php`](file:///f:/Client%20Projects/Winchester%20Health%20Center/admin/update_booking.php), [`admin/index.php`](file:///f:/Client%20Projects/Winchester%20Health%20Center/admin/index.php), [`admin/dashboard_preview.html`](file:///f:/Client%20Projects/Winchester%20Health%20Center/admin/dashboard_preview.html), [`PROJECT_CONTEXT.md`](file:///f:/Client%20Projects/Winchester%20Health%20Center/PROJECT_CONTEXT.md).
+
+---
 
 ### 📅 2026-11-02 20:30:00 - Updated Phone Number to 01962 422 180 & Implemented Dynamic Practice Settings in Admin Dashboard
 - **Goal / Request**: Client Honey Patel requested updating the website phone number to `01962422180`, deploying it live via SSH/SFTP, and creating an admin management dashboard giving staff the ability to dynamically update clinic phone numbers, WhatsApp, opening hours, banner announcements, and booking slot timings without code changes.
