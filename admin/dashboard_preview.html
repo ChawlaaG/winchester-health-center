@@ -2667,6 +2667,22 @@
 
           const slotKey = `${dateKey}_${h}`;
           const items = slotMap[slotKey] || [];
+
+          // Sort appointments chronologically ascending by exact time, then ID
+          items.sort((a, b) => {
+            const timeA = (a.preferred_date || a.created_at || '').substring(11, 19);
+            const timeB = (b.preferred_date || b.created_at || '').substring(11, 19);
+            if (timeA !== timeB) return timeA.localeCompare(timeB);
+            return (a.id || 0) - (b.id || 0);
+          });
+
+          // Detect duplicate slots in this hour
+          const timeCounts = {};
+          items.forEach(b => {
+            const t = b.preferred_date ? b.preferred_date.substring(11, 16) : `${String(h).padStart(2,'0')}:00`;
+            timeCounts[t] = (timeCounts[t] || 0) + 1;
+          });
+
           items.forEach(b => {
             const card = document.createElement('div');
             const statusClass = (b.status || 'Pending').toLowerCase();
@@ -2675,11 +2691,14 @@
             const isClinical = (b.service || '').toLowerCase().includes('contraception') || (b.service || '').toLowerCase().includes('pharmacy first') || (b.service || '').toLowerCase().includes('nms');
             const timeStr = b.preferred_date ? b.preferred_date.substring(11, 16) : `${h}:00`;
             const fullName = (b.first_name || '') + (b.last_name ? ' ' + b.last_name : '');
+            const isOverlap = timeCounts[timeStr] > 1;
+            const overlapBadge = isOverlap ? `<span style="background:#fef2f2;color:#b91c1c;border:1px solid #fecaca;font-size:0.62rem;padding:1px 5px;border-radius:4px;font-weight:700;margin-left:4px;" title="Multiple bookings at the same time slot">⚠️ Overlap (${timeCounts[timeStr]})</span>` : '';
 
             card.innerHTML = `
               <div class="appt-card-top-row">
                 <span class="appt-card-time">${timeStr}</span>
-                <span class="${isClinical ? 'appt-tag-clinical' : 'appt-tag-private'}">${isClinical ? 'Clinical' : 'Private'}</span>
+                ${overlapBadge}
+                <span class="${isClinical ? 'appt-tag-clinical' : 'appt-tag-private'}" style="margin-left:auto;">${isClinical ? 'Clinical' : 'Private'}</span>
               </div>
               <span class="appt-card-service">${escapeHtml(b.service || 'Consultation')}</span>
               <span class="appt-card-patient">${escapeHtml(fullName)}</span>
@@ -2752,28 +2771,50 @@
           }
         };
 
+        const hourItems = [];
         filteredBookings.forEach(b => {
           const dtStr = b.preferred_date || b.created_at;
           if (!dtStr) return;
           const bDate = new Date(dtStr.replace(' ', 'T'));
           if (formatDateKey(bDate) === activeKey && bDate.getHours() === h) {
-            const card = document.createElement('div');
-            card.className = `appt-card status-${(b.status || 'Pending').toLowerCase()}`;
-            const isClinical = (b.service || '').toLowerCase().includes('pharmacy first') || (b.service || '').toLowerCase().includes('contraception') || (b.service || '').toLowerCase().includes('nms');
-            const timeStr = b.preferred_date ? b.preferred_date.substring(11, 16) : `${h}:00`;
-            const fullName = (b.first_name || '') + (b.last_name ? ' ' + b.last_name : '');
-
-            card.innerHTML = `
-              <div class="appt-card-top-row">
-                <span class="appt-card-time">${timeStr}</span>
-                <span class="${isClinical ? 'appt-tag-clinical' : 'appt-tag-private'}">${isClinical ? 'Clinical' : 'Private'}</span>
-              </div>
-              <span class="appt-card-service">${escapeHtml(b.service)}</span>
-              <span class="appt-card-patient">${escapeHtml(fullName)} - 📞 ${escapeHtml(b.phone)}</span>
-            `;
-            card.onclick = (e) => { e.stopPropagation(); openAppointmentDetails(b.id); };
-            slotCell.appendChild(card);
+            hourItems.push(b);
           }
+        });
+
+        // Sort ascending by time, then ID
+        hourItems.sort((a, b) => {
+          const timeA = (a.preferred_date || a.created_at || '').substring(11, 19);
+          const timeB = (b.preferred_date || b.created_at || '').substring(11, 19);
+          if (timeA !== timeB) return timeA.localeCompare(timeB);
+          return (a.id || 0) - (b.id || 0);
+        });
+
+        const timeCounts = {};
+        hourItems.forEach(b => {
+          const t = b.preferred_date ? b.preferred_date.substring(11, 16) : `${String(h).padStart(2,'0')}:00`;
+          timeCounts[t] = (timeCounts[t] || 0) + 1;
+        });
+
+        hourItems.forEach(b => {
+          const card = document.createElement('div');
+          card.className = `appt-card status-${(b.status || 'Pending').toLowerCase()}`;
+          const isClinical = (b.service || '').toLowerCase().includes('pharmacy first') || (b.service || '').toLowerCase().includes('contraception') || (b.service || '').toLowerCase().includes('nms');
+          const timeStr = b.preferred_date ? b.preferred_date.substring(11, 16) : `${h}:00`;
+          const fullName = (b.first_name || '') + (b.last_name ? ' ' + b.last_name : '');
+          const isOverlap = timeCounts[timeStr] > 1;
+          const overlapBadge = isOverlap ? `<span style="background:#fef2f2;color:#b91c1c;border:1px solid #fecaca;font-size:0.62rem;padding:1px 5px;border-radius:4px;font-weight:700;margin-left:4px;" title="Multiple bookings at the same time slot">⚠️ Overlap (${timeCounts[timeStr]})</span>` : '';
+
+          card.innerHTML = `
+            <div class="appt-card-top-row">
+              <span class="appt-card-time">${timeStr}</span>
+              ${overlapBadge}
+              <span class="${isClinical ? 'appt-tag-clinical' : 'appt-tag-private'}" style="margin-left:auto;">${isClinical ? 'Clinical' : 'Private'}</span>
+            </div>
+            <span class="appt-card-service">${escapeHtml(b.service)}</span>
+            <span class="appt-card-patient">${escapeHtml(fullName)} - 📞 ${escapeHtml(b.phone)}</span>
+          `;
+          card.onclick = (e) => { e.stopPropagation(); openAppointmentDetails(b.id); };
+          slotCell.appendChild(card);
         });
 
         hourRow.appendChild(slotCell);
@@ -2824,18 +2865,32 @@
         cell.className = `month-cell ${isToday ? 'is-today' : ''}`;
         cell.innerHTML = `<span class="month-date-number">${d}</span>`;
 
+        const dayItems = [];
         filteredBookings.forEach(b => {
           const dtStr = b.preferred_date || b.created_at;
           if (!dtStr) return;
           const bDate = new Date(dtStr.replace(' ', 'T'));
           if (formatDateKey(bDate) === key) {
-            const chip = document.createElement('div');
-            chip.className = 'month-appt-chip';
-            const fullName = (b.first_name || '') + (b.last_name ? ' ' + b.last_name : '');
-            chip.innerText = `${fullName} (${b.service || 'Appt'})`;
-            chip.onclick = (e) => { e.stopPropagation(); openAppointmentDetails(b.id); };
-            cell.appendChild(chip);
+            dayItems.push(b);
           }
+        });
+
+        // Sort ascending by time, then ID
+        dayItems.sort((a, b) => {
+          const timeA = (a.preferred_date || a.created_at || '').substring(11, 19);
+          const timeB = (b.preferred_date || b.created_at || '').substring(11, 19);
+          if (timeA !== timeB) return timeA.localeCompare(timeB);
+          return (a.id || 0) - (b.id || 0);
+        });
+
+        dayItems.forEach(b => {
+          const chip = document.createElement('div');
+          chip.className = 'month-appt-chip';
+          const timeStr = b.preferred_date ? b.preferred_date.substring(11, 16) : '';
+          const fullName = (b.first_name || '') + (b.last_name ? ' ' + b.last_name : '');
+          chip.innerText = `${timeStr ? timeStr + ' ' : ''}${fullName} (${b.service || 'Appt'})`;
+          chip.onclick = (e) => { e.stopPropagation(); openAppointmentDetails(b.id); };
+          cell.appendChild(chip);
         });
 
         cell.onclick = () => {

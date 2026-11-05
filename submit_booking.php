@@ -82,6 +82,26 @@ if (empty($service) || strpos($service, 'Choose a service') !== false || strpos(
 }
 
 try {
+    // Check for double booking: ensure no active appointment exists for the same slot
+    if (!empty($preferred_date)) {
+        $slotCheckStmt = $pdo->prepare("
+            SELECT id, first_name 
+            FROM bookings 
+            WHERE preferred_date = ? 
+              AND status != 'Cancelled' 
+            LIMIT 1
+        ");
+        $slotCheckStmt->execute([$preferred_date]);
+        if ($existing = $slotCheckStmt->fetch()) {
+            $formattedSlot = date('g:i A, D j M Y', strtotime($preferred_date));
+            echo json_encode([
+                'success' => false,
+                'message' => "The {$formattedSlot} appointment slot has already been booked by another patient. Please choose another available time slot."
+            ]);
+            exit;
+        }
+    }
+
     // Prepare SQL Insert statement
     $stmt = $pdo->prepare("
         INSERT INTO bookings (first_name, last_name, phone, email, dob, service, preferred_date, notes, status) 

@@ -608,6 +608,7 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
                 <option value="16:00">04:00 PM</option>
                 <option value="16:30">04:30 PM</option>
               </select>
+              <div id="quick_slot_status" style="font-size:0.75rem;margin-top:0.35rem;font-weight:600;"></div>
             </div>
           </div>
           <div style="font-size:0.75rem;color:rgba(255,255,255,0.78);margin:-0.3rem 0 0.5rem 0;">
@@ -975,6 +976,7 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
                 <option value="16:00">04:00 PM</option>
                 <option value="16:30">04:30 PM</option>
               </select>
+              <div id="book_slot_status" style="font-size:0.78rem;margin-top:0.35rem;font-weight:600;"></div>
             </div>
           </div>
           <div style="font-size:0.8rem;color:var(--grey-5);font-weight:600;margin:-0.3rem 0 0.85rem 0;" data-setting="booking_notice">🕒 Appointment slots available: <strong>Monday to Saturday, 11:30 AM – 4:30 PM</strong> (30 min duration).</div>
@@ -1375,6 +1377,14 @@ async function submitQuickBooking() {
   if (!phone) { alert('Please enter your phone number.'); return; }
   if (!email) { alert('Please enter your email address.'); return; }
   if (service === 'Select a service…' || !service) { alert('Please select a service.'); return; }
+  if (!date) { alert('Please select your preferred appointment date.'); return; }
+  if (!time) { alert('Please choose a 30-minute time slot (11:30 AM to 4:30 PM).'); return; }
+
+  const quickTimeEl = document.getElementById('quick_time');
+  if (quickTimeEl && quickTimeEl.selectedOptions[0] && quickTimeEl.selectedOptions[0].disabled) {
+    alert('The selected time slot is already booked. Please choose an available time slot.');
+    return;
+  }
 
   if (date) {
     const checkDate = new Date(date + 'T00:00:00');
@@ -1469,6 +1479,12 @@ async function submitDetailedBooking() {
   }
   
   if (!preferredTime) { alert('Please select a 30-minute time slot (11:30 AM to 4:30 PM).'); return; }
+
+  const bookTimeEl = document.getElementById('book_preferred_time');
+  if (bookTimeEl && bookTimeEl.selectedOptions[0] && bookTimeEl.selectedOptions[0].disabled) {
+    alert('The selected time slot is already booked. Please choose an available time slot.');
+    return;
+  }
   if (!consent) { alert('You must agree to the privacy policy consent to proceed.'); return; }
 
   const combinedPreferredDate = `${preferredDate} ${preferredTime}:00`;
@@ -1540,13 +1556,101 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 window.addEventListener('scroll',()=>{ document.querySelector('nav').style.boxShadow = window.scrollY>10 ? '0 4px 28px rgba(10,47,82,.16)' : '0 3px 20px rgba(10,47,82,.1)'; });
 document.querySelectorAll('a[href^="#"]').forEach(a=>{ a.addEventListener('click',e=>{ const t=document.querySelector(a.getAttribute('href')); if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});} }); });
 
+// ══ 30-MINUTE SLOT DEFINITION & DYNAMIC AVAILABILITY ENGINE ══
+const ALL_BOOKING_SLOTS = [
+  { value: "11:30", label: "11:30 AM" },
+  { value: "12:00", label: "12:00 PM" },
+  { value: "12:30", label: "12:30 PM" },
+  { value: "13:00", label: "01:00 PM" },
+  { value: "13:30", label: "01:30 PM" },
+  { value: "14:00", label: "02:00 PM" },
+  { value: "14:30", label: "02:30 PM" },
+  { value: "15:00", label: "03:00 PM" },
+  { value: "15:30", label: "03:30 PM" },
+  { value: "16:00", label: "04:00 PM" },
+  { value: "16:30", label: "04:30 PM" }
+];
+
+async function refreshSlotAvailability(dateStr, selectId) {
+  const select = document.getElementById(selectId);
+  if (!select) return;
+  const isHero = (selectId === 'quick_time');
+  const statusEl = document.getElementById(isHero ? 'quick_slot_status' : 'book_slot_status');
+  const defaultText = isHero ? 'Select slot…' : 'Choose 30-min time slot…';
+
+  if (!dateStr) {
+    renderSlotSelect(select, [], null, defaultText, statusEl, isHero);
+    return;
+  }
+
+  const prevValue = select.value;
+  select.disabled = true;
+  select.innerHTML = `<option value="">⏳ Checking available slots...</option>`;
+  if (statusEl) statusEl.innerHTML = `<span style="color:${isHero ? 'rgba(255,255,255,0.7)' : 'var(--grey-5)'};font-size:0.75rem;">⏳ Checking live availability...</span>`;
+
+  try {
+    const res = await fetch(`get_booked_slots.php?date=${encodeURIComponent(dateStr)}&_t=${Date.now()}`);
+    if (!res.ok) throw new Error('Network error');
+    const data = await res.json();
+    const booked = Array.isArray(data.booked_slots) ? data.booked_slots : [];
+
+    renderSlotSelect(select, booked, prevValue, defaultText, statusEl, isHero);
+  } catch (err) {
+    console.warn('Slot availability check failed:', err);
+    renderSlotSelect(select, [], prevValue, defaultText, statusEl, isHero);
+  } finally {
+    select.disabled = false;
+  }
+}
+
+function renderSlotSelect(select, bookedSlots, prevValue, defaultText, statusEl, isHero) {
+  let html = `<option value="">${defaultText}</option>`;
+  let availableCount = 0;
+
+  ALL_BOOKING_SLOTS.forEach(slot => {
+    const isBooked = bookedSlots.includes(slot.value);
+    if (!isBooked) {
+      availableCount++;
+      html += `<option value="${slot.value}">${slot.label}</option>`;
+    } else {
+      html += `<option value="${slot.value}" disabled style="color:#94a3b8;background:#f1f5f9;">${slot.label} (Booked)</option>`;
+    }
+  });
+
+  select.innerHTML = html;
+
+  if (prevValue && !bookedSlots.includes(prevValue)) {
+    select.value = prevValue;
+  } else if (prevValue && bookedSlots.includes(prevValue)) {
+    select.value = '';
+    alert('The time slot you previously had chosen is already booked on this date. Please choose another available slot.');
+  }
+
+  if (statusEl) {
+    if (availableCount === 0) {
+      statusEl.innerHTML = `<span style="color:#ef4444;font-weight:700;">🔴 Fully booked on this date. Please choose another date.</span>`;
+    } else {
+      const greenColor = isHero ? '#86efac' : '#0f766e';
+      statusEl.innerHTML = `<span style="color:${greenColor};font-weight:700;">🟢 ${availableCount} of ${ALL_BOOKING_SLOTS.length} slots available</span>`;
+    }
+  }
+}
+
 // Set min date to today for booking pickers & validate Sunday
 function setupDatePickers() {
   const today = new Date().toISOString().split('T')[0];
   const qDate = document.getElementById('quick_date');
   const bDate = document.getElementById('book_preferred_date');
-  if (qDate) qDate.min = today;
-  if (bDate) bDate.min = today;
+  if (qDate) {
+    qDate.min = today;
+    qDate.addEventListener('change', () => validateQuickBookingDate(qDate));
+    qDate.addEventListener('input', () => validateQuickBookingDate(qDate));
+  }
+  if (bDate) {
+    bDate.min = today;
+    bDate.addEventListener('change', () => validateDetailedBookingDate(bDate));
+    bDate.addEventListener('input', () => validateDetailedBookingDate(bDate));
+  }
 }
 setupDatePickers();
 
@@ -1556,15 +1660,28 @@ function validateQuickBookingDate(el) {
   if (d.getDay() === 0) {
     alert('Winchester Health Centre is closed on Sundays. Please choose a date from Monday to Saturday.');
     el.value = '';
+    const sel = document.getElementById('quick_time');
+    if (sel) sel.innerHTML = '<option value="">Select slot…</option>';
+    const statusEl = document.getElementById('quick_slot_status');
+    if (statusEl) statusEl.innerHTML = '';
+    return;
   }
+  refreshSlotAvailability(el.value, 'quick_time');
 }
+
 function validateDetailedBookingDate(el) {
   if (!el.value) return;
   const d = new Date(el.value + 'T00:00:00');
   if (d.getDay() === 0) {
     alert('Winchester Health Centre is closed on Sundays. Please choose a date from Monday to Saturday.');
     el.value = '';
+    const sel = document.getElementById('book_preferred_time');
+    if (sel) sel.innerHTML = '<option value="">Choose 30-min time slot…</option>';
+    const statusEl = document.getElementById('book_slot_status');
+    if (statusEl) statusEl.innerHTML = '';
+    return;
   }
+  refreshSlotAvailability(el.value, 'book_preferred_time');
 }
 
 // ══ DYNAMIC CLINIC SETTINGS LOADER ══

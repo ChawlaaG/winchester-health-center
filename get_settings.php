@@ -57,3 +57,4 @@ try {
 }
 
 echo json_encode($default_settings);
+

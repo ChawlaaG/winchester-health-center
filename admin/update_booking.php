@@ -483,6 +483,28 @@ try {
             }
         }
 
+        $forceSlot = !empty($data['force_slot']);
+        if ($preferred_date && !$forceSlot) {
+            $conflictStmt = $pdo->prepare("
+                SELECT id, first_name, last_name, service 
+                FROM bookings 
+                WHERE preferred_date = ? 
+                  AND status != 'Cancelled' 
+                LIMIT 1
+            ");
+            $conflictStmt->execute([$preferred_date]);
+            if ($existing = $conflictStmt->fetch()) {
+                $exName = trim($existing['first_name'] . ' ' . ($existing['last_name'] ?? ''));
+                $slotFormatted = date('g:i A, D j M Y', strtotime($preferred_date));
+                echo json_encode([
+                    'success' => false,
+                    'has_conflict' => true,
+                    'message' => "Slot Conflict: An appointment is already booked for {$exName} at {$slotFormatted}. Please choose another time or confirm override."
+                ]);
+                exit;
+            }
+        }
+
         $stmt = $pdo->prepare("
             INSERT INTO bookings (first_name, last_name, phone, email, dob, service, preferred_date, notes, admin_notes, status) 
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
@@ -585,6 +607,29 @@ try {
             $preferred_date .= ' 11:30:00';
         } elseif (strlen($preferred_date) === 16) {
             $preferred_date .= ':00';
+        }
+
+        $forceSlot = !empty($data['force_slot']);
+        if ($preferred_date && !$forceSlot) {
+            $conflictStmt = $pdo->prepare("
+                SELECT id, first_name, last_name, service 
+                FROM bookings 
+                WHERE preferred_date = ? 
+                  AND id != ? 
+                  AND status != 'Cancelled' 
+                LIMIT 1
+            ");
+            $conflictStmt->execute([$preferred_date, $id]);
+            if ($existing = $conflictStmt->fetch()) {
+                $exName = trim($existing['first_name'] . ' ' . ($existing['last_name'] ?? ''));
+                $slotFormatted = date('g:i A, D j M Y', strtotime($preferred_date));
+                echo json_encode([
+                    'success' => false,
+                    'has_conflict' => true,
+                    'message' => "Slot Conflict: This slot ({$slotFormatted}) is already booked for {$exName}. Please choose another time or confirm override."
+                ]);
+                exit;
+            }
         }
 
         // Lookup current booking details
