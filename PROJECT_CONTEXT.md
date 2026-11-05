@@ -1,6 +1,6 @@
 # Winchester Health Centre - Context & Chronological Work Log
 
-> **Last Updated**: 2026-11-05 18:05:00  
+> **Last Updated**: 2026-11-05 20:05:00  
 > **Status**: Active / In Production  
 
 ---
@@ -33,6 +33,27 @@ Winchester Travel & Health Centre is a private healthcare and travel clinic webs
 ---
 
 ## 🕒 4. Chronological Work Log (Latest on Top)
+
+### 📅 2026-11-05 20:05:00 - Fixed "Server returned status 200" on Reschedule with Email Notification
+- **Goal / Request**: Owner Honey Patel reported an error when clicking "Confirm Reschedule" with email notification checked: *"Server returned status 200. Please check connection or try again."*
+- **Root Cause Identified**:
+  - The reschedule database update was executing successfully, but when `send_reschedule_email()` was triggered, `$clinicPhone` and `$clinicPhoneClean` were undefined inside the function scope.
+  - In PHP 8.1/8.2, PHP outputted two `Undefined variable` warning notices into standard output before emitting the JSON response.
+  - The client received `<b>Warning</b>...{"success":true...}` with HTTP status 200 OK. `JSON.parse()` failed due to the leading HTML string, triggering the generic fallback `Server returned status 200`.
+- **What Was Done**:
+  - **Variable Initialization in [`admin/update_booking.php`](file:///f:/Client%20Projects/Winchester%20Health%20Center/admin/update_booking.php)**:
+    - Added `$settings = get_system_clinic_settings();`, `$clinicPhone`, and `$clinicPhoneClean` inside `send_reschedule_email()`.
+    - Enforced `ini_set('display_errors', '0');` and `ob_start();` at the entry point of `update_booking.php` to prevent PHP notices/warnings from ever polluting API JSON responses.
+    - Implemented `clean_json_output()` with `ob_clean()` buffer clearing prior to JSON emission.
+  - **Resilient JSON Parser in [`admin/index.php`](file:///f:/Client%20Projects/Winchester%20Health%20Center/admin/index.php) & [`admin/dashboard_preview.html`](file:///f:/Client%20Projects/Winchester%20Health%20Center/admin/dashboard_preview.html)**:
+    - Upgraded `callAdminApi()` to automatically extract JSON substrings (`text.substring(jsonStart, jsonEnd + 1)`) if any stray output is detected, preventing client-side JSON parse crashes.
+  - **Live Verification**:
+    - Deployed all updated files to Hostinger server via SFTP.
+    - Verified `php -l` on remote server (0 syntax errors).
+    - Executed live reschedule simulation: verified zero warnings, empty stderr, pure JSON output, and `mail_sent: true`.
+- **Files Modified**: [`admin/update_booking.php`](file:///f:/Client%20Projects/Winchester%20Health%20Center/admin/update_booking.php), [`admin/index.php`](file:///f:/Client%20Projects/Winchester%20Health%20Center/admin/index.php), [`admin/dashboard_preview.html`](file:///f:/Client%20Projects/Winchester%20Health%20Center/admin/dashboard_preview.html), [`PROJECT_CONTEXT.md`](file:///f:/Client%20Projects/Winchester%20Health%20Center/PROJECT_CONTEXT.md).
+
+---
 
 ### 📅 2026-11-05 18:05:00 - Implemented Strict Slot Double-Booking Prevention & Chronological Calendar Time Sorting
 - **Goal / Request**: Clinic owner Honey Patel reported two critical workflow issues via voice note & screenshot:

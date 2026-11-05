@@ -1,9 +1,16 @@
 <?php
+// Turn off standard error display to ensure clean JSON responses
+ini_set('display_errors', '0');
+error_reporting(E_ALL);
+ob_start();
+
 // Set response headers
 header('Content-Type: application/json; charset=utf-8');
 
 // Initialize session
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 // Verify admin permission
 if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
@@ -24,6 +31,18 @@ if (!isset($pdo)) {
         'success' => false,
         'message' => 'Database connection failed. Please check db.php connection details.'
     ]);
+    exit;
+}
+
+// Clean JSON response helper ensuring no buffer corruption
+function clean_json_output($data, $statusCode = 200) {
+    if ($statusCode !== 200) {
+        http_response_code($statusCode);
+    }
+    if (ob_get_length()) {
+        ob_clean();
+    }
+    echo json_encode($data);
     exit;
 }
 
@@ -194,6 +213,9 @@ function send_reschedule_email($email, $first_name, $service, $old_date, $new_da
     $subject = 'Your Appointment Has Been Rescheduled - Winchester Travel Centre';
     $from = defined('FROM_EMAIL') ? FROM_EMAIL : 'info@winchestertravelcentre.co.uk';
     $portalUrl = defined('PATIENT_PORTAL_URL') ? PATIENT_PORTAL_URL : 'https://my.scripter.digital/appointment/organization/91?location_id=92';
+    $settings = get_system_clinic_settings();
+    $clinicPhone = htmlspecialchars($settings['phone_display'] ?? '01962 422 180');
+    $clinicPhoneClean = htmlspecialchars($settings['phone_clean'] ?? '+441962422180');
 
     $safe_name = htmlspecialchars($first_name);
     $safe_service = htmlspecialchars($service);
@@ -675,7 +697,7 @@ try {
                 $mailNotice = ' (customer email notification was skipped).';
             }
 
-            echo json_encode([
+            clean_json_output([
                 'success' => true,
                 'message' => 'Appointment rescheduled to ' . $newDateStr . $mailNotice,
                 'preferred_date' => $preferred_date,
@@ -684,9 +706,8 @@ try {
                 'mail_sent' => $mailSent
             ]);
         } else {
-            echo json_encode(['success' => false, 'message' => 'Failed to update appointment record in database.']);
+            clean_json_output(['success' => false, 'message' => 'Failed to update appointment record in database.']);
         }
-        exit;
     }
     // ══════════════════════════════════════════════════════════════
     // ACTIONS: STATUS TRANSITIONS (Confirm, Complete, Cancel)

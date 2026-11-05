@@ -3590,13 +3590,24 @@ foreach ($standardServices as $std) {
       try {
         data = JSON.parse(text);
       } catch (parseErr) {
-        console.error('Server returned non-JSON response:', text);
-        if (res.status === 403) {
-          throw new Error('Access Denied. Your session has expired. Please refresh the page and log in again.');
-        } else if (res.status === 404) {
-          throw new Error('API endpoint not found (404). Please refresh the page.');
-        } else {
-          throw new Error(`Server returned status ${res.status}. Please check connection or try again.`);
+        // Attempt to extract JSON if server outputted any PHP notices/warnings before or after JSON
+        const jsonStart = text.indexOf('{');
+        const jsonEnd = text.lastIndexOf('}');
+        if (jsonStart !== -1 && jsonEnd !== -1 && jsonEnd > jsonStart) {
+          try {
+            data = JSON.parse(text.substring(jsonStart, jsonEnd + 1));
+          } catch (e2) {}
+        }
+
+        if (!data) {
+          console.error('Server returned non-JSON response:', text);
+          if (res.status === 403) {
+            throw new Error('Access Denied. Your session has expired. Please refresh the page and log in again.');
+          } else if (res.status === 404) {
+            throw new Error('API endpoint not found (404). Please refresh the page.');
+          } else {
+            throw new Error(`Server returned unexpected response (${res.status}). Please check connection or try again.`);
+          }
         }
       }
 

@@ -84,3 +84,4 @@ echo json_encode([
     'is_sunday' => $isSunday,
     'booked_slots' => $booked_slots
 ]);
+
