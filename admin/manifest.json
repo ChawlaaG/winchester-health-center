@@ -1,0 +1,48 @@
+{
+  "name": "Winchester Health Centre Admin",
+  "short_name": "Winchester Admin",
+  "description": "Clinical appointments, calendar scheduling, and practice management console.",
+  "start_url": "./index.php",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0f172a",
+  "theme_color": "#0f766e",
+  "categories": ["medical", "business", "productivity"],
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Today's Schedule",
+      "short_name": "Today",
+      "description": "View today's clinic schedule",
+      "url": "./index.php?view=day",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Block Day / Time",
+      "short_name": "Block Date",
+      "description": "Block customer bookings for a day",
+      "url": "./index.php?action=block",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}

@@ -2,7 +2,15 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <link rel="manifest" href="manifest.json">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Winchester Admin">
+  <meta name="theme-color" content="#0f766e">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon.png">
   <title>Appointments &amp; Clinical Dashboard | Winchester Health Centre</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1344,6 +1352,174 @@
       .calendar-grid-card, .list-table-card {
         box-shadow: none !important;
         border: none !important;
+      }
+    }
+
+    /* ══════════════════════════════════════════════════════════════
+       STANDALONE MOBILE APP & PWA STYLES
+       ══════════════════════════════════════════════════════════════ */
+    .mobile-bottom-app-bar {
+      display: none;
+    }
+    .mobile-install-banner {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding-bottom: calc(64px + env(safe-area-inset-bottom, 16px)) !important;
+      }
+
+      /* Hide wide desktop sidebar on phones */
+      .app-sidebar {
+        display: none !important;
+      }
+
+      .app-main {
+        margin-left: 0 !important;
+        width: 100% !important;
+        padding: 0.75rem 0.65rem !important;
+      }
+
+      .header-search-bar {
+        display: none !important;
+      }
+
+      .main-header {
+        padding: 0.65rem 0.85rem !important;
+        flex-wrap: wrap !important;
+        gap: 0.5rem !important;
+      }
+
+      .main-header-title {
+        font-size: 1.15rem !important;
+      }
+
+      .subtabs-nav-row {
+        overflow-x: auto !important;
+        white-space: nowrap !important;
+        padding-bottom: 4px !important;
+        scrollbar-width: none;
+      }
+      .subtabs-nav-row::-webkit-scrollbar {
+        display: none;
+      }
+
+      .calendar-controls-row {
+        flex-wrap: wrap !important;
+        gap: 0.5rem !important;
+      }
+
+      .cal-actions-right {
+        width: 100% !important;
+        justify-content: space-between !important;
+      }
+
+      /* Native Bottom Mobile App Navigation Bar */
+      .mobile-bottom-app-bar {
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: calc(58px + env(safe-area-inset-bottom, 0px));
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+        background: #ffffff;
+        border-top: 1px solid var(--border);
+        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+        z-index: 9999;
+        justify-content: space-around;
+        align-items: center;
+      }
+
+      .mobile-nav-btn {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: transparent;
+        border: none;
+        color: var(--text-muted);
+        font-size: 0.68rem;
+        font-weight: 600;
+        cursor: pointer;
+        padding: 6px 0;
+        position: relative;
+        text-decoration: none;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .mobile-nav-btn.active {
+        color: var(--primary-dark);
+        font-weight: 700;
+      }
+
+      .mobile-nav-btn .mob-nav-icon {
+        font-size: 1.25rem;
+        margin-bottom: 2px;
+      }
+
+      .mobile-nav-btn.active .mob-nav-icon {
+        transform: scale(1.1);
+        transition: transform 0.15s ease;
+      }
+
+      .mobile-nav-btn-highlight .mob-nav-icon-circle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+        color: #ffffff;
+        font-size: 1.4rem;
+        font-weight: 700;
+        margin-top: -14px;
+        box-shadow: 0 4px 12px rgba(13, 148, 136, 0.4);
+      }
+
+      .mob-nav-badge {
+        position: absolute;
+        top: 2px;
+        right: 22%;
+        background: #ef4444;
+        color: #ffffff;
+        font-size: 0.65rem;
+        font-weight: 800;
+        padding: 1px 5px;
+        border-radius: 10px;
+        border: 2px solid #ffffff;
+      }
+
+      /* Smart Install Banner */
+      .mobile-install-banner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: linear-gradient(135deg, #0f766e, #0d9488);
+        color: #ffffff;
+        padding: 10px 14px;
+        border-radius: 10px;
+        margin: 0.5rem 0.5rem 1rem 0.5rem;
+        box-shadow: 0 4px 14px rgba(15, 118, 110, 0.25);
+      }
+      .mobile-install-banner-text {
+        font-size: 0.8rem;
+        line-height: 1.35;
+      }
+      .mobile-install-banner-btn {
+        background: #ffffff;
+        color: #0f766e;
+        border: none;
+        padding: 6px 12px;
+        border-radius: 6px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        cursor: pointer;
+        white-space: nowrap;
+        margin-left: 10px;
       }
     }
   </style>
@@ -4370,6 +4546,146 @@
       if (!str) return '';
       return String(str).replace(/'/g, "\\'").replace(/"/g, '\\"');
     }
+
+    // ══════════════════════════════════════════════════════════════
+    // STANDALONE MOBILE APP & PWA CONTROLLER
+    // ══════════════════════════════════════════════════════════════
+    let deferredInstallPrompt = null;
+
+    // Register Service Worker for PWA Standalone Mode
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').then(reg => {
+          console.log('PWA ServiceWorker registered:', reg.scope);
+        }).catch(err => {
+          console.warn('PWA ServiceWorker registration failed:', err);
+        });
+      });
+    }
+
+    // Detect standalone mode vs in-browser
+    function checkStandaloneMode() {
+      const isStandalone = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
+      const banner = document.getElementById('mobile_install_banner');
+      if (banner) {
+        // Show banner only on mobile devices if not already installed as standalone
+        if (!isStandalone && window.innerWidth <= 768) {
+          banner.style.display = 'flex';
+        } else {
+          banner.style.display = 'none';
+        }
+      }
+    }
+    checkStandaloneMode();
+    window.addEventListener('resize', checkStandaloneMode);
+
+    // Capture Android install prompt
+    window.addEventListener('beforeinstallprompt', e => {
+      e.preventDefault();
+      deferredInstallPrompt = e;
+      const banner = document.getElementById('mobile_install_banner');
+      if (banner) banner.style.display = 'flex';
+    });
+
+    function handleMobileInstallClick() {
+      if (deferredInstallPrompt) {
+        deferredInstallPrompt.prompt();
+        deferredInstallPrompt.userChoice.then(choiceResult => {
+          if (choiceResult.outcome === 'accepted') {
+            const banner = document.getElementById('mobile_install_banner');
+            if (banner) banner.style.display = 'none';
+          }
+          deferredInstallPrompt = null;
+        });
+      } else {
+        // iOS instructions alert
+        alert('To install Winchester Admin App on your iPhone:\n\n1. Tap the Share button (square with arrow up) at the bottom of Safari.\n2. Scroll down and tap "Add to Home Screen".\n3. Tap "Add" at top right.\n\nThe app icon will appear on your home screen!');
+      }
+    }
+
+    // Mobile Bottom Tab Switcher
+    function switchMobileTab(tabKey) {
+      document.querySelectorAll('.mobile-nav-btn').forEach(b => b.classList.remove('active'));
+      if (tabKey === 'appointments') {
+        const btn = document.getElementById('mob_nav_cal');
+        if (btn) btn.classList.add('active');
+        switchMainTab('appointments');
+      } else if (tabKey === 'orders') {
+        const btn = document.getElementById('mob_nav_orders');
+        if (btn) btn.classList.add('active');
+        switchMainTab('appointments');
+        switchSubtabView('appointments_pending');
+      } else if (tabKey === 'block') {
+        const btn = document.getElementById('mob_nav_block');
+        if (btn) btn.classList.add('active');
+        openBlockTimeModal();
+      } else if (tabKey === 'settings') {
+        const btn = document.getElementById('mob_nav_settings');
+        if (btn) btn.classList.add('active');
+        openSettingsModal();
+      }
+    }
+
+    // Real-Time Background Booking Updates (25s Polling for Zero-Lag sync)
+    let lastKnownBookingId = (typeof allBookings !== 'undefined' && allBookings.length > 0)
+      ? Math.max(...allBookings.map(b => parseInt(b.id) || 0))
+      : 0;
+
+    async function checkBackgroundBookingUpdates() {
+      try {
+        const res = await callAdminApi({ action: 'poll_updates', last_id: lastKnownBookingId });
+        if (res && res.success) {
+          // Update pending count badge
+          const pendingCount = res.counts ? res.counts.pending : 0;
+          const mobBadge = document.getElementById('mob_pending_badge');
+          if (mobBadge) {
+            mobBadge.innerText = pendingCount;
+            mobBadge.style.display = pendingCount > 0 ? 'block' : 'none';
+          }
+
+          if (res.new_count > 0 && Array.isArray(res.new_bookings)) {
+            console.log(`Live Sync: Received ${res.new_count} new booking(s).`);
+            res.new_bookings.forEach(nb => {
+              if (!allBookings.some(b => b.id == nb.id)) {
+                allBookings.unshift(nb);
+              }
+            });
+            lastKnownBookingId = Math.max(...allBookings.map(b => parseInt(b.id) || 0));
+            applyAllFilters();
+            renderOrdersQueue();
+            updateOrdersCounters();
+          }
+        }
+      } catch (pollErr) {
+        // Silently skip background poll network blip
+      }
+    }
+    setInterval(checkBackgroundBookingUpdates, 25000);
+
   </script>
+  <!-- Native Mobile App Bottom Navigation Bar -->
+  <nav class="mobile-bottom-app-bar" id="mobile_bottom_nav">
+    <button type="button" class="mobile-nav-btn active" id="mob_nav_cal" onclick="switchMobileTab('appointments')">
+      <span class="mob-nav-icon">📅</span>
+      <span class="mob-nav-label">Calendar</span>
+    </button>
+    <button type="button" class="mobile-nav-btn" id="mob_nav_orders" onclick="switchMobileTab('orders')">
+      <span class="mob-nav-icon">📋</span>
+      <span class="mob-nav-label">Bookings</span>
+      <span class="mob-nav-badge" id="mob_pending_badge" style="display:none;">0</span>
+    </button>
+    <button type="button" class="mobile-nav-btn mobile-nav-btn-highlight" onclick="openCreateAppointmentModal()" title="New Appointment">
+      <span class="mob-nav-icon-circle">+</span>
+      <span class="mob-nav-label">New</span>
+    </button>
+    <button type="button" class="mobile-nav-btn" id="mob_nav_block" onclick="openBlockTimeModal()">
+      <span class="mob-nav-icon">🔒</span>
+      <span class="mob-nav-label">Block Day</span>
+    </button>
+    <button type="button" class="mobile-nav-btn" id="mob_nav_settings" onclick="openSettingsModal()">
+      <span class="mob-nav-icon">⚙️</span>
+      <span class="mob-nav-label">Settings</span>
+    </button>
+  </nav>
 </body>
 </html>

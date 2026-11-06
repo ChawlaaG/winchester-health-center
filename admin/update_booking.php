@@ -422,6 +422,43 @@ try {
             'blocked_dates' => $allBlocked
         ]);
     }
+    elseif ($action === 'save_push_subscription') {
+        $endpoint = trim($data['endpoint'] ?? '');
+        $p256dh = trim($data['keys']['p256dh'] ?? '');
+        $auth = trim($data['keys']['auth'] ?? '');
+        $deviceLabel = trim($data['device_label'] ?? 'Staff Phone');
+
+        if (!empty($endpoint) && !empty($p256dh) && !empty($auth)) {
+            $checkStmt = $pdo->prepare("SELECT id FROM admin_push_subscriptions WHERE p256dh = ? LIMIT 1");
+            $checkStmt->execute([$p256dh]);
+            if (!$checkStmt->fetch()) {
+                $ins = $pdo->prepare("INSERT INTO admin_push_subscriptions (endpoint, p256dh, auth, device_label) VALUES (?, ?, ?, ?)");
+                $ins->execute([$endpoint, $p256dh, $auth, $deviceLabel]);
+            }
+            clean_json_output(['success' => true, 'message' => 'Push notifications registered successfully.']);
+        } else {
+            clean_json_output(['success' => false, 'message' => 'Invalid push subscription details.']);
+        }
+    }
+    elseif ($action === 'poll_updates') {
+        $lastId = intval($data['last_id'] ?? 0);
+        $stmt = $pdo->prepare("SELECT id, first_name, last_name, service, preferred_date, status, created_at FROM bookings WHERE id > ? ORDER BY id DESC LIMIT 10");
+        $stmt->execute([$lastId]);
+        $newBookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $counts = [
+            'total' => $pdo->query("SELECT COUNT(*) FROM bookings")->fetchColumn(),
+            'pending' => $pdo->query("SELECT COUNT(*) FROM bookings WHERE status = 'Pending'")->fetchColumn(),
+            'confirmed' => $pdo->query("SELECT COUNT(*) FROM bookings WHERE status = 'Confirmed'")->fetchColumn(),
+        ];
+
+        clean_json_output([
+            'success' => true,
+            'new_count' => count($newBookings),
+            'new_bookings' => $newBookings,
+            'counts' => $counts
+        ]);
+    }
 
     // ══════════════════════════════════════════════════════════════
     // ACTION: SAVE CLINIC SETTINGS (PHONE, HOURS, TIMINGS)

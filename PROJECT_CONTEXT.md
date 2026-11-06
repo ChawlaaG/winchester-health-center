@@ -1,6 +1,6 @@
 # Winchester Health Centre - Context & Chronological Work Log
 
-> **Last Updated**: 2026-11-05 20:20:00  
+> **Last Updated**: 2026-11-06 06:25:00  
 > **Status**: Active / In Production  
 
 ---
@@ -10,14 +10,18 @@ Winchester Travel & Health Centre is a private healthcare and travel clinic webs
 
 ## 🛠️ 2. Tech Stack & Environment
 - **Frontend**: HTML5, Vanilla CSS (custom design system, responsive UI, glassmorphism, modals), Vanilla JavaScript (no external runtime frameworks)
+- **Mobile Standalone App**: PWA (Progressive Web App) architecture with Web App Manifest, iOS Safari standalone display tags, adaptive maskable icons, Service Worker shell caching & native push notification listeners
 - **Backend / API**: PHP 8.x (Native PDO, RFC 5322 CRLF email dispatch, socket SMTP + native mail fallback)
-- **Database**: MySQL (`bookings`, `admin_users`, `clinic_settings`, `blocked_dates`)
+- **Database**: MySQL (`bookings`, `admin_users`, `clinic_settings`, `blocked_dates`, `admin_push_subscriptions`)
 - **Hosting / Deploy**: Hostinger / Apache (`.htaccess` security & compression)
 - **Email / Notifications**: RFC-compliant dual-engine mailer (`mailer.php`), custom HTML responsive templates for patient confirmations and admin alerts
 - **Integrations**: WhatsApp direct click-to-chat, Scripter Digital pre-visit patient portal, Voice AI Assistant webhook support
 
 ## 🏗️ 3. Architecture & Key Files
 - `index.html`: Public-facing website, booking form, dynamic clinic settings hydrator, real-time slot availability blocker & full day closure detection
+- `admin/manifest.json`: Web App Manifest defining standalone mobile app configuration, icons, theme colors & app shortcuts
+- `admin/sw.js`: Service Worker handling PWA shell caching, offline fallback, and native push notification delivery & tap focus
+- `admin/icons/`: High-resolution application icons (192x192, 512x512, maskable 512x512, Apple Touch Icon 180x180, Favicon 32x32)
 - `get_booked_slots.php`: Public REST API endpoint returning booked slots and day-level clinic closure status (`is_blocked`)
 - `blocked_dates.json`: High-speed local cache for full-day clinic closures and holidays
 - `clinic_settings.json`: Static JSON cache for instant (0ms) clinic contact numbers & opening hours
@@ -25,15 +29,43 @@ Winchester Travel & Health Centre is a private healthcare and travel clinic webs
 - `submit_booking.php`: Public API endpoint handling patient booking submissions with double-booking prevention guard, blocked-day guard & alert emails
 - `mailer.php`: Centralized email delivery system (SMTP / native mail with SPF/DMARC alignment)
 - `db.php` / `db.example.php`: Database connection credentials and system configuration constants
-- `database.sql` / `migrate.sql`: MySQL table schemas (`bookings`, `admin_users`, `clinic_settings`, `blocked_dates`)
-- `admin/index.php`: Comprehensive admin panel (calendar with chronological slot ordering, day timeline, full day blocking manager, booking queues, patient directory, intake notes, appointment creation/status updates & tabbed Practice Settings manager)
+- `database.sql` / `migrate.sql`: MySQL table schemas (`bookings`, `admin_users`, `clinic_settings`, `blocked_dates`, `admin_push_subscriptions`)
+- `admin/index.php`: Comprehensive admin panel (calendar with chronological slot ordering, day timeline, full day blocking manager, native bottom mobile app navigation bar, PWA install prompt & real-time background live sync)
 - `admin/login.php` & `admin/logout.php`: Session-authenticated staff login portal
-- `admin/update_booking.php`: Backend AJAX handler for admin operations (status transitions, internal notes, direct appointment creation with conflict detection, day blocking/unblocking, credentials change, clinic settings persistence)
+- `admin/update_booking.php`: Backend AJAX handler for admin operations (status transitions, internal notes, direct appointment creation with conflict detection, day blocking/unblocking, push subscriptions, live background poll, credentials change, clinic settings persistence)
 - `admin/dashboard_preview.html`: Standalone offline/preview version of the admin dashboard
 
 ---
 
 ## 🕒 4. Chronological Work Log (Latest on Top)
+
+### 📅 2026-11-06 06:25:00 - Built Standalone Mobile Admin App (PWA) with Zero-Lag Database Sync & Bottom Navigation
+- **Goal / Request**: User asked to build a dedicated mobile app for the Admin Panel that connects directly to the live database with zero lag, and clarified that push notifications should not require paid Firebase plans.
+- **What Was Done**:
+  - **PWA & Standalone Architecture**:
+    - Created [`admin/manifest.json`](file:///f:/Client%20Projects/Winchester%20Health%20Center/admin/manifest.json) configured for standalone full-screen display (`theme_color: #0f766e`, `background_color: #0f172a`, shortcuts to Today's schedule and Block Date).
+    - Added Apple iOS standalone meta tags (`apple-mobile-web-app-capable: yes`, `apple-mobile-web-app-status-bar-style: black-translucent`, `apple-mobile-web-app-title: Winchester Admin`) and viewport safe-area calibration.
+    - Generated high-resolution branded icons in [`admin/icons/`](file:///f:/Client%20Projects/Winchester%20Health%20Center/admin/icons/): `icon-192.png`, `icon-512.png`, `icon-maskable.png`, `apple-touch-icon.png` (180x180), and `favicon.png` (32x32).
+    - Created [`admin/sw.js`](file:///f:/Client%20Projects/Winchester%20Health%20Center/admin/sw.js) Service Worker for offline shell caching, push event listening, and notification tap handling.
+  - **Native Mobile Navigation Bar & Responsive Mobile UI**:
+    - Built a native bottom app navigation bar in [`admin/index.php`](file:///f:/Client%20Projects/Winchester%20Health%20Center/admin/index.php) and [`admin/dashboard_preview.html`](file:///f:/Client%20Projects/Winchester%20Health%20Center/admin/dashboard_preview.html) for mobile devices (`< 768px`):
+      - 📅 **Calendar** (Schedule view)
+      - 📋 **Bookings** (with real-time pending badge counter)
+      - ➕ **New** (prominent floating-action create button)
+      - 🔒 **Block Day** (instant day closure manager)
+      - ⚙️ **Settings** (practice numbers, hours & timings)
+    - Added smart install banner that prompts mobile users to install the app to their home screen on iPhone Safari or Android Chrome, and automatically hides once launched in standalone mode.
+  - **Zero-Lag Database Polling & Push Infrastructure**:
+    - Created `admin_push_subscriptions` MySQL table on live server and updated [`database.sql`](file:///f:/Client%20Projects/Winchester%20Health%20Center/database.sql).
+    - Added `save_push_subscription` and `poll_updates` actions in [`admin/update_booking.php`](file:///f:/Client%20Projects/Winchester%20Health%20Center/admin/update_booking.php).
+    - Implemented a 25-second background sync in `admin/index.php` that automatically updates pending badges and inserts newly submitted website bookings without requiring manual page reload.
+  - **Live Verification**:
+    - Uploaded all PWA assets to Hostinger via SFTP.
+    - Verified `https://winchestertravelcentre.co.uk/admin/manifest.json` and `https://winchestertravelcentre.co.uk/admin/sw.js` via HTTPS.
+    - Tested `poll_updates` on remote server — confirmed real-time count summaries and recent appointments returned in `< 100ms`.
+- **Files Modified / Created**: [`admin/manifest.json`](file:///f:/Client%20Projects/Winchester%20Health%20Center/admin/manifest.json), [`admin/sw.js`](file:///f:/Client%20Projects/Winchester%20Health%20Center/admin/sw.js), [`admin/icons/`](file:///f:/Client%20Projects/Winchester%20Health%20Center/admin/icons/), [`database.sql`](file:///f:/Client%20Projects/Winchester%20Health%20Center/database.sql), [`admin/update_booking.php`](file:///f:/Client%20Projects/Winchester%20Health%20Center/admin/update_booking.php), [`admin/index.php`](file:///f:/Client%20Projects/Winchester%20Health%20Center/admin/index.php), [`admin/dashboard_preview.html`](file:///f:/Client%20Projects/Winchester%20Health%20Center/admin/dashboard_preview.html), [`PROJECT_CONTEXT.md`](file:///f:/Client%20Projects/Winchester%20Health%20Center/PROJECT_CONTEXT.md).
+
+---
 
 ### 📅 2026-11-05 20:20:00 - Implemented Full Day Booking Blocking & Closure Management
 - **Goal / Request**: Clinic owner Honey Patel asked via WhatsApp screenshot: *"how can i block bookings for the whole day ?"*
