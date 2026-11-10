@@ -84,24 +84,43 @@ if (!isset($pdo)) {
     }
 }
 
-// Default standard pharmacy services
-$standardServices = [
-    'Travel Clinic & Vaccinations',
-    'Pharmacy First Consultation',
-    'Oral Contraception Service',
-    'Ear Wax Removal (Microsuction)',
-    'Diagnostic & Blood Tests',
+// Curated list of active clinic healthcare services (authoritative for booking & intake)
+$activeServices = [
+    '💉 Covid or flu jab',
+    '✈️ Travel Vaccinations',
+    '🔬 Diagnostic Tests (Blood, Cholesterol etc.)',
+    'General Consultation',
     'Weight Management Consultation',
+    'Oral Contraception Service',
     'Blood Pressure Screening',
     'Prescription Home Delivery',
-    'New Medicine Service (NMS)',
     'Smoking Cessation Support',
-    'General Health Check'
+    '❓ Other — I\'ll explain below'
 ];
 
-foreach ($standardServices as $std) {
-    if (!in_array($std, $uniqueServices)) {
-        $uniqueServices[] = $std;
+// For the filter dropdown: ensure active services are always present at the top,
+// while also allowing staff to view any legacy historical bookings if needed
+$filterServices = $activeServices;
+foreach ($uniqueServices as $legacySrv) {
+    if (!in_array($legacySrv, $filterServices) && !empty($legacySrv)) {
+        // Exclude duplicate/obsolete crossed-out variants from filter dropdown
+        if (!in_array($legacySrv, [
+            'Travel Clinic & Vaccinations',
+            '✈️ Travel Clinic & Vaccinations',
+            'Pharmacy First Consultation',
+            '💊 Pharmacy First Consultation',
+            'Ear Wax Removal (Microsuction)',
+            'Diagnostic & Blood Tests',
+            'Diagnostic Blood Test',
+            '🔬 Diagnostic Blood Test',
+            'Discharge Medicine Service',
+            '🏥 Discharge Medicine Service',
+            'New Medicine Service (NMS)',
+            '📋 New Medicine Service (NMS)',
+            'General Health Check'
+        ])) {
+            $filterServices[] = $legacySrv;
+        }
     }
 }
 ?>
@@ -1697,10 +1716,10 @@ foreach ($standardServices as $std) {
           <span class="nav-chevron" id="chevron_services">▼</span>
         </a>
         <div class="nav-submenu" id="submenu_services">
-          <div class="nav-subitem" onclick="filterBySpecificService('Travel Clinic & Vaccinations')">✈️ Travel Clinic</div>
-          <div class="nav-subitem" onclick="filterBySpecificService('Pharmacy First Consultation')">💊 Pharmacy First</div>
-          <div class="nav-subitem" onclick="filterBySpecificService('Oral Contraception Service')">🩺 Contraception</div>
-          <div class="nav-subitem" onclick="filterBySpecificService('Ear Wax Removal')">👂 Ear Microsuction</div>
+          <div class="nav-subitem" onclick="filterBySpecificService('Covid or flu jab')">💉 Covid or Flu Jab</div>
+          <div class="nav-subitem" onclick="filterBySpecificService('Travel Vaccinations')">✈️ Travel Clinic</div>
+          <div class="nav-subitem" onclick="filterBySpecificService('Diagnostic Tests')">🔬 Diagnostics</div>
+          <div class="nav-subitem" onclick="filterBySpecificService('Oral Contraception')">🩺 Contraception</div>
           <div class="nav-subitem" onclick="filterBySpecificService('')">📋 View All Services</div>
         </div>
       </div>
@@ -1812,7 +1831,7 @@ foreach ($standardServices as $std) {
         <div class="filter-pill-select-wrapper">
           <select id="filter_service" class="filter-pill-select" onchange="applyAllFilters()">
             <option value="">Services: All</option>
-            <?php foreach ($uniqueServices as $srv): ?>
+            <?php foreach ($filterServices as $srv): ?>
               <option value="<?php echo htmlspecialchars($srv); ?>">Service: <?php echo htmlspecialchars($srv); ?></option>
             <?php endforeach; ?>
           </select>
@@ -2291,7 +2310,7 @@ foreach ($standardServices as $std) {
         <div class="form-group-item">
           <label>Service *</label>
           <select id="new_service" class="form-select-field">
-            <?php foreach ($uniqueServices as $srv): ?>
+            <?php foreach ($activeServices as $srv): ?>
               <option value="<?php echo htmlspecialchars($srv); ?>"><?php echo htmlspecialchars($srv); ?></option>
             <?php endforeach; ?>
           </select>

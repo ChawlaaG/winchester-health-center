@@ -1,6 +1,6 @@
 # Winchester Health Centre - Context & Chronological Work Log
 
-> **Last Updated**: 2026-11-06 06:25:00  
+> **Last Updated**: 2026-11-10 10:10:00  
 > **Status**: Active / In Production  
 
 ---
@@ -38,6 +38,44 @@ Winchester Travel & Health Centre is a private healthcare and travel clinic webs
 ---
 
 ## 🕒 4. Chronological Work Log (Latest on Top)
+
+### 📅 2026-11-10 10:10:00 - Curated Clinic Services: Removed Obsolete Entries & Added 'Covid or Flu Jab'
+- **Goal / Request**: Clinic owner Honey Patel sent a WhatsApp photo marking green squiggles over crossed-out services in the admin Appointment Creation dropdown, asking: *"Can we remove all these ones that i have crossed and also can we add 'Covid or flu jab'"*.
+- **Root Cause Identified**:
+  - The Admin Appointment Creation modal (`<select id="new_service">`) was iterating over `$uniqueServices`, which performed a `SELECT DISTINCT service FROM bookings` across the database.
+  - Because old historical bookings stored mixed emoji and plain-text strings, obsolete services (`Discharge Medicine`, `Pharmacy First`, `Ear Wax Removal`, duplicate `Travel Clinic & Vaccinations`, `Diagnostic Blood Test`) repeatedly re-populated the appointment dropdown.
+- **What Was Done**:
+  - **Curated Authoritative Service Catalog**:
+    - Defined clean `$activeServices` list across admin intake and patient booking forms:
+      1. `💉 Covid or flu jab` (Added)
+      2. `✈️ Travel Vaccinations` (Retained)
+      3. `🔬 Diagnostic Tests (Blood, Cholesterol etc.)` (Retained)
+      4. `General Consultation` (Retained)
+      5. `Weight Management Consultation` (Retained)
+      6. `Oral Contraception Service` (Retained)
+      7. `Blood Pressure Screening` (Retained)
+      8. `Prescription Home Delivery` (Retained)
+      9. `Smoking Cessation Support` (Retained)
+      10. `❓ Other — I'll explain below` (Retained)
+    - Removed all 6 crossed-out services and duplicates: `Travel Clinic & Vaccinations` (duplicate), `Discharge Medicine Service`, `Pharmacy First Consultation`, `Diagnostic Blood Test`, `Ear Wax Removal (Microsuction)`, `New Medicine Service (NMS)`.
+  - **Admin Panel ([`admin/index.php`](file:///f:/Client%20Projects/Winchester%20Health%20Center/admin/index.php) & [`admin/dashboard_preview.html`](file:///f:/Client%20Projects/Winchester%20Health%20Center/admin/dashboard_preview.html))**:
+    - Refactored `<select id="new_service">` to iterate strictly over `$activeServices` rather than dirty raw historical database values.
+    - Curated `<select id="filter_service">` so staff can filter by active services without duplicate clutter.
+    - Updated sidebar quick filter subitems in `submenu_services` to feature `💉 Covid or Flu Jab`, `✈️ Travel Clinic`, `🔬 Diagnostics`, and `🩺 Contraception`.
+  - **Public Website ([`index.html`](file:///f:/Client%20Projects/Winchester%20Health%20Center/index.html))**:
+    - Updated Hero Quick Booking (`quick_service`) and Full Booking Modal (`book_service`) with the new curated service list, adding `💉 Covid or flu jab` at the top and removing crossed-out services.
+    - Added `💉 Covid & Flu` chat chip and intelligent matcher inside the Alice Chat Widget.
+  - **Database Normalization on Live Hostinger MySQL**:
+    - Safely standardized 219 historical `✈️ Travel Clinic & Vaccinations` bookings to `✈️ Travel Vaccinations`.
+    - Standardized legacy `🔬 Diagnostic Blood Test` booking to `🔬 Diagnostic Tests (Blood, Cholesterol etc.)`.
+    - Retained historical patient records for past services without cluttering staff booking forms.
+  - **Live Verification**:
+    - Deployed all updated files to Hostinger server via SFTP.
+    - Executed remote `php -l` lint check — 0 syntax errors detected.
+    - Simulated live appointment booking with `💉 Covid or flu jab` — verified clean insertion, query, and cleanup.
+- **Files Modified**: [`admin/index.php`](file:///f:/Client%20Projects/Winchester%20Health%20Center/admin/index.php), [`admin/dashboard_preview.html`](file:///f:/Client%20Projects/Winchester%20Health%20Center/admin/dashboard_preview.html), [`index.html`](file:///f:/Client%20Projects/Winchester%20Health%20Center/index.html), [`PROJECT_CONTEXT.md`](file:///f:/Client%20Projects/Winchester%20Health%20Center/PROJECT_CONTEXT.md).
+
+---
 
 ### 📅 2026-11-06 06:25:00 - Built Standalone Mobile Admin App (PWA) with Zero-Lag Database Sync & Bottom Navigation
 - **Goal / Request**: User asked to build a dedicated mobile app for the Admin Panel that connects directly to the live database with zero lag, and clarified that push notifications should not require paid Firebase plans.

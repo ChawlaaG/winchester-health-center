@@ -564,14 +564,15 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
           <div><label class="form-lbl">Service Needed</label>
             <select id="quick_service" class="form-sel" onchange="toggleQuickTravelQuestions()">
               <option>Select a service…</option>
+              <option>💉 Covid or flu jab</option>
               <option>✈️ Travel Vaccinations</option>
-              <option>🔬 Diagnostic Blood Test</option>
-              <option disabled>👂 Ear Wax Removal — Coming Soon</option>
+              <option>🔬 Diagnostic Tests (Blood, Cholesterol etc.)</option>
               <option>⚖️ Weight Management</option>
-              <option>💊 Pharmacy First</option>
+              <option>🩺 Blood Pressure Screening</option>
               <option>🚫 Emergency Contraception</option>
               <option>🚭 Quit Smoking Support</option>
               <option>🚚 Home Delivery Sign Up</option>
+              <option>💬 General Consultation</option>
             </select>
           </div>
           <div class="form-row2">
@@ -933,17 +934,15 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
             <label class="bform-lbl">Service Required *</label>
             <select id="book_service" class="bform-sel" required onchange="toggleTravelQuestions()">
               <option value="">Choose a service…</option>
-              <option>✈️ Travel Clinic &amp; Vaccinations</option>
+              <option>💉 Covid or flu jab</option>
+              <option>✈️ Travel Vaccinations</option>
               <option>🔬 Diagnostic Tests (Blood, Cholesterol etc.)</option>
-              <option disabled>👂 Ear Wax Removal — Coming Soon</option>
               <option>⚖️ Weight Management</option>
-              <option>💊 Pharmacy First Consultation</option>
+              <option>🩺 Blood Pressure Screening</option>
               <option>🚫 Emergency / Oral Contraception</option>
-              <option>🏥 Discharge Medicine Service</option>
               <option>🚭 Smokefree Hampshire — Quit Smoking</option>
-              <option>📋 New Medicine Service (NMS)</option>
               <option>🚚 Free Home Delivery Sign Up</option>
-              <option>💬 Prescription Query</option>
+              <option>💬 General Consultation</option>
               <option>❓ Other — I'll explain below</option>
             </select>
           </div>
@@ -1209,13 +1208,12 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
   </div>
   <div class="chat-chips">
     <button class="chip" onclick="qs('Book an appointment')">📅 Book</button>
+    <button class="chip" onclick="qs('Covid or flu jab')">💉 Covid &amp; Flu</button>
     <button class="chip" onclick="qs('Travel vaccinations')">✈️ Travel Jabs</button>
-    <button class="chip" onclick="qs('Ear wax removal')">👂 Ear Wax (Coming Soon)</button>
+    <button class="chip" onclick="qs('Diagnostic blood test')">🔬 Blood Test</button>
     <button class="chip" onclick="qs('WhatsApp')">💬 WhatsApp</button>
     <button class="chip" onclick="qs('Opening hours')">🕐 Hours</button>
     <button class="chip" onclick="qs('Free home delivery')">🚚 Free Delivery</button>
-    <button class="chip" onclick="qs('Pharmacy First')">💊 Pharmacy First</button>
-    <button class="chip" onclick="qs('Diagnostic blood test')">🔬 Blood Test</button>
     <button class="chip" onclick="qs('Quit smoking')">🚭 Quit Smoking</button>
   </div>
   <div class="chat-msgs" id="chatMsgs"></div>
@@ -1263,6 +1261,9 @@ function getReply(q) {
 
   if(/\b(book|appointment|schedule|reserve|slot)\b/.test(q))
     return `Booking is nice and easy! Here are three ways:<br><br><a class="al" href="#booking" onclick="toggleChat()">📅 Book Online Form</a><a class="al ph" href="tel:${C.phoneClean}">📞 Call Us</a><a class="al wa" href="https://wa.me/${C.wa}" target="_blank">💬 WhatsApp</a><br><br>Most appointments are available <strong>same day or next day</strong>. Which service would you like to book?`;
+
+  if(/\b(covid|flu|influenza|winter jab|booster|autumn booster|covid jab|flu jab)\b/i.test(q))
+    return `💉 <strong>Covid &amp; Flu Vaccinations</strong>:<br><br>We offer seasonal Flu jabs and Covid booster vaccinations at Winchester Health Centre. Quick, convenient, and administered by trained healthcare professionals.<br><br><a class="al" href="#booking" onclick="toggleChat()">📅 Book Covid / Flu Jab</a><a class="al ph" href="tel:${C.phoneClean}">📞 Call Us</a><a class="al wa" href="https://wa.me/${C.wa}" target="_blank">💬 WhatsApp</a>`;
 
   if(/travel|vaccin|jab|vaccine|yellow fever|typhoid|hepatitis|malaria|meningitis/.test(q))
     return `✈️ Our <strong>Travel Clinic</strong> is ready to help you travel safely! We offer:<br><ul><li>Yellow Fever certificate</li><li>Typhoid, Hepatitis A &amp; B</li><li>Meningitis, Cholera, Rabies</li><li>Malaria prevention tablets</li><li>Destination health advice</li></ul>No GP referral needed — just book directly:<br><a class="al" href="#booking" onclick="toggleChat()">📅 Book Travel Clinic</a><a class="al wa" href="https://wa.me/${C.wa}" target="_blank">💬 WhatsApp</a>`;
