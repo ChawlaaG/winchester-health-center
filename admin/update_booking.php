@@ -661,16 +661,60 @@ try {
         exit;
     }
 
-    $id = intval($data['id'] ?? 0);
+    $id = intval($data['id'] ?? ($data['booking_id'] ?? 0));
     if ($id <= 0) {
         echo json_encode(['success' => false, 'message' => 'Invalid or missing booking ID.']);
         exit;
     }
 
     // ══════════════════════════════════════════════════════════════
+    // ACTION: UPDATE BOOKING SERVICE
+    // ══════════════════════════════════════════════════════════════
+    if ($action === 'update_service') {
+        $service = trim($data['service'] ?? '');
+        if (empty($service)) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Please select a valid healthcare service.'
+            ]);
+            exit;
+        }
+
+        // Verify booking exists
+        $checkStmt = $pdo->prepare("SELECT id, service, first_name, last_name FROM bookings WHERE id = ?");
+        $checkStmt->execute([$id]);
+        $existing = $checkStmt->fetch(PDO::FETCH_ASSOC);
+        if (!$existing) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Booking record not found.'
+            ]);
+            exit;
+        }
+
+        $stmt = $pdo->prepare("UPDATE bookings SET service = ? WHERE id = ?");
+        $result = $stmt->execute([$service, $id]);
+
+        if ($result) {
+            echo json_encode([
+                'success' => true,
+                'message' => 'Service updated successfully.',
+                'booking_id' => $id,
+                'new_service' => $service
+            ]);
+        } else {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Failed to update service in database.'
+            ]);
+        }
+        exit;
+    }
+
+    // ══════════════════════════════════════════════════════════════
     // ACTION: DELETE BOOKING
     // ══════════════════════════════════════════════════════════════
-    if ($action === 'delete') {
+    elseif ($action === 'delete') {
         $stmt = $pdo->prepare("DELETE FROM bookings WHERE id = ?");
         $result = $stmt->execute([$id]);
         

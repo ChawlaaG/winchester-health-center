@@ -2223,8 +2223,19 @@ foreach ($uniqueServices as $legacySrv) {
 
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1.25rem; background: #f8fafc; padding: 1rem; border-radius: 8px;">
         <div>
-          <span style="font-size: 0.72rem; text-transform: uppercase; font-weight: 700; color: var(--text-muted);">Service</span>
-          <div style="font-weight: 700; color: var(--text-dark);" id="detail_service"></div>
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
+            <span style="font-size: 0.72rem; text-transform: uppercase; font-weight: 700; color: var(--text-muted);">Service</span>
+            <span id="detail_service_badge" style="font-size: 0.7rem; font-weight: 700; color: #0f766e; background: #ccfbf1; padding: 1px 6px; border-radius: 4px; display: none;">Updated!</span>
+          </div>
+          <div style="display: flex; gap: 0.4rem; align-items: center;">
+            <select id="detail_service_select" class="form-select-field" style="padding: 0.38rem 0.5rem; font-size: 0.85rem; font-weight: 600; border: 1px solid var(--border); border-radius: 6px; background: #fff; flex: 1; color: var(--text-dark);" onchange="updateActiveBookingService()">
+              <?php foreach ($activeServices as $srv): ?>
+                <option value="<?php echo htmlspecialchars($srv); ?>"><?php echo htmlspecialchars($srv); ?></option>
+              <?php endforeach; ?>
+            </select>
+            <button id="btn_update_detail_service" onclick="updateActiveBookingService()" style="background:#0d9488;color:#fff;border:none;border-radius:6px;padding:0.42rem 0.65rem;font-size:0.75rem;cursor:pointer;font-weight:700;white-space:nowrap;transition:background 0.2s;" title="Save service change">💾 Change</button>
+          </div>
+          <div style="display:none;" id="detail_service"></div>
         </div>
         <div>
           <div style="display: flex; align-items: center; justify-content: space-between;">
@@ -3825,7 +3836,32 @@ foreach ($uniqueServices as $legacySrv) {
       const fullName = (b.first_name || '') + (b.last_name ? ' ' + b.last_name : '');
       document.getElementById('detail_patient_name').innerText = fullName;
       document.getElementById('detail_created_at').innerText = 'Submitted on ' + (b.created_at || 'Recently');
-      document.getElementById('detail_service').innerText = b.service || 'General Service';
+      const detailSvc = document.getElementById('detail_service');
+      if (detailSvc) detailSvc.innerText = b.service || 'General Service';
+
+      // Pre-select current service in dropdown
+      const svcSelect = document.getElementById('detail_service_select');
+      if (svcSelect) {
+        let matched = false;
+        for (let i = 0; i < svcSelect.options.length; i++) {
+          if (svcSelect.options[i].value === b.service) {
+            svcSelect.selectedIndex = i;
+            matched = true;
+            break;
+          }
+        }
+        if (!matched && b.service) {
+          const opt = document.createElement('option');
+          opt.value = b.service;
+          opt.textContent = b.service + ' (Historical)';
+          svcSelect.appendChild(opt);
+          svcSelect.value = b.service;
+        }
+      }
+
+      const badge = document.getElementById('detail_service_badge');
+      if (badge) badge.style.display = 'none';
+
       document.getElementById('detail_datetime').innerText = b.preferred_date ? new Date(b.preferred_date.replace(' ', 'T')).toLocaleString('en-GB') : 'Flexible';
 
       const phoneLink = document.getElementById('detail_phone_link');
@@ -3888,6 +3924,113 @@ foreach ($uniqueServices as $legacySrv) {
       }
 
       return data;
+    }
+
+        async function updateActiveBookingService() {
+      if (!selectedBookingId) return;
+      const b = allBookings.find(item => item.id == selectedBookingId);
+      if (!b) return;
+
+      const selectEl = document.getElementById('detail_service_select');
+      const btnEl = document.getElementById('btn_update_detail_service');
+      const badgeEl = document.getElementById('detail_service_badge');
+      const newService = selectEl ? selectEl.value.trim() : '';
+
+      if (!newService) {
+        alert('Please choose a valid service.');
+        return;
+      }
+
+      if (newService === b.service) {
+        showAdminToast('Service is already set to: ' + newService, 'info');
+        return;
+      }
+
+      if (btnEl) {
+        btnEl.disabled = true;
+        btnEl.innerText = 'Saving...';
+      }
+
+      try {
+        const res = await callAdminApi({
+          action: 'update_service',
+          booking_id: selectedBookingId,
+          id: selectedBookingId,
+          service: newService
+        });
+
+        if (res && res.success) {
+          // 1. Update in-memory record
+          b.service = newService;
+
+          // 2. Update hidden detail_service element if referenced
+          const detailSvc = document.getElementById('detail_service');
+          if (detailSvc) detailSvc.innerText = newService;
+
+          // 3. Flash badge
+          if (badgeEl) {
+            badgeEl.innerText = 'Updated! ✅';
+            badgeEl.style.display = 'inline';
+            setTimeout(() => { badgeEl.style.display = 'none'; }, 3000);
+          }
+
+          // 4. Re-render table, calendar slots, and orders queue dynamically
+          applyAllFilters();
+          if (typeof renderOrdersQueue === 'function') renderOrdersQueue();
+          if (typeof updateOrdersCounters === 'function') updateOrdersCounters();
+
+          // 5. Toast notification
+          showAdminToast(`Service updated to "${newService}" successfully! ✅`, 'success');
+        } else {
+          alert((res && res.message) ? res.message : 'Failed to update service.');
+          if (selectEl) selectEl.value = b.service;
+        }
+      } catch (err) {
+        console.error('Service update error:', err);
+        alert(err.message || 'Error updating service.');
+        if (selectEl) selectEl.value = b.service;
+      } finally {
+        if (btnEl) {
+          btnEl.disabled = false;
+          btnEl.innerText = '💾 Change';
+        }
+      }
+    }
+
+    function showAdminToast(msg, type = 'success') {
+      let toast = document.getElementById('admin_live_toast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'admin_live_toast';
+        toast.style.cssText = 'position:fixed;bottom:24px;right:24px;z-index:99999;padding:12px 18px;border-radius:8px;font-size:0.88rem;font-weight:600;box-shadow:0 10px 25px rgba(0,0,0,0.18);display:flex;align-items:center;gap:8px;transition:all 0.3s cubic-bezier(0.16,1,0.3,1);opacity:0;transform:translateY(12px);pointer-events:none;max-width:90vw;';
+        document.body.appendChild(toast);
+      }
+
+      if (type === 'success') {
+        toast.style.background = '#0f766e';
+        toast.style.color = '#ffffff';
+        toast.style.border = '1px solid #14b8a6';
+      } else if (type === 'error') {
+        toast.style.background = '#991b1b';
+        toast.style.color = '#ffffff';
+        toast.style.border = '1px solid #ef4444';
+      } else {
+        toast.style.background = '#1e293b';
+        toast.style.color = '#ffffff';
+        toast.style.border = '1px solid #475569';
+      }
+
+      toast.innerHTML = msg;
+      toast.style.opacity = '1';
+      toast.style.transform = 'translateY(0)';
+      toast.style.pointerEvents = 'auto';
+
+      clearTimeout(toast._timeout);
+      toast._timeout = setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(12px)';
+        toast.style.pointerEvents = 'none';
+      }, 3500);
     }
 
     async function saveActiveDetailNotes() {
