@@ -1,6 +1,6 @@
 # Winchester Health Centre - Context & Chronological Work Log
 
-> **Last Updated**: 2026-11-10 10:10:00  
+> **Last Updated**: 2026-11-11 16:20:00  
 > **Status**: Active / In Production  
 
 ---
@@ -39,6 +39,47 @@ Winchester Travel & Health Centre is a private healthcare and travel clinic webs
 
 ## 🕒 4. Chronological Work Log (Latest on Top)
 
+### 📅 2026-11-11 16:20:00 - Public & Admin Codebase Modernization, St Paul's Card Redesign, UK Compliance Modals, and Live Production Deployment
+- **Goal / Request**: User confirmed execution of clinic audit updates and owner's request:
+  1. Standardize canonical contact email to `winchestertravelcenter@gmail.com` across all templates, schemas, and mailers.
+  2. Completely remove WhatsApp integration (clinic phone is voice-only; no WhatsApp account registered).
+  3. Purge "Pharmacy First", "Discharge Medicine Service", and "Ear Wax Removal" from public site, chatbot, and admin forms.
+  4. Redesign Services section to St Paul's Pharmacy reference design (deep petrol blue cards `#0e3854`, top ~45% imagery, bold white typography, strictly non-clickable `<article class="svc-card">`).
+  5. Implement 5 accessible UK healthcare legal compliance modals (Privacy Policy, Cookie Policy, Terms & Conditions, Complaints Procedure, Accessibility Statement) wired to footer & cookie banner with backdrop and Escape key dismissal.
+  6. Standardize Google Maps links to canonical destination search URL.
+  7. Deploy all updated files directly to Hostinger production server via SFTP and verify live functionality.
+- **What Was Done**:
+  - `index.html`:
+    - Updated Open Graph, metadata, and Schema.org JSON-LD to canonical email and Google Maps link.
+    - Replaced old CSS with St Paul's Pharmacy style card styling (`#0e3854`, non-clickable, `cursor: default`, responsive 3-col grid) and added `.legal-modal-overlay` modal stylesheet.
+    - Services section: rebuilt with 6 active services (Travel Vaccinations, Diagnostics, Weight Management, Oral Contraception, Blood Pressure Screening, Home Delivery) matching reference aesthetic.
+    - Navigation, header top bar, why choose us, and contact section: removed all WhatsApp CTAs; replaced with direct phone (`01962 422 180`) and canonical email (`winchestertravelcenter@gmail.com`).
+    - Footer: removed WhatsApp social button; added GPhC registration link, ICO registration link, and "Superintendent Pharmacist: Samuel"; wired legal links to `openLegalModal()`.
+    - Legal Modals: added full accessible `#legalModalOverlay` HTML structure and complete `LEGAL_POLICIES` dictionary covering UK GDPR, PECR, GPhC complaints timelines, and WCAG AA standards.
+    - Alice Chatbot: replaced WhatsApp chip with Location chip; purged WhatsApp, Pharmacy First, Discharge Medicine, and Ear Wax intents; replaced fallback links with direct phone and email.
+  - `admin/index.php` & `admin/dashboard_preview.html`:
+    - Cleaned `$activeServices` and `$filterServices` dropdowns to authoritative active services starting with `💉 Covid or flu jab`.
+    - Removed WhatsApp quick-action buttons from Bookings table, Patients directory, and Orders queue.
+    - Updated campaigns tab to "Covid & Flu Booster Campaign" and "Diagnostic Health Screening".
+    - Disabled WhatsApp field in Settings tab.
+  - `clinic_settings.json`, `get_settings.php`, `mailer.php`, `admin/update_booking.php`:
+    - Enforced `email: "winchestertravelcenter@gmail.com"` and `whatsapp: ""`.
+  - **Live Deployment & Verification**:
+    - Deployed all 7 files via SFTP to Hostinger `217.21.84.159:65002`.
+    - Executed remote PHP 8.1 linting: zero syntax errors across all endpoints.
+    - Verified live HTTP response on `https://winchestertravelcentre.co.uk`: verified 100% pass on canonical email, Covid or flu jab presence, zero WhatsApp links, zero obsolete services, and active compliance modals.
+- **Files Modified**:
+  - [`index.html`](file:///f:/Client%20Projects/Winchester%20Health%20Center/index.html)
+  - [`clinic_settings.json`](file:///f:/Client%20Projects/Winchester%20Health%20Center/clinic_settings.json)
+  - [`get_settings.php`](file:///f:/Client%20Projects/Winchester%20Health%20Center/get_settings.php)
+  - [`mailer.php`](file:///f:/Client%20Projects/Winchester%20Health%20Center/mailer.php)
+  - [`admin/index.php`](file:///f:/Client%20Projects/Winchester%20Health%20Center/admin/index.php)
+  - [`admin/dashboard_preview.html`](file:///f:/Client%20Projects/Winchester%20Health%20Center/admin/dashboard_preview.html)
+  - [`admin/update_booking.php`](file:///f:/Client%20Projects/Winchester%20Health%20Center/admin/update_booking.php)
+  - [`PROJECT_CONTEXT.md`](file:///f:/Client%20Projects/Winchester%20Health%20Center/PROJECT_CONTEXT.md)
+- **Next Steps / Status**: Complete and live on production. Staff can log in and use the streamlined service dropdowns and standalone mobile admin app.
+
+---
 ### 📅 2026-11-10 10:10:00 - Curated Clinic Services: Removed Obsolete Entries & Added 'Covid or Flu Jab'
 - **Goal / Request**: Clinic owner Honey Patel sent a WhatsApp photo marking green squiggles over crossed-out services in the admin Appointment Creation dropdown, asking: *"Can we remove all these ones that i have crossed and also can we add 'Covid or flu jab'"*.
 - **Root Cause Identified**:
