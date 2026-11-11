@@ -27,7 +27,7 @@ function send_system_mail($to, $subject, $htmlBody, $replyTo = null, $plainText 
         return ['success' => false, 'method' => 'none', 'error' => $msg];
     }
 
-    $fromEmail = defined('FROM_EMAIL') ? FROM_EMAIL : 'info@winchestertravelcentre.co.uk';
+    $fromEmail = defined('FROM_EMAIL') ? FROM_EMAIL : 'winchestertravelcenter@gmail.com';
     $fromName = defined('FROM_NAME') ? FROM_NAME : 'Winchester Travel & Health Centre';
     $replyEmail = $replyTo ? trim($replyTo) : (defined('REPLY_TO_EMAIL') ? REPLY_TO_EMAIL : $fromEmail);
 

@@ -51,8 +51,8 @@ function get_system_clinic_settings() {
     $defaults = [
         'phone_display'  => '01962 422 180',
         'phone_clean'    => '+441962422180',
-        'whatsapp'       => '441962422180',
-        'email'          => 'info@winchestertravelcentre.co.uk',
+        'whatsapp'       => '',
+        'email'          => 'winchestertravelcenter@gmail.com',
         'address'        => 'Winchester Health Centre, Winchester, Hampshire',
         'hours_weekday'  => 'Mon–Fri: 9:30am – 5:00pm',
         'hours_sat'      => 'Saturday: 9:30am – 3:00pm',

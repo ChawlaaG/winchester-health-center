@@ -29,8 +29,8 @@ $adminUsername = $_SESSION['admin_username'] ?? 'Admin';
 $clinicSettings = [
     'phone_display'  => '01962 422 180',
     'phone_clean'    => '+441962422180',
-    'whatsapp'       => '441962422180',
-    'email'          => 'info@winchestertravelcentre.co.uk',
+    'whatsapp'       => '',
+    'email'          => 'winchestertravelcenter@gmail.com',
     'address'        => 'Winchester Health Centre, Winchester, Hampshire',
     'hours_weekday'  => 'Mon–Fri: 9:30am – 5:00pm',
     'hours_sat'      => 'Saturday: 9:30am – 3:00pm',
@@ -2154,16 +2154,16 @@ foreach ($uniqueServices as $legacySrv) {
 
           <div style="border: 1px solid var(--border); border-radius: 8px; padding: 1.25rem; background: #e0f2fe;">
             <span style="background:#0284c7;color:#fff;font-size:0.7rem;font-weight:800;padding:2px 6px;border-radius:4px;">ACTIVE</span>
-            <h4 style="margin: 0.5rem 0 0.25rem; color: #0369a1;">Pharmacy First Walk-ins</h4>
-            <p style="font-size: 0.82rem; color: #334155;">Assessment &amp; prescription medication for 7 common minor conditions without GP queue.</p>
-            <div style="margin-top: 0.75rem; font-size: 0.8rem; font-weight: 700; color: #0284c7;">Engaged Patients: 89</div>
+            <h4 style="margin: 0.5rem 0 0.25rem; color: #0369a1;">Covid &amp; Flu Booster Campaign</h4>
+            <p style="font-size: 0.82rem; color: #334155;">Seasonal Covid and influenza vaccinations administered by clinical pharmacists.</p>
+            <div style="margin-top: 0.75rem; font-size: 0.8rem; font-weight: 700; color: #0284c7;">Engaged Patients: 118</div>
           </div>
 
           <div style="border: 1px solid var(--border); border-radius: 8px; padding: 1.25rem; background: #fef3c7;">
             <span style="background:#d97706;color:#fff;font-size:0.7rem;font-weight:800;padding:2px 6px;border-radius:4px;">ACTIVE</span>
-            <h4 style="margin: 0.5rem 0 0.25rem; color: #92400e;">Ear Microsuction Clinic</h4>
-            <p style="font-size: 0.82rem; color: #334155;">Safe ultrasonic ear wax removal performed by trained clinicians in Room 2.</p>
-            <div style="margin-top: 0.75rem; font-size: 0.8rem; font-weight: 700; color: #d97706;">Engaged Patients: 64</div>
+            <h4 style="margin: 0.5rem 0 0.25rem; color: #92400e;">Diagnostic Health Screening</h4>
+            <p style="font-size: 0.82rem; color: #334155;">Comprehensive blood tests, cholesterol profiling, and vital health checks in Room 1.</p>
+            <div style="margin-top: 0.75rem; font-size: 0.8rem; font-weight: 700; color: #d97706;">Engaged Patients: 76</div>
           </div>
         </div>
       </div>
@@ -2464,16 +2464,16 @@ foreach ($uniqueServices as $legacySrv) {
             <span style="font-size: 0.72rem; color: var(--text-muted); display: block; margin-top: 0.25rem;">Shown across website header, contact cards, footer &amp; patient emails.</span>
           </div>
           <div class="form-group-item">
-            <label>WhatsApp Number *</label>
-            <input type="text" id="setting_whatsapp" class="form-input-field" placeholder="441962422180" required>
-            <span style="font-size: 0.72rem; color: var(--text-muted); display: block; margin-top: 0.25rem;">International format without + or spaces (e.g. 441962422180).</span>
+            <label>WhatsApp Number (Disabled)</label>
+            <input type="text" id="setting_whatsapp" class="form-input-field" placeholder="Disabled — Clinic phone not registered on WhatsApp" disabled style="background:#f1f5f9;cursor:not-allowed;color:#94a3b8;">
+            <span style="font-size: 0.72rem; color: var(--text-muted); display: block; margin-top: 0.25rem;">WhatsApp integration is deactivated across the public website.</span>
           </div>
         </div>
 
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 0.5rem;">
           <div class="form-group-item">
             <label>Clinic Contact Email *</label>
-            <input type="email" id="setting_email" class="form-input-field" placeholder="info@winchestertravelcentre.co.uk" required>
+            <input type="email" id="setting_email" class="form-input-field" placeholder="winchestertravelcenter@gmail.com" required>
             <span style="font-size: 0.72rem; color: var(--text-muted); display: block; margin-top: 0.25rem;">Patient inquiries and booking reply-to address.</span>
           </div>
           <div class="form-group-item">
@@ -3302,7 +3302,6 @@ foreach ($uniqueServices as $legacySrv) {
           <td>
             <div class="contact-cell-row">
               📞 <a href="tel:${escapeHtml(phone)}">${escapeHtml(phone)}</a>
-              <a href="#" class="wa-btn-icon" title="Send WhatsApp Confirmation" onclick="openWhatsAppMsg('${escapeJs(fullName)}', '${escapeJs(phone)}', '${escapeJs(service)}', '${escapeJs(prefDate)}'); return false;">💬</a>
             </div>
             ${email ? `<div class="patient-cell-sub" style="margin-top:2px;">✉️ <a href="mailto:${escapeHtml(email)}">${escapeHtml(email)}</a></div>` : ''}
           </td>
@@ -3367,7 +3366,6 @@ foreach ($uniqueServices as $legacySrv) {
           </td>
           <td>
             <a href="tel:${escapeHtml(p.phone)}" style="color:var(--sky);font-weight:600;">${escapeHtml(p.phone)}</a>
-            <a href="#" class="wa-btn-icon" style="margin-left:6px;" onclick="openWhatsAppMsg('${escapeJs(p.name)}', '${escapeJs(p.phone)}', '${escapeJs(p.latestService)}', 'Upcoming'); return false;">💬</a>
           </td>
           <td>${p.email ? `<a href="mailto:${escapeHtml(p.email)}" style="color:var(--sky);">${escapeHtml(p.email)}</a>` : '—'}</td>
           <td>${p.dob ? new Date(p.dob).toLocaleDateString('en-GB') : '—'}</td>
@@ -3544,7 +3542,6 @@ foreach ($uniqueServices as $legacySrv) {
             <div class="patient-cell-name" style="font-weight: 700; color: #0f172a;">${escapeHtml(fullName || 'Guest Patient')}</div>
             <div class="contact-cell-row" style="margin-top: 3px;">
               📞 <a href="tel:${escapeHtml(phone)}">${escapeHtml(phone)}</a>
-              ${phone ? `<a href="#" class="wa-btn-icon" title="Send WhatsApp Message" onclick="openWhatsAppMsg('${escapeJs(fullName)}', '${escapeJs(phone)}', '${escapeJs(service)}', '${escapeJs(prefDate)}'); return false;">💬</a>` : ''}
             </div>
             ${email ? `<div class="patient-cell-sub" style="margin-top: 2px;">✉️ <a href="mailto:${escapeHtml(email)}">${escapeHtml(email)}</a></div>` : ''}
             ${dob ? `<div class="patient-cell-sub" style="margin-top: 1px; color: #94a3b8;">DOB: ${dob}</div>` : ''}
@@ -4389,7 +4386,7 @@ foreach ($uniqueServices as $legacySrv) {
           first_name: '⛔ Blocked Slot',
           last_name: `(${reasonVal})`,
           phone: '01962 422 180',
-          email: 'info@winchestertravelcentre.co.uk',
+          email: 'winchestertravelcenter@gmail.com',
           service: 'Staff Break / Blocked Slot',
           preferred_date: dtVal.replace('T', ' ') + ':00',
           status: 'Confirmed',

@@ -8,7 +8,7 @@
 <meta name="keywords" content="travel clinic Winchester, travel vaccinations, yellow fever clinic Winchester, pharmacy first, blood pressure check, ear wax removal microsuction, health check Winchester">
 <link rel="canonical" href="https://winchestertravelcentre.co.uk/">
 
-<!-- Open Graph / Facebook / WhatsApp / Telegram -->
+<!-- Open Graph / Social Media Sharing -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Winchester Health Centre">
 <meta property="og:url" content="https://winchestertravelcentre.co.uk/">
@@ -39,6 +39,8 @@
   "logo": "https://winchestertravelcentre.co.uk/assets/logo.png",
   "image": "https://winchestertravelcentre.co.uk/assets/logo.png",
   "telephone": "+44 1962 422 180",
+  "email": "winchestertravelcenter@gmail.com",
+  "hasMap": "https://www.google.com/maps/search/?api=1&query=Winchester+Health+Centre+Travel+Clinic+Winchester",
   "priceRange": "££",
   "address": {
     "@type": "PostalAddress",
@@ -205,30 +207,35 @@ nav{background:var(--white);position:sticky;top:0;z-index:1000;box-shadow:0 3px 
 .hiw-step-title{font-size:1.2rem;font-weight:800;color:var(--navy);margin-bottom:.4rem}
 .hiw-step-desc{font-size:.95rem;color:var(--grey-5);line-height:1.6;font-weight:600}
 
-/* ══ SERVICES — big visual cards for elderly ══ */
-.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.75rem;margin-top:3rem}
-.svc-card{background:var(--white);border:3px solid var(--grey-1);border-radius:20px;overflow:hidden;transition:all .3s;cursor:pointer;text-decoration:none;display:block}
-.svc-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-lg);border-color:transparent}
-.svc-card-visual{height:160px;display:flex;align-items:center;justify-content:center;font-size:5rem;position:relative;overflow:hidden}
+/* ══ SERVICES — St Paul's Pharmacy Reference Style ══ */
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-top:3rem}
+.svc-card{background:#0e3854;border-radius:20px;overflow:hidden;box-shadow:0 10px 30px rgba(10,47,82,.14);border:1px solid rgba(255,255,255,.08);display:flex;flex-direction:column;height:100%;cursor:default;user-select:text;transition:transform .25s ease,box-shadow .25s ease}
+.svc-card:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(10,47,82,.22)}
+.svc-card-visual{width:100%;height:210px;min-height:210px;position:relative;overflow:hidden;background:#061f38}
 .svc-card-visual img{width:100%;height:100%;object-fit:cover;display:block}
-.svc-v-travel{background:linear-gradient(135deg,#1b3a6b 0%,#2a5298 100%)}
-.svc-v-diag{background:linear-gradient(135deg,#2d7a2d 0%,#3da33d 100%)}
-.svc-v-pharma{background:linear-gradient(135deg,#005eb8 0%,#3a9fd4 100%)}
-.svc-v-ear{background:linear-gradient(135deg,#e8820c 0%,#f5a03a 100%)}
-.svc-v-weight{background:linear-gradient(135deg,#2d7a2d 0%,#5cb8ea 100%)}
-.svc-v-contra{background:linear-gradient(135deg,#8b2fc9 0%,#b85de8 100%)}
-.svc-v-smoke{background:linear-gradient(135deg,#c0392b 0%,#e74c3c 100%)}
-.svc-v-delivery{background:linear-gradient(135deg,#1b3a6b 0%,#3a9fd4 100%)}
-.svc-v-discharge{background:linear-gradient(135deg,#0d5f5f 0%,#17a89a 100%)}
-.svc-card-body{padding:1.5rem}
-.svc-tag{display:inline-block;font-size:.72rem;font-weight:800;padding:.2rem .65rem;border-radius:4px;margin-bottom:.65rem;text-transform:uppercase;letter-spacing:.04em}
-.svc-tag-priv{background:var(--amber-pale);color:var(--amber)}
-.svc-tag-free{background:var(--green-pale);color:var(--green)}
-.svc-card-title{font-size:1.25rem;font-weight:800;color:var(--navy);margin-bottom:.5rem;line-height:1.2}
-.svc-card-desc{font-size:.92rem;color:var(--grey-5);line-height:1.6;font-weight:600}
-.svc-card-cta{display:inline-flex;align-items:center;gap:.35rem;margin-top:1rem;font-size:.9rem;font-weight:800;color:var(--sky)}
-.svc-card-cta svg{width:14px;height:14px;transition:transform .2s}
-.svc-card:hover .svc-card-cta svg{transform:translateX(4px)}
+.svc-card-body{padding:1.6rem 1.6rem 1.85rem 1.6rem;display:flex;flex-direction:column;flex:1;background:#0e3854}
+.svc-card-title{font-family:'Lora',serif;font-size:1.2rem;font-weight:700;color:#ffffff;margin-bottom:.75rem;line-height:1.3;letter-spacing:-.01em}
+.svc-card-desc{font-family:'Nunito',sans-serif;font-size:.92rem;color:rgba(255,255,255,.94);line-height:1.6;font-weight:400;margin:0}
+
+/* ══ LEGAL POLICIES MODALS (UK HEALTHCARE COMPLIANCE) ══ */
+.legal-modal-overlay{display:none;position:fixed;inset:0;background:rgba(6,31,56,.7);z-index:5000;align-items:center;justify-content:center;padding:1.5rem;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.legal-modal-overlay.active{display:flex}
+.legal-modal-card{background:#ffffff;border-radius:20px;max-width:740px;width:100%;max-height:85vh;display:flex;flex-direction:column;box-shadow:0 25px 60px rgba(0,0,0,.28);border:1px solid var(--grey-3);overflow:hidden;animation:modalFadeIn .25s ease-out}
+@keyframes modalFadeIn{from{opacity:0;transform:translateY(16px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+.legal-modal-header{padding:1.5rem 1.75rem;border-bottom:1px solid var(--grey-1);display:flex;justify-content:space-between;align-items:flex-start;background:#f8fafc}
+.legal-modal-badge{display:inline-block;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--green);background:var(--green-pale);padding:.2rem .6rem;border-radius:4px;margin-bottom:.35rem}
+.legal-modal-title{font-family:'Lora',serif;font-size:1.45rem;font-weight:700;color:var(--navy);margin:0;line-height:1.25}
+.legal-modal-close{background:transparent;border:none;font-size:1.4rem;color:var(--grey-5);cursor:pointer;padding:.25rem .5rem;border-radius:8px;line-height:1;transition:all .15s}
+.legal-modal-close:hover{background:var(--grey-1);color:var(--navy)}
+.legal-modal-body{padding:1.75rem;overflow-y:auto;font-size:.95rem;line-height:1.65;color:#334155}
+.legal-modal-body h4{font-family:'Lora',serif;font-size:1.15rem;color:var(--navy);margin:1.25rem 0 .4rem 0}
+.legal-modal-body h4:first-child{margin-top:0}
+.legal-modal-body p{margin-bottom:.85rem}
+.legal-modal-body ul{margin:0 0 1rem 1.25rem;padding:0}
+.legal-modal-body li{margin-bottom:.35rem}
+.legal-modal-footer{padding:1rem 1.75rem;border-top:1px solid var(--grey-1);background:#f8fafc;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.75rem}
+.btn-legal-close{background:var(--navy);color:#ffffff;border:none;border-radius:8px;padding:.6rem 1.25rem;font-size:.9rem;font-weight:700;cursor:pointer;transition:background .15s}
+.btn-legal-close:hover{background:var(--navy-lt)}
 
 /* ══ VISUAL INFOGRAPHIC — WHY CHOOSE US ══ */
 .why-section{background:var(--navy);padding:5rem 0;position:relative;overflow:hidden}
@@ -485,14 +492,14 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
     <div class="topbar-left">
       <a href="tel:+441962422180" data-setting-href="tel">📞 <span data-setting="phone_display">01962 422 180</span></a>
       <div class="topbar-divider"></div>
-      <a href="mailto:info@winchestertravelcentre.co.uk" data-setting-href="email">✉ <span data-setting="email">info@winchestertravelcentre.co.uk</span></a>
+      <a href="mailto:winchestertravelcenter@gmail.com" data-setting-href="email">✉ <span data-setting="email">winchestertravelcenter@gmail.com</span></a>
     </div>
     <div class="topbar-right">
       <span data-setting="topbar_ticker">Mon–Fri 9:30am–5pm · Sat 9:30am–3pm</span>
       <div class="topbar-divider"></div>
-      <a href="#">GPhC Registered</a>
+      <a href="https://www.google.com/maps/search/?api=1&query=Winchester+Health+Centre+Travel+Clinic+Winchester" target="_blank" rel="noopener noreferrer">📍 Winchester, Hampshire</a>
       <div class="topbar-divider"></div>
-      <a href="#">🚚 Free Delivery</a>
+      <a href="#services">🚚 Free Delivery</a>
     </div>
   </div>
 </div>
@@ -511,7 +518,7 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
       <li><a href="#booking">Contact</a></li>
     </ul>
     <div class="nav-cta">
-      <a href="https://wa.me/441962422180" target="_blank" class="btn-wa" data-setting-href="whatsapp">💬 WhatsApp</a>
+      <a href="tel:+441962422180" class="btn-tel" data-setting-href="tel" style="display:inline-flex;align-items:center;gap:.45rem;padding:.55rem 1.15rem;background:var(--sky-pale);border:1.5px solid var(--sky);color:var(--navy);border-radius:50px;font-weight:700;font-size:.9rem;text-decoration:none;">📞 <span data-setting="phone_display">01962 422 180</span></a>
       <a href="#booking" class="btn-book">📅 Book Now</a>
     </div>
     <button class="hamburger" onclick="openMenu()" aria-label="Open menu"><span></span><span></span><span></span></button>
@@ -527,7 +534,7 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
   <a href="#booking" onclick="closeMenu()">Prescriptions</a>
   <a href="#booking" onclick="closeMenu()">Contact</a>
   <div class="mobile-ctas">
-    <a href="https://wa.me/441962422180" target="_blank" class="btn-wa" data-setting-href="whatsapp" style="border-radius:14px;padding:1rem;justify-content:center;font-size:1.1rem">💬 WhatsApp Us</a>
+    <a href="tel:+441962422180" data-setting-href="tel" class="btn-tel" style="border-radius:14px;padding:1rem;justify-content:center;font-size:1.1rem;display:flex;align-items:center;gap:.5rem;background:var(--sky-pale);color:var(--navy);text-decoration:none;font-weight:800">📞 Call Us: <span data-setting="phone_display">01962 422 180</span></a>
     <a href="#booking" onclick="closeMenu()" class="btn-book" style="border-radius:14px;padding:1rem;justify-content:center;font-size:1.1rem">📅 Book a Service</a>
   </div>
 </div>
@@ -544,10 +551,10 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
         <em>Right here</em><br>
         in Winchester.
       </h1>
-      <p class="hero-sub">Fast, friendly healthcare services for the whole family — travel vaccinations, diagnostic tests, ear wax removal and much more. No long waits.</p>
+      <p class="hero-sub">Fast, friendly healthcare services for the whole family — travel vaccinations, diagnostic tests, weight management and much more. No long waits.</p>
       <div class="hero-btns">
         <a href="#booking" class="btn-book" style="font-size:1.15rem;padding:1rem 2rem">📅 Book a Service</a>
-        <a href="https://wa.me/441962422180" target="_blank" class="btn-wa" data-setting-href="whatsapp" style="font-size:1.15rem;padding:1rem 2rem">💬 WhatsApp Us</a>
+        <a href="tel:+441962422180" data-setting-href="tel" class="btn-tel" style="font-size:1.15rem;padding:1rem 2rem;display:inline-flex;align-items:center;gap:.5rem;background:var(--sky-pale);border:2px solid var(--sky);border-radius:50px;color:var(--navy);font-weight:800;text-decoration:none">📞 Call <span data-setting="phone_display">01962 422 180</span></a>
       </div>
       <div class="hero-stats-row">
         <div class="hero-stat"><div class="hero-stat-emoji">⭐</div><div class="hero-stat-num">4.9<span>/5</span></div><div class="hero-stat-label">Google Rating</div></div>
@@ -650,94 +657,53 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
     </div>
     <div class="services-grid">
 
-      <a href="#booking" class="svc-card reveal" style="transition-delay:.05s" onclick="event.preventDefault();document.querySelector('#booking').scrollIntoView({behavior:'smooth'})">
-        <div class="svc-card-visual svc-v-travel"><img src="assets/travel_vaccinations.png" alt="Travel Clinic & Vaccinations" loading="lazy"></div>
+      <article class="svc-card reveal" style="transition-delay:.05s">
+        <div class="svc-card-visual"><img src="assets/travel_vaccinations.png" alt="Travel Clinic & Vaccinations" loading="lazy"></div>
         <div class="svc-card-body">
-          <span class="svc-tag svc-tag-priv">Private Clinic</span>
-          <div class="svc-card-title">Travel Clinic &amp; Vaccinations</div>
-          <div class="svc-card-desc">Heading abroad? We'll make sure you're protected. Yellow fever, typhoid, hepatitis, malaria tablets and more — tailored to your destination.</div>
-          <span class="svc-card-cta">Book Travel Clinic <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+          <h3 class="svc-card-title">Travel Clinic &amp; Vaccinations</h3>
+          <p class="svc-card-desc">Heading abroad for holiday, work, or pilgrimage? Our certified travel clinic provides destination-specific risk assessments, official Yellow Fever certificates, and vaccines including Typhoid, Hepatitis, and Rabies, alongside preventative malaria medication.</p>
         </div>
-      </a>
+      </article>
 
-      <a href="#booking" class="svc-card reveal" style="transition-delay:.1s" onclick="event.preventDefault();document.querySelector('#booking').scrollIntoView({behavior:'smooth'})">
-        <div class="svc-card-visual svc-v-diag"><img src="assets/diagnostic_tests.png" alt="Diagnostic Tests" loading="lazy"></div>
+      <article class="svc-card reveal" style="transition-delay:.1s">
+        <div class="svc-card-visual"><img src="assets/diagnostic_tests.png" alt="Diagnostic & Health Screening" loading="lazy"></div>
         <div class="svc-card-body">
-          <span class="svc-tag svc-tag-priv">Private</span>
-          <div class="svc-card-title">Diagnostic Tests</div>
-          <div class="svc-card-desc">Blood tests, cholesterol, blood sugar, blood pressure and more. Fast results. No GP referral needed. Quick and simple.</div>
-          <span class="svc-card-cta">Book a Test <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+          <h3 class="svc-card-title">Diagnostic &amp; Health Screening</h3>
+          <p class="svc-card-desc">Take control of your health with fast, reliable clinical diagnostics without long GP waiting lists. We offer comprehensive phlebotomy blood profiles, cholesterol checks, diabetes glucose monitoring, and free routine blood pressure screenings.</p>
         </div>
-      </a>
+      </article>
 
-      <a href="#booking" class="svc-card reveal" style="transition-delay:.15s" onclick="event.preventDefault();document.querySelector('#booking').scrollIntoView({behavior:'smooth'})">
-        <div class="svc-card-visual svc-v-pharma"><img src="assets/pharmacy_first.png" alt="Pharmacy First" loading="lazy"></div>
+      <article class="svc-card reveal" style="transition-delay:.15s">
+        <div class="svc-card-visual"><img src="assets/weight_management.png" alt="Weight Management Consultation" loading="lazy"></div>
         <div class="svc-card-body">
-          <span class="svc-tag svc-tag-priv">Walk-in Assessment</span>
-          <div class="svc-card-title">Pharmacy First</div>
-          <div class="svc-card-desc">See our pharmacist for 7 common conditions — sore throat, earache, UTI, sinusitis and more. <strong>No GP appointment needed.</strong> Fast clinical assessment &amp; treatment.</div>
-          <span class="svc-card-cta">Walk In or Book <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+          <h3 class="svc-card-title">Weight Management Support</h3>
+          <p class="svc-card-desc">Achieve lasting wellness through compassionate, clinically guided support tailored to your body. Our healthcare team offers confidential BMI assessments, tailored nutritional advice, and access to approved medical treatments where clinically indicated.</p>
         </div>
-      </a>
+      </article>
 
-      <div class="svc-card reveal" style="transition-delay:.05s;cursor:default">
-        <div class="svc-card-visual svc-v-ear"><img src="assets/ear_wax_removal.png" alt="Ear Wax Removal" loading="lazy"></div>
+      <article class="svc-card reveal" style="transition-delay:.05s">
+        <div class="svc-card-visual"><img src="assets/quit_smoking.png" alt="Smokefree Hampshire — Quit Smoking" loading="lazy"></div>
         <div class="svc-card-body">
-          <span class="svc-tag" style="background:var(--grey-1);color:var(--grey-5)">Coming Soon</span>
-          <div class="svc-card-title">Ear Wax Removal</div>
-          <div class="svc-card-desc">Can't hear as well as you used to? Blocked ears? Our trained staff safely remove ear wax quickly and painlessly. This service is launching soon — check back shortly!</div>
+          <h3 class="svc-card-title">Smokefree Hampshire — Quit Smoking</h3>
+          <p class="svc-card-desc">Giving up smoking is one of the most powerful steps for your long-term health. We provide one-to-one behavioral consultations, tailored nicotine replacement therapies (NRT), and structured weekly check-ins to help you succeed permanently.</p>
         </div>
-      </div>
+      </article>
 
-      <a href="#booking" class="svc-card reveal" style="transition-delay:.1s" onclick="event.preventDefault();document.querySelector('#booking').scrollIntoView({behavior:'smooth'})">
-        <div class="svc-card-visual svc-v-weight"><img src="assets/weight_management.png" alt="Weight Management" loading="lazy"></div>
+      <article class="svc-card reveal" style="transition-delay:.1s">
+        <div class="svc-card-visual"><img src="assets/contraception_services.png" alt="Contraception & Sexual Health" loading="lazy"></div>
         <div class="svc-card-body">
-          <span class="svc-tag svc-tag-priv">Private Consultation</span>
-          <div class="svc-card-title">Weight Management</div>
-          <div class="svc-card-desc">Friendly advice, BMI checks, tailored health plans and access to weight management medications where appropriate. Caring and non-judgemental.</div>
-          <span class="svc-card-cta">Learn More <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+          <h3 class="svc-card-title">Oral &amp; Emergency Contraception</h3>
+          <p class="svc-card-desc">Access private, sensitive sexual health support in our dedicated consultation rooms. Our trained prescribers offer emergency morning-after contraception, ongoing oral contraceptive pill consultations, and confidential advice with complete discretion.</p>
         </div>
-      </a>
+      </article>
 
-      <a href="#booking" class="svc-card reveal" style="transition-delay:.15s" onclick="event.preventDefault();document.querySelector('#booking').scrollIntoView({behavior:'smooth'})">
-        <div class="svc-card-visual svc-v-smoke"><img src="assets/quit_smoking.png" alt="Quit Smoking" loading="lazy"></div>
+      <article class="svc-card reveal" style="transition-delay:.15s">
+        <div class="svc-card-visual"><img src="assets/free_home_delivery.png" alt="Free Prescription Home Delivery" loading="lazy"></div>
         <div class="svc-card-body">
-          <span class="svc-tag svc-tag-priv">Dedicated Support</span>
-          <div class="svc-card-title">Quit Smoking — Smokefree Hampshire</div>
-          <div class="svc-card-desc">We can help you quit smoking with expert support, regular consultations and nicotine replacement options. You can do it — we'll help you!</div>
-          <span class="svc-card-cta">Get Support <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+          <h3 class="svc-card-title">Free Home Delivery Service</h3>
+          <p class="svc-card-desc">We ensure you never run out of vital medications. Our dependable local delivery service brings your repeat NHS and private prescriptions directly to your doorstep across Winchester, Littleton, Harestock, and neighboring Hampshire communities at zero extra charge.</p>
         </div>
-      </a>
-
-      <a href="#booking" class="svc-card reveal" style="transition-delay:.05s" onclick="event.preventDefault();document.querySelector('#booking').scrollIntoView({behavior:'smooth'})">
-        <div class="svc-card-visual svc-v-discharge"><img src="assets/discharge_medicine.png" alt="Discharge Medicine Service" loading="lazy"></div>
-        <div class="svc-card-body">
-          <span class="svc-tag svc-tag-priv">Clinical Follow-up</span>
-          <div class="svc-card-title">Discharge Medicine Service</div>
-          <div class="svc-card-desc">Just come home from hospital? We'll make sure your new medicines are ready quickly and explain everything clearly and simply.</div>
-          <span class="svc-card-cta">Learn More <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
-        </div>
-      </a>
-
-      <a href="#booking" class="svc-card reveal" style="transition-delay:.1s" onclick="event.preventDefault();document.querySelector('#booking').scrollIntoView({behavior:'smooth'})">
-        <div class="svc-card-visual svc-v-contra"><img src="assets/contraception_services.png" alt="Contraception Services" loading="lazy"></div>
-        <div class="svc-card-body">
-          <span class="svc-tag svc-tag-priv">Private</span>
-          <div class="svc-card-title">Contraception Services</div>
-          <div class="svc-card-desc">Confidential and caring consultations for oral and emergency contraception. Private, discreet and non-judgemental — your privacy matters.</div>
-          <span class="svc-card-cta">Book Consultation <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
-        </div>
-      </a>
-
-      <a href="#booking" class="svc-card reveal" style="transition-delay:.15s" onclick="event.preventDefault();document.querySelector('#booking').scrollIntoView({behavior:'smooth'})">
-        <div class="svc-card-visual svc-v-delivery"><img src="assets/free_home_delivery.png" alt="Free Home Delivery" loading="lazy"></div>
-        <div class="svc-card-body">
-          <span class="svc-tag svc-tag-free">Completely Free</span>
-          <div class="svc-card-title">Free Home Delivery</div>
-          <div class="svc-card-desc">Can't come to us? We'll come to you! Free delivery of your prescriptions straight to your front door. Sign up today!</div>
-          <span class="svc-card-cta">Sign Up Free <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
-        </div>
-      </a>
+      </article>
 
     </div>
   </div>
@@ -755,7 +721,7 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
       <div class="hiw-step reveal" style="transition-delay:.1s">
         <div class="hiw-num hiw-num-1">📞</div>
         <div class="hiw-step-title">Step 1 — Contact Us</div>
-        <div class="hiw-step-desc">Call us, WhatsApp, or fill in our simple online form. Friendly staff will answer your questions.</div>
+        <div class="hiw-step-desc">Call us directly or fill in our simple online form. Our friendly staff will promptly assist you.</div>
       </div>
       <div class="hiw-step reveal" style="transition-delay:.2s">
         <div class="hiw-num hiw-num-2">📅</div>
@@ -823,9 +789,9 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
           <p>Can't travel? We deliver your prescriptions free to your door across Winchester.</p>
         </div>
         <div class="why-card">
-          <span class="why-emoji">💬</span>
-          <h4>WhatsApp Support</h4>
-          <p>Message us any time on WhatsApp — our team replies quickly and kindly.</p>
+          <span class="why-emoji">📞</span>
+          <h4>Direct Clinical Advice</h4>
+          <p>Speak directly with our qualified pharmacy team by phone or email whenever you need guidance.</p>
         </div>
         <div class="why-card">
           <span class="why-emoji">🩺</span>
@@ -894,7 +860,7 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
         <div class="team-img" style="background-image: url('https://images.pexels.com/photos/5327585/pexels-photo-5327585.jpeg?auto=compress&cs=tinysrgb&w=600'); background-size: cover; background-position: center; font-size: 0;">👩‍⚕️</div>
         <div class="team-info">
           <h4>Travel Health Specialist</h4>
-          <div class="team-role">Travel Clinic &amp; Pharmacy First Lead</div>
+          <div class="team-role">Travel Clinic &amp; Clinical Lead</div>
           <div class="team-quals">MPharm · Independent Prescriber</div>
         </div>
       </div>
@@ -995,26 +961,22 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
             <div class="c-text"><p>Phone</p><p><a href="tel:+441962422180" data-setting-href="tel" data-setting="phone_display">01962 422 180</a></p></div>
           </div>
           <div class="contact-item">
-            <div class="c-icon c-icon-green" style="background:#e7fef0">💬</div>
-            <div class="c-text"><p>WhatsApp</p><p><a href="https://wa.me/441962422180" target="_blank" data-setting-href="whatsapp">Message Us on WhatsApp</a></p></div>
-          </div>
-          <div class="contact-item">
             <div class="c-icon c-icon-sky">✉️</div>
-            <div class="c-text"><p>Email</p><p><a href="mailto:info@winchestertravelcentre.co.uk" data-setting-href="email" data-setting="email" style="color:inherit;text-decoration:none">info@winchestertravelcentre.co.uk</a></p></div>
+            <div class="c-text"><p>Email</p><p><a href="mailto:winchestertravelcenter@gmail.com" data-setting-href="email" data-setting="email" style="color:inherit;text-decoration:none">winchestertravelcenter@gmail.com</a></p></div>
           </div>
           <div class="contact-item">
             <div class="c-icon c-icon-amber">📍</div>
-            <div class="c-text"><p>Address</p><p data-setting="address">Winchester Health Centre, Winchester, Hampshire</p></div>
+            <div class="c-text"><p>Address</p><p><a href="https://www.google.com/maps/search/?api=1&query=Winchester+Health+Centre+Travel+Clinic+Winchester" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none" data-setting="address">Winchester Health Centre, Winchester, Hampshire ↗</a></p></div>
           </div>
           <div class="contact-item">
             <div class="c-icon c-icon-sky">🕐</div>
             <div class="c-text"><p>Opening Hours</p><p><span data-setting="hours_weekday">Mon–Fri: 9:30am – 5:00pm</span><br><span data-setting="hours_sat">Saturday: 9:30am – 3:00pm</span><br><span data-setting="hours_sun">Sunday: Closed</span></p></div>
           </div>
-          <div class="map-box" onclick="window.open('https://maps.google.com','_blank')">
+          <a href="https://www.google.com/maps/search/?api=1&query=Winchester+Health+Centre+Travel+Clinic+Winchester" target="_blank" rel="noopener noreferrer" class="map-box" style="text-decoration:none;display:block">
             <span>🗺️</span>
             <strong>Click to open on Google Maps</strong>
-            <small style="color:var(--grey-5);font-weight:600">Winchester, Hampshire</small>
-          </div>
+            <small style="color:var(--grey-5);font-weight:600">Winchester Health Centre, Winchester, Hampshire</small>
+          </a>
         </div>
 
         <!-- VISUAL QUICK CONTACT BUTTONS — good for elderly -->
@@ -1025,9 +987,9 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
               <span style="font-size:2rem;transition:color .2s">📞</span>
               <div><strong style="display:block;font-size:1rem;font-weight:800;color:var(--navy);transition:color .2s">Call Us Now</strong><small style="color:var(--grey-5);font-weight:600;font-size:.88rem" data-setting="phone_display">01962 422 180</small></div>
             </a>
-            <a href="https://wa.me/441962422180" target="_blank" data-setting-href="whatsapp" style="display:flex;align-items:center;gap:1rem;background:#e7fef0;border:2px solid #25d366;border-radius:14px;padding:1rem 1.25rem;text-decoration:none;transition:all .2s" onmouseover="this.style.background='#25d366';this.querySelector('strong').style.color='white'" onmouseout="this.style.background='#e7fef0';this.querySelector('strong').style.color='var(--navy)'">
-              <span style="font-size:2rem">💬</span>
-              <div><strong style="display:block;font-size:1rem;font-weight:800;color:var(--navy);transition:color .2s">WhatsApp Us</strong><small style="color:var(--grey-5);font-weight:600;font-size:.88rem">Message anytime — quick reply</small></div>
+            <a href="mailto:winchestertravelcenter@gmail.com" data-setting-href="email" style="display:flex;align-items:center;gap:1rem;background:var(--green-pale);border:2px solid var(--green);border-radius:14px;padding:1rem 1.25rem;text-decoration:none;transition:all .2s" onmouseover="this.style.background='var(--green)';this.querySelector('strong').style.color='white';this.querySelector('small').style.color='white'" onmouseout="this.style.background='var(--green-pale)';this.querySelector('strong').style.color='var(--navy)';this.querySelector('small').style.color='var(--grey-5)'">
+              <span style="font-size:2rem">✉️</span>
+              <div><strong style="display:block;font-size:1rem;font-weight:800;color:var(--navy);transition:color .2s">Email Our Team</strong><small style="color:var(--grey-5);font-weight:600;font-size:.88rem">winchestertravelcenter@gmail.com</small></div>
             </a>
             <a href="#booking" style="display:flex;align-items:center;gap:1rem;background:var(--amber-pale);border:2px solid var(--amber);border-radius:14px;padding:1rem 1.25rem;text-decoration:none;transition:all .2s" onclick="event.preventDefault();document.querySelector('#booking').scrollIntoView({behavior:'smooth'})" onmouseover="this.style.background='var(--amber)';this.querySelector('strong').style.color='white'" onmouseout="this.style.background='var(--amber-pale)';this.querySelector('strong').style.color='var(--navy)'">
               <span style="font-size:2rem">📅</span>
@@ -1109,54 +1071,54 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
     <div class="footer-grid">
       <div class="footer-brand">
         <a href="#" class="logo"><img src="assets/logo.png" alt="Winchester Health Centre" style="height:56px;"></a>
-        <p>Winchester Health Centre — your trusted local pharmacy and travel clinic serving Winchester, Littleton, Harestock, Sparsholt, Headbourne Worthy, Kings Worthy and Otterbourne.</p>
-        <div class="footer-socials">
-          <a href="#" class="soc-btn" aria-label="Facebook">📘</a>
-          <a href="https://wa.me/441962422180" target="_blank" class="soc-btn" aria-label="WhatsApp" data-setting-href="whatsapp">💬</a>
-          <a href="#" class="soc-btn" aria-label="Instagram">📸</a>
+        <p>Winchester Health Centre — your trusted community pharmacy and travel clinic serving Winchester, Littleton, Harestock, Sparsholt, Headbourne Worthy, Kings Worthy and Otterbourne.</p>
+        <div style="margin-top:1rem;font-size:0.88rem;color:rgba(255,255,255,0.85);line-height:1.6">
+          <p style="margin:0 0 0.35rem"><strong>Superintendent Pharmacist:</strong> Samuel</p>
+          <p style="margin:0 0 0.35rem">Registered Pharmacy with the General Pharmaceutical Council (GPhC): <a href="https://www.pharmacyregulation.org/registers/pharmacy" target="_blank" rel="noopener noreferrer" style="color:var(--sky);text-decoration:underline"><!-- Replace [GPhC Reg No.] with active number -->[GPhC Reg No.]</a></p>
+          <p style="margin:0">Registered with the Information Commissioner's Office (ICO): <a href="https://ico.org.uk/" target="_blank" rel="noopener noreferrer" style="color:var(--sky);text-decoration:underline"><!-- Replace [ICO Reg No.] with active number -->[ICO Reg No.]</a></p>
         </div>
       </div>
       <div class="footer-col">
         <h5>Our Services</h5>
         <ul>
-          <li><a href="#">✈️ Travel Clinic</a></li>
-          <li><a href="#">🔬 Diagnostic Tests</a></li>
-          <li><a href="#">👂 Ear Wax Removal (Coming Soon)</a></li>
-          <li><a href="#">⚖️ Weight Management</a></li>
-          <li><a href="#">💊 Pharmacy First</a></li>
-          <li><a href="#">🚭 Quit Smoking</a></li>
-          <li><a href="#">🚚 Free Delivery</a></li>
+          <li><a href="#services">💉 Covid or Flu Jab</a></li>
+          <li><a href="#services">✈️ Travel Vaccinations</a></li>
+          <li><a href="#services">🔬 Diagnostic Tests</a></li>
+          <li><a href="#services">⚖️ Weight Management</a></li>
+          <li><a href="#services">🚫 Oral Contraception</a></li>
+          <li><a href="#services">🚭 Quit Smoking Support</a></li>
+          <li><a href="#services">🚚 Free Home Delivery</a></li>
         </ul>
       </div>
       <div class="footer-col">
         <h5>Information</h5>
         <ul>
-          <li><a href="#">Book a Service</a></li>
-          <li><a href="#">Prescription Dispensing</a></li>
-          <li><a href="#">Home Delivery</a></li>
-          <li><a href="#">Clinical Services</a></li>
-          <li><a href="#">About Us</a></li>
-          <li><a href="#">Our Team</a></li>
+          <li><a href="#booking">Book an Appointment</a></li>
+          <li><a href="#services">Clinical Services</a></li>
+          <li><a href="#team">Our Clinical Team</a></li>
+          <li><a href="https://www.google.com/maps/search/?api=1&query=Winchester+Health+Centre+Travel+Clinic+Winchester" target="_blank" rel="noopener noreferrer">Directions &amp; Parking ↗</a></li>
+          <li><a href="javascript:void(0)" onclick="openLegalModal('complaints')">Complaints Procedure</a></li>
+          <li><a href="javascript:void(0)" onclick="openLegalModal('accessibility')">Accessibility Statement</a></li>
         </ul>
       </div>
       <div class="footer-col">
-        <h5>Contact</h5>
+        <h5>Contact &amp; Clinic</h5>
         <ul>
           <li><a href="tel:+441962422180" data-setting-href="tel">📞 <span data-setting="phone_display">01962 422 180</span></a></li>
-          <li><a href="https://wa.me/441962422180" data-setting-href="whatsapp">💬 WhatsApp Us</a></li>
-          <li><a href="mailto:info@winchestertravelcentre.co.uk">✉️ Email Us</a></li>
-          <li style="color:rgba(255,255,255,.4);font-size:.9rem;padding-top:.35rem;font-weight:600"><span data-setting="hours_weekday">Mon–Fri: 9:30am–5pm</span><br><span data-setting="hours_sat">Sat: 9:30am–3pm</span> · <span data-setting="hours_sun">Sun: Closed</span></li>
+          <li><a href="mailto:winchestertravelcenter@gmail.com" data-setting-href="email">✉️ <span data-setting="email">winchestertravelcenter@gmail.com</span></a></li>
+          <li><a href="https://www.google.com/maps/search/?api=1&query=Winchester+Health+Centre+Travel+Clinic+Winchester" target="_blank" rel="noopener noreferrer">📍 Find Us on Google Maps ↗</a></li>
+          <li style="color:rgba(255,255,255,.6);font-size:.88rem;padding-top:.35rem;line-height:1.5"><span data-setting="hours_weekday">Mon–Fri: 9:30am–5:00pm</span><br><span data-setting="hours_sat">Sat: 9:30am–3:00pm</span><br><span data-setting="hours_sun">Sun: Closed</span></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
-      <p>© 2025 Winchester Health Centre. GPhC Registration No: XXXXXXX. ICO Registration: ZAXXXXXX.</p>
+      <p>© 2026 Winchester Health Centre. All rights reserved. Registered in England &amp; Wales.</p>
       <div class="footer-legal">
-        <a href="#">Privacy Policy</a>
-        <a href="#">Cookie Policy</a>
-        <a href="#">Terms &amp; Conditions</a>
-        <a href="#">Complaints</a>
-        <a href="#">Accessibility</a>
+        <a href="javascript:void(0)" onclick="openLegalModal('privacy')">Privacy Policy</a>
+        <a href="javascript:void(0)" onclick="openLegalModal('cookies')">Cookie Policy</a>
+        <a href="javascript:void(0)" onclick="openLegalModal('terms')">Terms &amp; Conditions</a>
+        <a href="javascript:void(0)" onclick="openLegalModal('complaints')">Complaints</a>
+        <a href="javascript:void(0)" onclick="openLegalModal('accessibility')">Accessibility</a>
       </div>
     </div>
   </div>
@@ -1171,7 +1133,7 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
     <p style="font-size:.9rem;color:var(--grey-3);font-weight:600">Prefer to speak to someone right now?</p>
     <div class="modal-btns">
       <a href="tel:+441962422180" data-setting-href="tel" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--sky);color:white;padding:.7rem 1.4rem;border-radius:50px;font-weight:800;font-size:.95rem;text-decoration:none">📞 Call Us Now</a>
-      <a href="https://wa.me/441962422180" target="_blank" data-setting-href="whatsapp" style="display:inline-flex;align-items:center;gap:.5rem;background:#25d366;color:white;padding:.7rem 1.4rem;border-radius:50px;font-weight:800;font-size:.95rem;text-decoration:none">💬 WhatsApp</a>
+      <a href="mailto:winchestertravelcenter@gmail.com" data-setting-href="email" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--navy);color:white;padding:.7rem 1.4rem;border-radius:50px;font-weight:800;font-size:.95rem;text-decoration:none">✉️ Email Us</a>
     </div>
     <button class="modal-close" onclick="hideModal()">Close</button>
   </div>
@@ -1179,7 +1141,7 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
 
 <!-- ══ COOKIE BANNER ══ -->
 <div class="cookie-banner" id="cookieBanner">
-  <p>We use cookies to improve your experience on our website. You can find out more in our <a href="#">Cookie Policy</a>. We require your consent for non-essential cookies.</p>
+  <p>We use essential cookies to ensure safe booking and improve your clinical browsing experience. You can read our full <a href="javascript:void(0)" onclick="openLegalModal('cookies')" style="text-decoration:underline;font-weight:700">Cookie Policy</a>.</p>
   <div class="cookie-acts">
     <button class="btn-ca" onclick="acceptCookies()">✅ Accept All</button>
     <button class="btn-cr" onclick="rejectCookies()">Essential Only</button>
@@ -1210,11 +1172,11 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
     <button class="chip" onclick="qs('Book an appointment')">📅 Book</button>
     <button class="chip" onclick="qs('Covid or flu jab')">💉 Covid &amp; Flu</button>
     <button class="chip" onclick="qs('Travel vaccinations')">✈️ Travel Jabs</button>
-    <button class="chip" onclick="qs('Diagnostic blood test')">🔬 Blood Test</button>
-    <button class="chip" onclick="qs('WhatsApp')">💬 WhatsApp</button>
+    <button class="chip" onclick="qs('Diagnostic blood test')">🔬 Blood Tests</button>
     <button class="chip" onclick="qs('Opening hours')">🕐 Hours</button>
     <button class="chip" onclick="qs('Free home delivery')">🚚 Free Delivery</button>
     <button class="chip" onclick="qs('Quit smoking')">🚭 Quit Smoking</button>
+    <button class="chip" onclick="qs('Clinic location')">📍 Location</button>
   </div>
   <div class="chat-msgs" id="chatMsgs"></div>
   <div class="chat-bar">
@@ -1231,86 +1193,71 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
 const C = {
   phone: '01962 422 180',
   phoneClean: '+441962422180',
-  wa: '441962422180',
-  email: 'info@winchestertravelcentre.co.uk',
-  hours: 'Mon–Fri 9:30am–5pm · Sat 9:30am–3pm · Sun Closed',
-  address: 'Winchester, Hampshire',
+  email: 'winchestertravelcenter@gmail.com',
+  hours: 'Mon–Fri 9:30am–5:00pm · Sat 9:30am–3:00pm · Sun Closed',
+  address: 'Winchester Health Centre, Winchester, Hampshire',
+  maps: 'https://www.google.com/maps/search/?api=1&query=Winchester+Health+Centre+Travel+Clinic+Winchester'
 };
 
 // ══ CHAT REPLIES ══
 function getReply(q) {
   q = q.toLowerCase().trim();
 
-  if(/^(hi|hello|hey|good morning|good afternoon|hiya|yo|howdy)\b/.test(q))
-    return `Hello! 👋 Welcome to <strong>Winchester Health Centre</strong>!<br><br>I'm here to help. You can ask me about:<br><ul><li>📅 Booking an appointment</li><li>✈️ Travel vaccinations</li><li>🔬 Blood tests &amp; diagnostics</li><li>👂 Ear wax removal</li><li>🚚 Free home delivery</li><li>🕐 Opening hours &amp; contact</li></ul>What can I help you with today?`;
+  if(/^(hi|hello|hey|good morning|good afternoon|hiya|yo|howdy)/.test(q))
+    return `Hello! 👋 Welcome to <strong>Winchester Health Centre</strong>!<br><br>I'm here to help. You can ask me about:<br><ul><li>📅 Booking an appointment</li><li>💉 Covid or flu jabs</li><li>✈️ Travel vaccinations</li><li>🔬 Blood tests &amp; diagnostics</li><li>⚖️ Weight management</li><li>🚚 Free prescription home delivery</li><li>🕐 Opening hours &amp; contact</li></ul>What can I help you with today?`;
 
-  if(/\b(thank|thanks|cheers|ta|bye|goodbye)\b/.test(q))
-    return `You're very welcome! 😊 Don't hesitate to come back if you need anything.<br><br><a class="al wa" href="https://wa.me/${C.wa}" target="_blank">💬 WhatsApp Us</a><a class="al ph" href="tel:${C.phoneClean}">📞 Call Us</a>`;
+  if(/(thank|thanks|cheers|ta|bye|goodbye)/.test(q))
+    return `You're very welcome! 😊 Don't hesitate to reach out if you need anything.<br><br><a class="al ph" href="tel:${C.phoneClean}">📞 Call Us (${C.phone})</a><a class="al" href="mailto:${C.email}">✉️ Email Us</a>`;
 
-  if(/\b(emergency|999|112|chest pain|stroke|unconscious|can't breathe|ambulance)\b/.test(q))
-    return `⚠️ <strong>Please call 999 immediately for any medical emergency.</strong><br><br>For urgent but non-emergency questions:<br><a class="al ph" href="tel:${C.phoneClean}">📞 Call ${C.phone}</a>`;
+  if(/(emergency|999|112|chest pain|stroke|unconscious|can't breathe|ambulance)/.test(q))
+    return `⚠️ <strong>Please call 999 immediately for any acute medical emergency.</strong><br><br>For urgent pharmacy inquiries during clinic hours:<br><a class="al ph" href="tel:${C.phoneClean}">📞 Call ${C.phone}</a>`;
 
   if(/whatsapp|whats.?app|wa\.me/.test(q))
-    return `You can reach us directly on <strong>WhatsApp</strong> — our team replies quickly during opening hours:<br><br><a class="al wa" href="https://wa.me/${C.wa}" target="_blank">💬 Open WhatsApp Chat</a><br><br>Opening hours: <strong>Mon–Fri 9:30am–5pm · Sat 9:30am–3pm</strong>`;
+    return `Our clinic telephone line is not registered on WhatsApp. You can reach our pharmacy team directly by calling <strong>${C.phone}</strong> or emailing <a href="mailto:${C.email}" style="color:var(--sky);font-weight:700">${C.email}</a>.<br><br><a class="al ph" href="tel:${C.phoneClean}">📞 Call ${C.phone}</a><a class="al" href="mailto:${C.email}">✉️ Email Our Team</a>`;
 
-  if(/\b(phone|call|ring|number|telephone|contact number)\b/.test(q))
-    return `Give us a call — we're always happy to chat!<br><br><a class="al ph" href="tel:${C.phoneClean}">📞 Call ${C.phone}</a><br><br>Or message us on WhatsApp if it's easier:<br><a class="al wa" href="https://wa.me/${C.wa}" target="_blank">💬 WhatsApp</a>`;
+  if(/(phone|call|ring|number|telephone|contact number)/.test(q))
+    return `Give us a call — our team is always happy to help:<br><br><a class="al ph" href="tel:${C.phoneClean}">📞 Call ${C.phone}</a><br><br>Or email our clinical staff anytime:<br><a class="al" href="mailto:${C.email}">✉️ Email ${C.email}</a>`;
 
-  if(/\b(email|e.?mail|write to)\b/.test(q))
-    return `📧 You can email us at:<br><br><a href="mailto:${C.email}" style="color:var(--sky);font-weight:700">${C.email}</a><br><br>For faster replies, WhatsApp is best:<br><a class="al wa" href="https://wa.me/${C.wa}" target="_blank">💬 WhatsApp Us</a>`;
+  if(/(email|e.?mail|write to)/.test(q))
+    return `📧 You can email our team directly at:<br><br><a href="mailto:${C.email}" style="color:var(--sky);font-weight:700">${C.email}</a><br><br>We monitor and respond to clinical emails promptly.<br><a class="al" href="mailto:${C.email}">✉️ Open Email App</a>`;
 
-  if(/\b(book|appointment|schedule|reserve|slot)\b/.test(q))
-    return `Booking is nice and easy! Here are three ways:<br><br><a class="al" href="#booking" onclick="toggleChat()">📅 Book Online Form</a><a class="al ph" href="tel:${C.phoneClean}">📞 Call Us</a><a class="al wa" href="https://wa.me/${C.wa}" target="_blank">💬 WhatsApp</a><br><br>Most appointments are available <strong>same day or next day</strong>. Which service would you like to book?`;
+  if(/(book|appointment|schedule|reserve|slot)/.test(q))
+    return `Booking an appointment is simple:<br><br><a class="al" href="#booking" onclick="toggleChat()">📅 Book Online Form</a><a class="al ph" href="tel:${C.phoneClean}">📞 Call to Book (${C.phone})</a>`;
 
-  if(/\b(covid|flu|influenza|winter jab|booster|autumn booster|covid jab|flu jab)\b/i.test(q))
-    return `💉 <strong>Covid &amp; Flu Vaccinations</strong>:<br><br>We offer seasonal Flu jabs and Covid booster vaccinations at Winchester Health Centre. Quick, convenient, and administered by trained healthcare professionals.<br><br><a class="al" href="#booking" onclick="toggleChat()">📅 Book Covid / Flu Jab</a><a class="al ph" href="tel:${C.phoneClean}">📞 Call Us</a><a class="al wa" href="https://wa.me/${C.wa}" target="_blank">💬 WhatsApp</a>`;
+  if(/covid|flu|flu.?jab|influenza|covid.?jab|winter.?vaccine/.test(q))
+    return `💉 <strong>Covid or Flu Jab</strong>:<br><br>Protect yourself and your loved ones with seasonal flu and Covid vaccinations administered by our trained pharmacists in our clean, private consultation room.<br><br><a class="al" href="#booking" onclick="toggleChat()">📅 Book Vaccination</a><a class="al ph" href="tel:${C.phoneClean}">📞 Call to Enquire</a>`;
 
-  if(/travel|vaccin|jab|vaccine|yellow fever|typhoid|hepatitis|malaria|meningitis/.test(q))
-    return `✈️ Our <strong>Travel Clinic</strong> is ready to help you travel safely! We offer:<br><ul><li>Yellow Fever certificate</li><li>Typhoid, Hepatitis A &amp; B</li><li>Meningitis, Cholera, Rabies</li><li>Malaria prevention tablets</li><li>Destination health advice</li></ul>No GP referral needed — just book directly:<br><a class="al" href="#booking" onclick="toggleChat()">📅 Book Travel Clinic</a><a class="al wa" href="https://wa.me/${C.wa}" target="_blank">💬 WhatsApp</a>`;
+  if(/travel|vaccin|jab|yellow fever|typhoid|hepatitis|rabies|malaria|dengue|cholera|meningitis|japan|thailand|india|bali|africa|south america|holiday/.test(q))
+    return `✈️ <strong>Travel Clinic &amp; Vaccinations</strong>:<br><br>We provide comprehensive travel health consultations and vaccines including Yellow Fever, Typhoid, Hepatitis A &amp; B, Rabies, Meningitis ACWY, and antimalarials.<br><br><a class="al" href="#booking" onclick="toggleChat()">📅 Book Travel Consultation</a><a class="al ph" href="tel:${C.phoneClean}">📞 Call Travel Clinic</a>`;
 
-  if(/ear.?wax|earwax|blocked ear|can't hear|hearing/.test(q))
-    return `👂 <strong>Ear Wax Removal</strong> — <strong>Coming Soon!</strong><br><br>We're getting ready to launch this service — safe microsuction/irrigation from gentle, trained practitioners. Not bookable just yet, but check back soon or ask us for updates:<br><a class="al ph" href="tel:${C.phoneClean}">📞 Call for Updates</a><a class="al wa" href="https://wa.me/${C.wa}" target="_blank">💬 WhatsApp</a>`;
-
-  if(/blood.?test|diagnos|cholesterol|blood.?pressure|blood.?sugar|glucose|health check|urine/.test(q))
-    return `🔬 Our <strong>Diagnostic Tests</strong> include:<br><ul><li>Blood tests (cholesterol, glucose, HbA1c)</li><li>Urine analysis</li><li>Blood pressure checks</li><li>General health screening</li></ul>No GP referral needed — fast results!<br><a class="al" href="#booking" onclick="toggleChat()">📅 Book a Test</a><a class="al wa" href="https://wa.me/${C.wa}" target="_blank">💬 WhatsApp</a>`;
-
-  if(/pharmacy.?first|common condition|sore throat|uti|earache|sinusitis|impetigo|shingles|insect bite/.test(q))
-    return `💊 <strong>Pharmacy First</strong> — No GP appointment needed!<br><br>We treat 7 conditions:<br><ul><li>Earache (1–17 yrs)</li><li>Sore Throat (5+ yrs)</li><li>Urine infection / UTI (women 16–64)</li><li>Sinusitis (12+ yrs)</li><li>Impetigo (1+ yrs)</li><li>Shingles (18+ yrs)</li><li>Infected insect bites (1+ yrs)</li></ul>Just walk in or call:<br><a class="al ph" href="tel:${C.phoneClean}">📞 ${C.phone}</a>`;
-
-  if(/smok|quit|stop smoking|cigarette|nicotine|nrt|smokefree/.test(q))
-    return `🚭 <strong>Smokefree Hampshire</strong> — Dedicated support to help you quit!<br><ul><li>Friendly pharmacist support</li><li>Nicotine patches, gum, spray</li><li>Regular check-in appointments</li><li>Proven to help you quit</li></ul>You can do it — we'll support you every step!<br><a class="al" href="#booking" onclick="toggleChat()">📅 Book Support</a><a class="al ph" href="tel:${C.phoneClean}">📞 Call Us</a>`;
-
-  if(/delivery|home delivery|deliver|prescription delivery|door/.test(q))
-    return `🚚 Our <strong>FREE Home Delivery</strong> service covers:<br><ul><li>Winchester, Littleton, Harestock</li><li>Sparsholt, Kings Worthy</li><li>Headbourne Worthy, Otterbourne</li><li>And surrounding areas!</li></ul>Sign up by calling or WhatsApping us:<br><a class="al ph" href="tel:${C.phoneClean}">📞 ${C.phone}</a><a class="al wa" href="https://wa.me/${C.wa}" target="_blank">💬 WhatsApp</a>`;
+  if(/blood|diagnostic|cholesterol|diabetes|hba1c|iron|ferritin|thyroid|liver|kidney|vitamin d|b12|lipid|test/.test(q))
+    return `🔬 <strong>Diagnostic Blood Tests</strong>:<br><br>Quick, professional sample collection in our private consultation room. Results sent to you securely.<br><br>Tests available: Full Blood Count, Cholesterol, Liver &amp; Kidney function, HbA1c (Diabetes), Thyroid, Vitamin D &amp; B12, and many more.<br><a class="al" href="#booking" onclick="toggleChat()">📅 Book Blood Test</a><a class="al ph" href="tel:${C.phoneClean}">📞 Call for Info</a>`;
 
   if(/prescription|repeat|medication|medicine|dispens|collect/.test(q))
-    return `💊 We dispense <strong>prescriptions quickly and reliably</strong>.<br><br>Your options:<br><ul><li>🏪 Walk in with your prescription</li><li>🚚 <strong>Free home delivery</strong> service</li><li>📱 Nominate us via your healthcare provider</li><li>🔄 Set up repeat collection</li></ul><a class="al ph" href="tel:${C.phoneClean}">📞 ${C.phone}</a><a class="al wa" href="https://wa.me/${C.wa}" target="_blank">💬 WhatsApp</a>`;
+    return `💊 We dispense <strong>NHS &amp; private prescriptions quickly and reliably</strong>.<br><br>Your options:<br><ul><li>🏪 Walk in with your prescription</li><li>🚚 <strong>Free prescription home delivery</strong> service</li><li>📱 Nominate Winchester Health Centre at your GP</li><li>🔄 Repeat prescription management</li></ul><a class="al ph" href="tel:${C.phoneClean}">📞 ${C.phone}</a><a class="al" href="mailto:${C.email}">✉️ Email Us</a>`;
 
   if(/weight|bmi|weight.?loss|slimming|diet|ozempic|wegovy|mounjaro/.test(q))
-    return `⚖️ Our <strong>Weight Management</strong> service:<br><ul><li>Friendly BMI &amp; health assessment</li><li>Practical lifestyle advice</li><li>Tailored wellness support</li><li>Weight loss medication (if appropriate)</li></ul>We're caring and non-judgemental — everyone welcome!<br><a class="al" href="#booking" onclick="toggleChat()">📅 Book Consultation</a>`;
+    return `⚖️ Our <strong>Weight Management</strong> service:<br><ul><li>Friendly BMI &amp; health assessment</li><li>Practical lifestyle guidance</li><li>Evidence-based weight management therapies</li><li>Private pharmacist follow-up</li></ul><a class="al" href="#booking" onclick="toggleChat()">📅 Book Consultation</a><a class="al ph" href="tel:${C.phoneClean}">📞 Call Us</a>`;
 
   if(/contraception|morning after|emergency pill|pill|contraceptive/.test(q))
-    return `We offer <strong>confidential contraception</strong> services — completely private and non-judgemental:<br><ul><li>Emergency contraception (morning after pill)</li><li>Oral contraceptive pill</li><li>Private consultation</li></ul><a class="al ph" href="tel:${C.phoneClean}">📞 Call (Private)</a><a class="al wa" href="https://wa.me/${C.wa}" target="_blank">💬 WhatsApp (Discreet)</a>`;
+    return `We offer <strong>confidential contraception services</strong> in complete privacy:<br><ul><li>Emergency contraception (morning after pill)</li><li>Oral contraceptive consultations</li><li>Discreet pharmacist advice</li></ul><a class="al ph" href="tel:${C.phoneClean}">📞 Call (Confidential)</a><a class="al" href="mailto:${C.email}">✉️ Email Discretely</a>`;
 
-  if(/discharge|hospital|came.?home/.test(q))
-    return `🏥 <strong>Discharge Medicine Service</strong>:<br><br>Just come home from hospital? We'll make sure your new medicines are ready quickly and our pharmacist will explain everything clearly and simply. Just give us a call:<br><a class="al ph" href="tel:${C.phoneClean}">📞 ${C.phone}</a>`;
+  if(/(hours|open|opening|close|time|when|weekend|saturday|sunday)/.test(q))
+    return `🕐 <strong>Our opening hours:</strong><br><br>📅 Monday – Friday: <strong>9:30am – 5:00pm</strong><br>📅 Saturday: <strong>9:30am – 3:00pm</strong><br>❌ Sunday: <strong>Closed</strong><br><br>📅 <em>Customer booking slots:</em> <strong>11:30am – 4:30pm (30-min intervals)</strong><br><br><a class="al ph" href="tel:${C.phoneClean}">📞 Call Us</a><a class="al" href="mailto:${C.email}">✉️ Email Us</a>`;
 
-  if(/\b(hours|open|opening|close|time|when|weekend|saturday|sunday)\b/.test(q))
-    return `🕐 <strong>Our opening hours:</strong><br><br>📅 Monday – Friday: <strong>9:30am – 5:00pm</strong><br>📅 Saturday: <strong>9:30am – 3:00pm</strong><br>❌ Sunday: <strong>Closed</strong><br><br>📅 <em>Customer booking slots:</em> <strong>11:30am – 4:30pm (30-min intervals)</strong><br><br>You can also leave a WhatsApp message outside of hours:<br><a class="al wa" href="https://wa.me/${C.wa}" target="_blank">💬 WhatsApp Us</a>`;
-
-  if(/\b(location|where|address|directions|find|map|park|postcode)\b/.test(q))
-    return `📍 We're located in <strong>Winchester, Hampshire</strong>.<br><br>Serving: Littleton, Harestock, Sparsholt, Headbourne Worthy, Kings Worthy &amp; Otterbourne.<br><br><a class="al" href="https://maps.google.com" target="_blank">🗺️ Open Google Maps</a><a class="al wa" href="https://wa.me/${C.wa}" target="_blank">💬 Ask for Directions</a>`;
+  if(/(location|where|address|directions|find|map|park|postcode)/.test(q))
+    return `📍 We are located at <strong>Winchester Health Centre, Winchester, Hampshire</strong>.<br><br>Serving: Winchester, Littleton, Harestock, Sparsholt, Headbourne Worthy, Kings Worthy &amp; Otterbourne.<br><br><a class="al" href="${C.maps}" target="_blank" rel="noopener noreferrer">🗺️ Open on Google Maps ↗</a>`;
 
   if(/gphc|registered|regulated|accredited|safe|quality/.test(q))
-    return `🏅 Winchester Health Centre is <strong>GPhC Registered</strong> — all our pharmacists hold full registration with the General Pharmaceutical Council.<br><br>We are ICO registered and maintain strict privacy and quality standards. You're in safe hands!`;
+    return `🏅 Winchester Health Centre is a <strong>GPhC Registered Pharmacy</strong> and regulated under UK healthcare standards. Superintendent Pharmacist: Samuel. We are also registered with the ICO for data protection.`;
 
   if(/privacy|data|information|confidential|secure/.test(q))
-    return `🔒 <strong>Your privacy is very important to us.</strong><br><br>We are ICO registered and maintain rigorous data privacy standards:<br><ul><li>Your data is stored securely</li><li>Never sold to anyone</li><li>Only shared with your direct care team</li></ul>Full details in our <a href="#" style="color:var(--sky)">Privacy Policy</a>.`;
+    return `🔒 <strong>Your privacy and clinical confidentiality are paramount.</strong><br><br>We are ICO registered and comply with the UK Data Protection Act 2018 &amp; UK GDPR:<br><ul><li>Your clinical data is stored securely</li><li>Never sold or shared for marketing</li><li>Accessible only by your direct healthcare team</li></ul>You can read our full policy by clicking below:<br><a class="al" href="javascript:void(0)" onclick="openLegalModal('privacy');toggleChat()">📜 View Privacy Policy</a>`;
 
   if(/complaint|unhappy|problem|issue|feedback/.test(q))
-    return `We're sorry if something hasn't been right. Please do let us know:<br><ul><li>📞 Call: <a href="tel:${C.phoneClean}" style="color:var(--sky)">${C.phone}</a></li><li>💬 <a href="https://wa.me/${C.wa}" target="_blank" style="color:#25d366">WhatsApp</a></li><li>📧 <a href="mailto:${C.email}" style="color:var(--sky)">${C.email}</a></li></ul>We follow a formal patient feedback process and take all concerns seriously.`;
+    return `We are committed to providing the highest quality of healthcare. If you have concerns, our formal complaints procedure ensures thorough, impartial investigation within 3 working days.<br><br><a class="al" href="javascript:void(0)" onclick="openLegalModal('complaints');toggleChat()">📋 View Complaints Policy</a><a class="al ph" href="tel:${C.phoneClean}">📞 Speak with Manager</a>`;
 
-  return `I'm sorry, I didn't quite catch that! 😊 But our friendly team will help:<br><br><a class="al ph" href="tel:${C.phoneClean}">📞 Call ${C.phone}</a><a class="al wa" href="https://wa.me/${C.wa}" target="_blank">💬 WhatsApp</a><a class="al" href="mailto:${C.email}">📧 Email</a><br><br>Or try asking about: <em>travel jabs, ear wax, blood tests, opening hours, home delivery, Pharmacy First, prescriptions</em> — or just say Hello! 👋`;
+  return `I'm here to help! 😊 You can speak directly with our pharmacy team:<br><br><a class="al ph" href="tel:${C.phoneClean}">📞 Call ${C.phone}</a><a class="al" href="mailto:${C.email}">✉️ Email ${C.email}</a><br><br>Or try asking about: <em>Covid or flu jab, travel vaccinations, blood tests, opening hours, home delivery, or weight management</em>!`;
 }
 
 // ══ CHAT UI ══
@@ -1321,7 +1268,7 @@ function toggleChat() {
   document.getElementById('chatFab').classList.toggle('open', chatOpen);
   const b = document.querySelector('.chat-badge'); if(b) b.style.display='none';
   if(chatOpen && document.getElementById('chatMsgs').children.length === 0)
-    setTimeout(()=>addBot(`👋 Hello! Welcome to <strong>Winchester Health Centre</strong>!<br><br>I'm here to help you with bookings, travel vaccinations, ear wax removal, home delivery and much more.<br><br>Just type your question below, or tap one of the quick buttons above!`), 400);
+    setTimeout(()=>addBot(`👋 Hello! Welcome to <strong>Winchester Health Centre</strong>!<br><br>I'm here to help you with appointments, travel vaccinations, Covid & flu jabs, diagnostic blood tests, and free prescription delivery.<br><br>Just type your question below, or tap one of the quick buttons above!`), 400);
   if(chatOpen) setTimeout(()=>document.getElementById('chatInp').focus(), 350);
 }
 function addUser(t) {
@@ -1711,7 +1658,6 @@ async function loadDynamicClinicSettings() {
     if (typeof C !== 'undefined') {
       if (s.phone_display) C.phone = s.phone_display;
       if (s.phone_clean) C.phoneClean = s.phone_clean;
-      if (s.whatsapp) C.wa = s.whatsapp.replace(/[^0-9]/g, '');
       if (s.email) C.email = s.email;
       if (s.address) C.address = s.address;
       if (s.topbar_ticker) C.hours = s.topbar_ticker;
@@ -1734,8 +1680,6 @@ async function loadDynamicClinicSettings() {
       const t = el.getAttribute('data-setting-href');
       if (t === 'tel' && s.phone_clean) {
         el.href = 'tel:' + s.phone_clean;
-      } else if (t === 'whatsapp' && s.whatsapp) {
-        el.href = 'https://wa.me/' + s.whatsapp.replace(/[^0-9]/g, '');
       } else if (t === 'email' && s.email) {
         el.href = 'mailto:' + s.email;
       }
@@ -1746,6 +1690,183 @@ async function loadDynamicClinicSettings() {
 }
 loadDynamicClinicSettings();
 
+// ══ UK HEALTHCARE COMPLIANCE LEGAL POLICIES ══
+const LEGAL_POLICIES = {
+  privacy: {
+    title: 'Privacy Policy &amp; Data Protection',
+    content: `
+      <p class="legal-badge">UK GDPR &amp; Data Protection Act 2018 Compliant · ICO Registered</p>
+      <h4>1. Who We Are</h4>
+      <p>Winchester Health Centre operates as a registered community pharmacy and independent healthcare provider in Winchester, Hampshire. Under UK Data Protection law, Winchester Health Centre is the Data Controller responsible for your personal and special category healthcare data. Superintendent Pharmacist: Samuel.</p>
+      
+      <h4>2. Information We Collect</h4>
+      <p>When you book an appointment, submit an intake form, or consult our clinical team, we may collect:</p>
+      <ul>
+        <li><strong>Personal identifiers:</strong> Full name, date of birth, contact telephone number, and email address.</li>
+        <li><strong>Special category health data:</strong> Destination travel itineraries, departure dates, medical history, allergies, existing medications, and clinical vaccination records.</li>
+        <li><strong>Technical telemetry:</strong> Minimal session data and security logs strictly required for website operation and fraud prevention.</li>
+      </ul>
+
+      <h4>3. Legal Basis for Processing</h4>
+      <p>We process your personal information under Article 6(1)(b) of UK GDPR (necessary for the performance of a healthcare contract or booking) and special category health data under Article 9(2)(h) (provision of health or social care, clinical diagnosis, and management of healthcare systems).</p>
+
+      <h4>4. Confidentiality &amp; Data Sharing</h4>
+      <p><strong>We never sell, rent, or trade your personal or health data to third-party advertisers or commercial brokers under any circumstances.</strong> Data is shared only with:</p>
+      <ul>
+        <li>Registered healthcare practitioners directly involved in your clinical consultation and care.</li>
+        <li>Regulatory bodies (such as the GPhC or NHS authorities) where required by UK statutory legislation.</li>
+      </ul>
+
+      <h4>5. Retention &amp; Security</h4>
+      <p>Clinical consultation records are securely retained in compliance with NHS and British National Formulary retention standards (minimum 8 years for adult clinical notes). All electronic records are protected with industry-standard TLS encryption, strict password authentication, and restricted role-based staff access.</p>
+
+      <h4>6. Your Statutory Rights</h4>
+      <p>Under UK GDPR, you have the right to request access to your personal data (Subject Access Request), request rectification of inaccurate records, or lodge a complaint with the UK Information Commissioner's Office (<a href="https://ico.org.uk/" target="_blank" rel="noopener noreferrer">ico.org.uk</a>). To exercise your rights, email: <a href="mailto:winchestertravelcenter@gmail.com">winchestertravelcenter@gmail.com</a>.</p>
+    `
+  },
+  cookies: {
+    title: 'Cookie Policy',
+    content: `
+      <p class="legal-badge">PECR &amp; UK GDPR Compliant</p>
+      <h4>1. What Are Cookies?</h4>
+      <p>Cookies are small text files placed on your device to ensure website stability, secure appointment bookings, and remember your interface preferences.</p>
+
+      <h4>2. Cookies We Use</h4>
+      <ul>
+        <li><strong>Strictly Essential Cookies:</strong> Required for the secure functioning of our appointment booking engine, anti-tampering verification, and session state. These cannot be disabled.</li>
+        <li><strong>Functional Local Storage:</strong> Used to temporarily store clinic opening hours and cached slot availability so repeat interactions are instantaneous and responsive.</li>
+        <li><strong>Analytical Cookies:</strong> Aggregated, anonymized website visitor metrics to help us optimize page load performance and accessibility without identifying individual users.</li>
+      </ul>
+
+      <h4>3. Managing Your Preferences</h4>
+      <p>You can choose to accept all cookies or restrict to essential-only via our consent banner. You may also configure your web browser settings to block or delete cookies at any time. For questions regarding cookie management, contact: <a href="mailto:winchestertravelcenter@gmail.com">winchestertravelcenter@gmail.com</a>.</p>
+    `
+  },
+  terms: {
+    title: 'Terms &amp; Conditions',
+    content: `
+      <p class="legal-badge">Clinical Service Agreement &amp; Booking Terms</p>
+      <h4>1. Clinical Appointments &amp; Consultations</h4>
+      <p>By scheduling an appointment through Winchester Health Centre, you confirm that all personal and medical information submitted is truthful, accurate, and complete to the best of your knowledge.</p>
+
+      <h4>2. Arrival &amp; Consultation Time</h4>
+      <p>Please arrive at the clinic 5 to 10 minutes prior to your allocated consultation slot. If you are running late, please notify our reception team at <a href="tel:+441962422180">01962 422 180</a>. Late arrivals of more than 15 minutes may require rescheduling to preserve clinical appointment flow for other patients.</p>
+
+      <h4>3. Cancellation &amp; Rescheduling Policy</h4>
+      <p>We appreciate that travel plans and clinical schedules change. We kindly request at least <strong>24 hours' notice</strong> for appointment cancellations or rescheduling so that reserved slots can be made available to other patients requiring urgent travel vaccinations or health screenings.</p>
+
+      <h4>4. Clinical Disclaimers &amp; Independent Assessment</h4>
+      <p>Booking a consultation does not automatically guarantee vaccination or prescription supply. All vaccines, medications, and treatments remain subject to the clinical assessment, suitability check, and professional discretion of our registered healthcare pharmacists.</p>
+
+      <h4>5. Emergency Services</h4>
+      <p>Our travel clinic and outpatient services do not provide acute emergency trauma or casualty care. In life-threatening emergencies, dial <strong>999</strong> immediately or attend your nearest NHS Accident &amp; Emergency (A&amp;E) department.</p>
+    `
+  },
+  complaints: {
+    title: 'Complaints Procedure',
+    content: `
+      <p class="legal-badge">GPhC &amp; NHS Standard Escalation Procedure</p>
+      <h4>1. Our Commitment to Patient Feedback</h4>
+      <p>Winchester Health Centre is dedicated to delivering exemplary clinical care and compassionate customer service. We treat all patient feedback and complaints with paramount seriousness, impartiality, and discretion.</p>
+
+      <h4>2. How to Raise a Concern</h4>
+      <p>If you are dissatisfied with any aspect of your clinical care, consultation, dispensing, or customer service, you may raise your concern through any of the following channels:</p>
+      <ul>
+        <li><strong>By Email:</strong> Send your written concern directly to our management team at <a href="mailto:winchestertravelcenter@gmail.com">winchestertravelcenter@gmail.com</a> with the subject line <em>"Formal Feedback / Complaint"</em>.</li>
+        <li><strong>By Telephone:</strong> Contact our Superintendent Pharmacist Samuel at <a href="tel:+441962422180">01962 422 180</a> (Mon–Fri 9:30am–5:00pm).</li>
+        <li><strong>In Person:</strong> Request a private discussion with our Duty Pharmacist in our confidential consultation room at Winchester Health Centre.</li>
+      </ul>
+
+      <h4>3. Investigation Timeline &amp; Resolution</h4>
+      <ul>
+        <li><strong>Acknowledgment:</strong> We acknowledge receipt of every written complaint in writing within <strong>3 working days</strong>.</li>
+        <li><strong>Investigation:</strong> A senior clinical manager conducts an independent investigation into the events and clinical notes.</li>
+        <li><strong>Comprehensive Response:</strong> Within <strong>10 working days</strong>, we provide a formal written explanation detailing findings, remedial actions taken, and preventive measures implemented.</li>
+      </ul>
+
+      <h4>4. Independent External Escalation</h4>
+      <p>If you remain dissatisfied with our internal resolution, you have the right to escalate your complaint to the independent professional regulator:</p>
+      <p><strong>General Pharmaceutical Council (GPhC)</strong><br>Website: <a href="https://www.pharmacyregulation.org/" target="_blank" rel="noopener noreferrer">pharmacyregulation.org</a><br>Telephone: 020 3713 8000</p>
+    `
+  },
+  accessibility: {
+    title: 'Accessibility Statement',
+    content: `
+      <p class="legal-badge">WCAG 2.1 AA Compliance Standard</p>
+      <h4>1. Digital Accessibility Commitment</h4>
+      <p>Winchester Health Centre is dedicated to ensuring digital accessibility for patients of all abilities, including older adults, individuals with visual impairments, and assistive technology users.</p>
+
+      <h4>2. Standards &amp; Conformance</h4>
+      <p>Our website is designed in alignment with the Web Content Accessibility Guidelines (WCAG) 2.1 Level AA standards, featuring:</p>
+      <ul>
+        <li>High visual contrast text ratios against dark and light backgrounds.</li>
+        <li>Scalable typography accommodating browser text resizing up to 200% without loss of layout or functionality.</li>
+        <li>Full keyboard navigability for interactive buttons, datepickers, modal windows, and form inputs.</li>
+        <li>Descriptive alt text for informative clinical imagery and ARIA attributes for screen reader compatibility.</li>
+      </ul>
+
+      <h4>3. Physical Clinic Accessibility</h4>
+      <p>Our physical clinic at Winchester Health Centre is equipped with level street access, wide doorways accommodating wheelchairs and pushchairs, and a private, spacious consultation room.</p>
+
+      <h4>4. Feedback &amp; Assistance</h4>
+      <p>If you encounter any difficulty accessing information on this site or require consultation documents in an alternative format (such as large print), please contact us at <a href="mailto:winchestertravelcenter@gmail.com">winchestertravelcenter@gmail.com</a> or telephone <a href="tel:+441962422180">01962 422 180</a>.</p>
+    `
+  }
+};
+
+function openLegalModal(type) {
+  const policy = LEGAL_POLICIES[type] || LEGAL_POLICIES.privacy;
+  const overlay = document.getElementById('legalModalOverlay');
+  const titleEl = document.getElementById('legalModalTitle');
+  const bodyEl = document.getElementById('legalModalContent');
+  if (!overlay || !titleEl || !bodyEl) return;
+
+  titleEl.innerHTML = policy.title;
+  bodyEl.innerHTML = policy.content;
+  overlay.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+
+  // Add Escape key handler
+  document.addEventListener('keydown', handleLegalEscapeKey);
+}
+
+function closeLegalModal() {
+  const overlay = document.getElementById('legalModalOverlay');
+  if (overlay) {
+    overlay.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+  document.removeEventListener('keydown', handleLegalEscapeKey);
+}
+
+function handleLegalOverlayClick(e) {
+  if (e.target && e.target.id === 'legalModalOverlay') {
+    closeLegalModal();
+  }
+}
+
+function handleLegalEscapeKey(e) {
+  if (e.key === 'Escape' || e.keyCode === 27) {
+    closeLegalModal();
+  }
+}
+
 </script>
+
+<!-- ══ LEGAL COMPLIANCE MODAL (UK HEALTHCARE STANDARDS) ══ -->
+<div class="legal-modal-overlay" id="legalModalOverlay" onclick="handleLegalOverlayClick(event)" role="dialog" aria-modal="true" aria-labelledby="legalModalTitle">
+  <div class="legal-modal-card">
+    <div class="legal-modal-header">
+      <h3 id="legalModalTitle">Policy Document</h3>
+      <button class="legal-modal-close" onclick="closeLegalModal()" aria-label="Close dialog">✕</button>
+    </div>
+    <div class="legal-modal-body" id="legalModalContent">
+      <!-- Injected dynamically -->
+    </div>
+    <div class="legal-modal-footer">
+      <button class="legal-modal-btn" onclick="closeLegalModal()">Close Window</button>
+    </div>
+  </div>
+</div>
 </body>
 </html>
