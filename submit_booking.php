@@ -334,8 +334,11 @@ try {
             }
         }
 
+        $newBookingId = (int)$pdo->lastInsertId();
         echo json_encode([
             'success' => true,
+            'booking_id' => $newBookingId,
+            'service' => $service,
             'message' => 'Booking request submitted successfully.'
         ]);
     } else {

@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>window.dataLayer = window.dataLayer || [];</script>
 <title>Winchester Health Centre | Travel Clinic &amp; Health Services</title>
 <meta name="description" content="Winchester Health Centre — your local travel clinic and health services in Winchester. Vaccinations, diagnostics, ear wax removal and more. Walk-ins welcome.">
 <meta name="keywords" content="travel clinic Winchester, travel vaccinations, yellow fever clinic Winchester, pharmacy first, blood pressure check, ear wax removal microsuction, health check Winchester">
@@ -589,10 +590,17 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
           <div><label class="form-lbl">Email Address</label><input type="email" id="quick_email" class="form-inp" placeholder="jane@example.com"></div>
           <div id="quick_travel_questions" style="display:none;background:rgba(255,255,255,.07);border:2px solid rgba(255,255,255,.18);border-radius:10px;padding:.85rem 1rem;margin-bottom:.75rem">
             <p style="font-size:.85rem;font-weight:800;color:white;margin-bottom:.6rem">✈️ A few quick travel questions</p>
-            <label class="form-lbl">Where are you traveling to?</label><input type="text" id="quick_travel_destination" class="form-inp" placeholder="e.g. Kenya, Thailand">
-            <div class="form-row2">
-              <div><label class="form-lbl">How many people?</label><input type="number" min="1" id="quick_travel_people" class="form-inp" placeholder="e.g. 2"></div>
-              <div><label class="form-lbl">How long is the trip?</label><input type="text" id="quick_travel_duration" class="form-inp" placeholder="e.g. 2 weeks"></div>
+            <label class="form-lbl">Where are you traveling to? *</label><input type="text" id="quick_travel_destination" class="form-inp" placeholder="e.g. Kenya, Thailand">
+            <div class="form-row2" style="margin-top:0.4rem">
+              <div><label class="form-lbl">Departure Date</label><input type="date" id="quick_travel_departure_date" class="form-inp"></div>
+              <div><label class="form-lbl">How long is the trip? *</label><input type="text" id="quick_travel_duration" class="form-inp" placeholder="e.g. 2 weeks"></div>
+            </div>
+            <div style="margin-top:0.4rem">
+              <label class="form-lbl">How many people? *</label><input type="number" min="1" id="quick_travel_people" class="form-inp" placeholder="e.g. 2">
+            </div>
+            <div style="margin-top:0.4rem">
+              <label class="form-lbl">Existing medical conditions, regular medications, or vaccine allergies (optional)</label>
+              <textarea id="quick_travel_medical_history" class="form-inp" style="resize:vertical;min-height:55px" placeholder="e.g. Egg allergy, immunosuppression, asthma, pregnant/nursing"></textarea>
             </div>
           </div>
           <div class="form-row2">
@@ -623,6 +631,12 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
             🕒 30-min booking slots available Mon–Sat from 11:30 AM to 4:30 PM
           </div>
           <div><label class="form-lbl">Anything we should know?</label><textarea id="quick_notes" class="form-inp" style="resize:vertical;min-height:80px" placeholder="e.g. which countries you're visiting, any allergies, current medications…"></textarea></div>
+          <div class="emergency-triage-notice-hero" style="background:rgba(254,243,199,0.12);border:1px solid rgba(245,158,11,0.45);border-radius:8px;padding:0.75rem 0.85rem;margin:0.75rem 0;color:#fef3c7;font-size:0.82rem;line-height:1.45;display:flex;gap:0.6rem;align-items:flex-start">
+            <span style="font-size:1.1rem;line-height:1;flex-shrink:0">⚠️</span>
+            <div>
+              <strong style="color:#fde68a;display:inline">Emergency Notice:</strong> If you are experiencing acute chest pain, breathlessness, signs of a stroke, or severe allergic reaction, immediately call <strong>999</strong> or visit your nearest A&amp;E. For non-life-threatening urgent clinical advice, call NHS <strong>111</strong>. This booking service is strictly for scheduled private consultations and travel vaccinations.
+            </div>
+          </div>
           <button class="btn-submit-hero" id="btn_quick_submit" onclick="submitQuickBooking()">📅 Request My Appointment <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" width="18" height="18"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
         </div>
         <p class="book-note">🔒 Your details are safe and confidential with us.</p>
@@ -915,9 +929,16 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
           <div id="travel_questions" style="display:none;background:var(--sky-pale);border:2px solid rgba(58,159,212,.25);border-radius:12px;padding:1rem">
             <p style="font-size:.9rem;font-weight:800;color:var(--navy);margin-bottom:.75rem">✈️ A few quick travel questions</p>
             <div><label class="bform-lbl">Where are you traveling to? *</label><input type="text" id="travel_destination" class="bform-inp" placeholder="e.g. Kenya, Thailand"></div>
-            <div class="bform-row" style="margin-top:1rem">
-              <div><label class="bform-lbl">How many people? *</label><input type="number" min="1" id="travel_people" class="bform-inp" placeholder="e.g. 2"></div>
+            <div class="bform-row" style="margin-top:0.75rem">
+              <div><label class="bform-lbl">Departure Date</label><input type="date" id="travel_departure_date" class="bform-inp"></div>
               <div><label class="bform-lbl">How long is the trip? *</label><input type="text" id="travel_duration" class="bform-inp" placeholder="e.g. 2 weeks"></div>
+            </div>
+            <div style="margin-top:0.75rem">
+              <label class="bform-lbl">How many people? *</label><input type="number" min="1" id="travel_people" class="bform-inp" placeholder="e.g. 2">
+            </div>
+            <div style="margin-top:0.75rem">
+              <label class="bform-lbl">Existing medical conditions, regular medications, or vaccine allergies (optional)</label>
+              <textarea id="travel_medical_history" class="bform-ta" style="min-height:65px" placeholder="e.g. Egg allergy, immunosuppression, asthma, pregnant/nursing"></textarea>
             </div>
           </div>
           <div class="bform-row">
@@ -947,8 +968,14 @@ footer{background:var(--navy-dk);color:rgba(255,255,255,.7);padding:4rem 0 2rem}
           <div style="font-size:0.8rem;color:var(--grey-5);font-weight:600;margin:-0.3rem 0 0.85rem 0;" data-setting="booking_notice">🕒 Appointment slots available: <strong>Monday to Saturday, 11:30 AM – 4:30 PM</strong> (30 min duration).</div>
           <div><label class="bform-lbl">Anything we should know?</label><textarea id="book_notes" class="bform-ta" placeholder="e.g. which countries you're visiting, any allergies, current medications…"></textarea></div>
           <div class="privacy-box">🔒 <strong>Your Privacy Matters.</strong> We are ICO registered and adhere to strict patient confidentiality standards. Your personal and health information is stored securely and never shared with third parties without your permission, except where needed for your direct care.</div>
-          <div class="consent-row"><input type="checkbox" id="consent1" required><label for="consent1">I agree to Winchester Health Centre using my information to process my booking and provide care. I've read the <a href="#">Privacy Policy</a>. *</label></div>
+          <div class="consent-row"><input type="checkbox" id="consent1" required><label for="consent1">I agree to Winchester Health Centre using my information to process my booking and provide care. I've read the <a href="javascript:void(0)" onclick="openLegalModal('privacy')">Privacy Policy</a>. *</label></div>
           <div class="consent-row"><input type="checkbox" id="consent2"><label for="consent2">I'd like to receive helpful health reminders and updates by email. (Optional — cancel any time.)</label></div>
+          <div class="emergency-triage-notice-modal" style="background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:0.85rem 1rem;margin:1rem 0;color:#92400e;font-size:0.84rem;line-height:1.45;display:flex;gap:0.65rem;align-items:flex-start">
+            <span style="font-size:1.15rem;line-height:1;flex-shrink:0">⚠️</span>
+            <div>
+              <strong style="color:#b45309;display:inline">Emergency Notice:</strong> If you are experiencing acute chest pain, breathlessness, signs of a stroke, or severe allergic reaction, immediately call <strong>999</strong> or visit your nearest A&amp;E. For non-life-threatening urgent clinical advice, call NHS <strong>111</strong>. This booking service is strictly for scheduled private consultations and travel vaccinations.
+            </div>
+          </div>
           <button class="btn-bsubmit" id="btn_book_submit" type="button" onclick="submitDetailedBooking()">✅ Submit My Request <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" width="20" height="20"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
         </div>
       </div>
@@ -1349,13 +1376,17 @@ async function submitQuickBooking() {
 
   if (isTravelService(service)) {
     const destination = document.getElementById('quick_travel_destination').value.trim();
+    const departureDate = document.getElementById('quick_travel_departure_date') ? document.getElementById('quick_travel_departure_date').value : '';
     const people = document.getElementById('quick_travel_people').value.trim();
     const duration = document.getElementById('quick_travel_duration').value.trim();
+    const medicalHistory = document.getElementById('quick_travel_medical_history') ? document.getElementById('quick_travel_medical_history').value.trim() : '';
+
     if (!destination) { alert('Please tell us where you are traveling to.'); return; }
     if (!people) { alert('Please tell us how many people are traveling.'); return; }
     if (!duration) { alert('Please tell us how long the trip is.'); return; }
-    const travelInfo = `Travel destination: ${destination}\nNumber of people: ${people}\nTrip length: ${duration}`;
-    notes = notes ? `${travelInfo}\n\n${notes}` : travelInfo;
+
+    const travelInfo = `[Travel Consultation Details]\nDestination: ${destination || 'Not specified'}\nDeparture Date: ${departureDate || 'Not specified'}\nParty Size: ${people || '1'}\nTrip Duration: ${duration || 'Not specified'}\nMedical/Allergies: ${medicalHistory || 'None reported'}`;
+    notes = notes ? `${travelInfo}\n\n[Additional Notes]\n${notes}` : travelInfo;
   }
   notes = notes || null;
 
@@ -1370,6 +1401,14 @@ async function submitQuickBooking() {
     });
     const result = await response.json();
     if (result.success) {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: 'appointment_booked',
+        booking_id: result.booking_id || null,
+        service_name: service,
+        form_type: 'quick_booking',
+        currency: 'GBP'
+      });
       showModal();
       document.getElementById('quick_name').value = '';
       document.getElementById('quick_phone').value = '';
@@ -1379,8 +1418,10 @@ async function submitQuickBooking() {
       document.getElementById('quick_notes').value = '';
       document.getElementById('quick_service').selectedIndex = 0;
       document.getElementById('quick_travel_destination').value = '';
+      if (document.getElementById('quick_travel_departure_date')) document.getElementById('quick_travel_departure_date').value = '';
       document.getElementById('quick_travel_people').value = '';
       document.getElementById('quick_travel_duration').value = '';
+      if (document.getElementById('quick_travel_medical_history')) document.getElementById('quick_travel_medical_history').value = '';
       document.getElementById('quick_travel_questions').style.display = 'none';
     } else {
       alert(result.message || 'Submission failed.');
@@ -1393,13 +1434,16 @@ async function submitQuickBooking() {
     btn.innerHTML = '📅 Request My Appointment <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" width="18" height="18"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
   }
 }
+
 function isTravelService(service) {
   return /travel/i.test(service);
 }
+
 function toggleTravelQuestions() {
   const service = document.getElementById('book_service').value;
   document.getElementById('travel_questions').style.display = isTravelService(service) ? 'block' : 'none';
 }
+
 async function submitDetailedBooking() {
   const firstName = document.getElementById('book_first_name').value.trim();
   const lastName = document.getElementById('book_last_name').value.trim();
@@ -1439,13 +1483,17 @@ async function submitDetailedBooking() {
 
   if (isTravelService(service)) {
     const destination = document.getElementById('travel_destination').value.trim();
+    const departureDate = document.getElementById('travel_departure_date') ? document.getElementById('travel_departure_date').value : '';
     const people = document.getElementById('travel_people').value.trim();
     const duration = document.getElementById('travel_duration').value.trim();
+    const medicalHistory = document.getElementById('travel_medical_history') ? document.getElementById('travel_medical_history').value.trim() : '';
+
     if (!destination) { alert('Please tell us where you are traveling to.'); return; }
     if (!people) { alert('Please tell us how many people are traveling.'); return; }
     if (!duration) { alert('Please tell us how long the trip is.'); return; }
-    const travelInfo = `Travel destination: ${destination}\nNumber of people: ${people}\nTrip length: ${duration}`;
-    notes = notes ? `${travelInfo}\n\n${notes}` : travelInfo;
+
+    const travelInfo = `[Travel Consultation Details]\nDestination: ${destination || 'Not specified'}\nDeparture Date: ${departureDate || 'Not specified'}\nParty Size: ${people || '1'}\nTrip Duration: ${duration || 'Not specified'}\nMedical/Allergies: ${medicalHistory || 'None reported'}`;
+    notes = notes ? `${travelInfo}\n\n[Additional Notes]\n${notes}` : travelInfo;
   }
 
   btn.disabled = true;
@@ -1468,6 +1516,14 @@ async function submitDetailedBooking() {
     });
     const result = await response.json();
     if (result.success) {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: 'appointment_booked',
+        booking_id: result.booking_id || null,
+        service_name: service,
+        form_type: 'detailed_modal',
+        currency: 'GBP'
+      });
       showModal();
       document.getElementById('book_first_name').value = '';
       document.getElementById('book_last_name').value = '';
@@ -1479,8 +1535,10 @@ async function submitDetailedBooking() {
       document.getElementById('book_preferred_time').value = '';
       document.getElementById('book_notes').value = '';
       document.getElementById('travel_destination').value = '';
+      if (document.getElementById('travel_departure_date')) document.getElementById('travel_departure_date').value = '';
       document.getElementById('travel_people').value = '';
       document.getElementById('travel_duration').value = '';
+      if (document.getElementById('travel_medical_history')) document.getElementById('travel_medical_history').value = '';
       document.getElementById('travel_questions').style.display = 'none';
       document.getElementById('consent1').checked = false;
       document.getElementById('consent2').checked = false;
@@ -1495,6 +1553,14 @@ async function submitDetailedBooking() {
     btn.innerHTML = '✅ Submit My Request <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" width="20" height="20"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
   }
 }
+
+// Set minimum date for travel departure inputs
+const todayIsoStr = new Date().toISOString().split('T')[0];
+const quickDepEl = document.getElementById('quick_travel_departure_date');
+if (quickDepEl) quickDepEl.min = todayIsoStr;
+const detailedDepEl = document.getElementById('travel_departure_date');
+if (detailedDepEl) detailedDepEl.min = todayIsoStr;
+
 function hideModal(e) { if(!e||e.target===document.getElementById('successModal')){ document.getElementById('successModal').classList.remove('show'); document.body.style.overflow=''; } }
 function acceptCookies() { document.getElementById('cookieBanner').classList.add('hidden'); localStorage.setItem('cookies','acc'); }
 function rejectCookies() { document.getElementById('cookieBanner').classList.add('hidden'); localStorage.setItem('cookies','ess'); }
