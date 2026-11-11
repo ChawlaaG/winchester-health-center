@@ -1,6 +1,6 @@
 # Winchester Health Centre - Context & Chronological Work Log
 
-> **Last Updated**: 2026-11-11 16:20:00  
+> **Last Updated**: 2026-11-11 16:38:00  
 > **Status**: Active / In Production  
 
 ---
@@ -39,6 +39,30 @@ Winchester Travel & Health Centre is a private healthcare and travel clinic webs
 
 ## 🕒 4. Chronological Work Log (Latest on Top)
 
+### 📅 2026-11-11 16:38:00 - NHS 999/111 Emergency Triage Banners, Clinical Travel Intake Fields, and GA4/Google Ads Conversion Tracking
+- **Goal / Request**: Implement clinical safety, intake, and conversion tracking upgrades:
+  1. Add NHS 999/111 emergency triage callout banners above the submit button in both booking sections (Hero Quick Booking and Detailed Modal).
+  2. Expand travel intake parameters in `#quick_travel_questions` and `#travel_questions` to capture Departure Date and Medical/Allergy contraindications, preserving them in structured format inside `notes`.
+  3. Upgrade `submit_booking.php` to return auto-incremented `booking_id` and `service`, and fire `window.dataLayer.push({ event: 'appointment_booked', ... })` in `index.html`.
+- **What Was Done**:
+  - `index.html`:
+    - Initialized global `window.dataLayer = window.dataLayer || [];` in `<head>`.
+    - Added high-visibility amber emergency triage callouts above submit buttons in both Hero Quick Booking and Detailed Booking Modal with clear 999 / NHS 111 guidance.
+    - Added `quick_travel_departure_date`, `quick_travel_medical_history`, `travel_departure_date`, and `travel_medical_history` input fields with dynamic `min` date restrictions.
+    - Updated `submitQuickBooking()` and `submitDetailedBooking()` to compile `[Travel Consultation Details]` with destination, departure date, party size, duration, and medical/allergies.
+    - Injected `window.dataLayer.push({ event: 'appointment_booked', booking_id: result.booking_id, service_name: service, form_type: '...', currency: 'GBP' })` upon successful submission.
+  - `submit_booking.php`:
+    - Updated JSON success response to include `$newBookingId = (int)$pdo->lastInsertId()` and `$service`.
+  - **Deployment & Live Testing**:
+    - Uploaded `index.html` and `submit_booking.php` to Hostinger via SFTP.
+    - Verified remote PHP syntax check (0 errors).
+    - Executed automated live test booking: confirmed API returned `booking_id: 339`, confirmed MySQL `bookings` table stored structured travel parameters, and cleanly purged test record.
+- **Files Modified**:
+  - [`index.html`](file:///f:/Client%20Projects/Winchester%20Health%20Center/index.html)
+  - [`submit_booking.php`](file:///f:/Client%20Projects/Winchester%20Health%20Center/submit_booking.php)
+  - [`PROJECT_CONTEXT.md`](file:///f:/Client%20Projects/Winchester%20Health%20Center/PROJECT_CONTEXT.md)
+
+---
 ### 📅 2026-11-11 16:20:00 - Public & Admin Codebase Modernization, St Paul's Card Redesign, UK Compliance Modals, and Live Production Deployment
 - **Goal / Request**: User confirmed execution of clinic audit updates and owner's request:
   1. Standardize canonical contact email to `winchestertravelcenter@gmail.com` across all templates, schemas, and mailers.
