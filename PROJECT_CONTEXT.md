@@ -1,6 +1,6 @@
 # Winchester Health Centre - Context & Chronological Work Log
 
-> **Last Updated**: 2026-11-11 16:38:00  
+> **Last Updated**: 2026-11-11 19:45:00  
 > **Status**: Active / In Production  
 
 ---
@@ -39,6 +39,32 @@ Winchester Travel & Health Centre is a private healthcare and travel clinic webs
 
 ## 🕒 4. Chronological Work Log (Latest on Top)
 
+### 📅 2026-11-11 19:45:00 - Admin Portal: Interactive Service Editing & Dynamic AJAX Updates
+- **Goal / Request**: Add the capability for clinical and administrative staff to edit or reassign the service of an existing booking directly within the Admin Portal (`admin/index.php` and `admin/update_booking.php`).
+- **What Was Done**:
+  - `admin/update_booking.php`:
+    - Added dedicated handler for `$action === 'update_service'`.
+    - Supported parameters: `booking_id` (or `id`) and `service`.
+    - Implemented database verification and executed `UPDATE bookings SET service = :service WHERE id = :id`.
+    - Returns clean JSON response: `{"success": true, "message": "Service updated successfully.", "booking_id": ..., "new_service": "..."}`.
+  - `admin/index.php`:
+    - In Appointment Details modal (`apptDetailsModal`), replaced static service text with an interactive service selector populated with the active curated services (`$activeServices`).
+    - Added support for pre-selecting the current service, plus fallback historical option append if the record carries legacy service text.
+    - Added `💾 Change` button and `onchange` auto-trigger connected to `updateActiveBookingService()`.
+    - On success: dynamically updates in-memory `allBookings` cache, flashes an inline `Updated! ✅` badge, updates table & calendar views via `applyAllFilters()`, and fires a floating notification via `showAdminToast()`.
+  - `admin/dashboard_preview.html`:
+    - Replicated the interactive service selector, badge, and toast system for standalone/offline preview environments.
+  - **Deployment & Verification**:
+    - Deployed all modified files to Hostinger production server via SFTP.
+    - Validated remote PHP 8.1 syntax checks (0 errors).
+    - Executed live automated backend test verifying `update_service` action updates the database record and returns exact JSON format.
+- **Files Modified**:
+  - [`admin/update_booking.php`](file:///f:/Client%20Projects/Winchester%20Health%20Center/admin/update_booking.php)
+  - [`admin/index.php`](file:///f:/Client%20Projects/Winchester%20Health%20Center/admin/index.php)
+  - [`admin/dashboard_preview.html`](file:///f:/Client%20Projects/Winchester%20Health%20Center/admin/dashboard_preview.html)
+  - [`PROJECT_CONTEXT.md`](file:///f:/Client%20Projects/Winchester%20Health%20Center/PROJECT_CONTEXT.md)
+
+---
 ### 📅 2026-11-11 16:38:00 - NHS 999/111 Emergency Triage Banners, Clinical Travel Intake Fields, and GA4/Google Ads Conversion Tracking
 - **Goal / Request**: Implement clinical safety, intake, and conversion tracking upgrades:
   1. Add NHS 999/111 emergency triage callout banners above the submit button in both booking sections (Hero Quick Booking and Detailed Modal).
